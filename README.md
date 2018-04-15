@@ -28,5 +28,17 @@ Cheapmall
 * Hotfix
 * Release
 * Develop
-	1. 20180416 Add
+	*20180416 01:27 Add
 * Each Programmer
+
+### Each Feature
+* CWI
+
+* HJM
+
+* KKH
+	1. 20180416 02:32 add
+
+* JAN
+
+* JSY
