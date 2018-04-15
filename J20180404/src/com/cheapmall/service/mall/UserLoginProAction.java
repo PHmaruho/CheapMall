@@ -51,20 +51,19 @@ public class UserLoginProAction implements CommandProcess{
 					request.setAttribute("returnPage", "list");
 				}
 				*/
-				request.setAttribute("pageSet", "/mall/cheapmall.jsp");
 				
 			}
 			System.out.println("finish");
 			request.setAttribute("result", result);
 			request.setAttribute("returnList", "main");
-			
+			request.setAttribute("pageSet", "/mall/userLoginPro.jsp");
 		} catch (Exception e) {
 			// TODO: handle exception
 			// SYSO
 			System.out.println("UserLoginProAction Error");
 			e.printStackTrace();
 		}
-		request.setAttribute("pageSet", "/mall/userLoginPro.jsp");
+		
 		return "/mall/cheapmall.jsp";
 	}
 }
