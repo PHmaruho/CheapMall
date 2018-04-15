@@ -29,4 +29,21 @@ Cheapmall
 * Release
 	* 20180416 02:36 add
 * Develop
+	*20180416 01:27 Add
 * Each Programmer
+
+### Each Feature
+* CWI
+
+* HJM
+	1. 20180416 2:26 add
+    2. HotFix(20180416)
+    	1. 카트에서 주문 시, 카트의 내용이 안 사라지는 버그.
+    	2. 임시로 로그인 완료시 메인으로 가게 해놓음.
+    	3. userLoginPro.jsp 수정
+
+* KKH
+
+* JAN
+
+* JSY
