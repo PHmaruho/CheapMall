@@ -27,6 +27,6 @@ Cheapmall
 * Master
 * Hotfix
 * Release
+	* 20180416 02:36 add
 * Develop
-	1. 20180416 Add
 * Each Programmer
