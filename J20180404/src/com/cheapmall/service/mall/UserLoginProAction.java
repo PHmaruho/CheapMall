@@ -37,6 +37,7 @@ public class UserLoginProAction implements CommandProcess{
 				HttpSession session = request.getSession();
 				session.setAttribute("id", id);
 				
+				/*
 				String email = memberDao.checkGrade(id);	// 2018-04-13 최우일, 회원등급 체크 후 null이면 미인증 사용자로 판단, 이메일인증 유도
 				if (email != null) {
 					request.setAttribute("email", email);
@@ -49,6 +50,8 @@ public class UserLoginProAction implements CommandProcess{
 				if(!gender.equals("") && !top_category.equals("") && !middle_category.equals("")) {
 					request.setAttribute("returnPage", "list");
 				}
+				*/
+				request.setAttribute("pageSet", "/mall/cheapmall.jsp");
 				
 			}
 			System.out.println("finish");
