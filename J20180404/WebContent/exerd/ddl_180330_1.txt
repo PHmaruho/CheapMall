@@ -1,0 +1,465 @@
+DROP TABLE returns;
+DROP TABLE order_detail;
+DROP TABLE orders;
+DROP TABLE search;
+DROP TABLE cart;
+DROP TABLE goods;
+DROP TABLE board;
+DROP TABLE users;
+DROP TABLE code;
+DROP TABLE admin;
+
+
+-- 주문
+CREATE TABLE orders (
+	order_sq     VARCHAR(10) NOT NULL, -- 주문SQ
+	user_id      VARCHAR(15) NOT NULL, -- 회원ID
+	origin_price  NUMBER     NOT NULL, -- 원가
+	dc_price     NUMBER     NOT NULL, -- 할인가
+	pay_method   VARCHAR(20) NOT NULL, -- 결제수단
+	use_point    NUMBER     NOT NULL, -- 사용포인트
+	delivery_fee NUMBER     NOT NULL, -- 배송비
+	addr         VARCHAR(100) NOT NULL, -- 배송지
+	addr_detail  VARCHAR(50) NOT NULL, -- 상세주소
+	order_cd     VARCHAR(3)  NOT NULL, -- 주문상태
+	order_dt     DATE    NOT NULL  -- 주문일
+);
+
+-- 주문
+ALTER TABLE orders
+	ADD CONSTRAINT PK_orders -- 주문 기본키
+		PRIMARY KEY (
+			order_sq -- 주문SQ
+		);
+
+-- 주문상세
+CREATE TABLE order_detail (
+	detail_sq  VARCHAR(10) NOT NULL, -- 주문상세SQ
+	order_sq   VARCHAR(10) NOT NULL, -- 주문SQ
+	goods_cd   VARCHAR(10) NOT NULL, -- 상품코드
+	sale_price NUMBER     NOT NULL, -- 판매가
+	dc_price   NUMBER     NOT NULL, -- 할인가
+	cnt        NUMBER     NOT NULL  -- 수량
+);
+
+-- 주문상세
+ALTER TABLE order_detail
+	ADD CONSTRAINT PK_order_detail -- 주문상세 기본키
+		PRIMARY KEY (
+			detail_sq -- 주문상세SQ
+		);
+
+-- 반품
+CREATE TABLE returns (
+	return_sq    VARCHAR(10) NOT NULL, -- 반품SQ
+	user_id      VARCHAR(15) NOT NULL, -- 회원ID
+	detail_sq    VARCHAR(10) NOT NULL, -- 주문상세SQ
+	cnt          NUMBER     NOT NULL, -- 수량
+	return_cd    VARCHAR(2)    NOT NULL, -- 반품상태
+	delivery_fee NUMBER     NOT NULL, -- 배송비
+	return_dt    DATE        NOT NULL  -- 반품요청일
+);
+
+-- 반품
+ALTER TABLE returns
+	ADD CONSTRAINT PK_return -- 반품 기본키
+		PRIMARY KEY (
+			return_sq -- 반품SQ
+		);
+
+-- 코드테이블
+CREATE TABLE code (
+	cd       VARCHAR(10)  NOT NULL, -- 코드
+	category VARCHAR(10) NOT NULL, -- 분류
+	meaning  VARCHAR(30) NOT NULL, -- 명칭
+	used     VARCHAR(1)  NOT NULL  -- 사용여부
+);
+
+-- 상품
+CREATE TABLE goods (
+	sq              VARCHAR(10) NOT NULL, -- 상품SQ
+	cd              VARCHAR(20) NOT NULL, -- 상품코드
+	nm              VARCHAR(30) NOT NULL, -- 상품명
+	start_dt        DATE    NOT NULL, -- 시작일
+	end_dt          DATE    NOT NULL, -- 종료일
+	price           NUMBER     NOT NULL, -- 가격
+	gender          VARCHAR(2)  NOT NULL, -- 성별
+	top_category    VARCHAR(1)  NOT NULL, -- 대분류
+	middle_category VARCHAR(10) NOT NULL, -- 소분류
+	color           VARCHAR(7)  NULL,     -- 색상
+	goods_size      VARCHAR(4)  NULL,     -- 사이즈
+	path            VARCHAR(50) NULL,     -- 사진경로
+	stock           NUMBER     NOT NULL, -- 재고량
+	display         VARCHAR(1)  NOT NULL  -- 노출
+);
+
+-- 상품
+ALTER TABLE goods
+	ADD CONSTRAINT PK_goods -- 상품 기본키
+		PRIMARY KEY (
+			sq -- 상품SQ
+		);
+
+-- 게시판
+CREATE TABLE board (
+	board_sq   VARCHAR(10)  NOT NULL, -- 게시물SQ
+	user_id    VARCHAR(15)  NOT NULL, -- 회원ID
+	write_dt   DATE     NOT NULL, -- 작성일
+	board_cd   VARCHAR(2)   NOT NULL, -- 작성구분
+	content    VARCHAR(500) NOT NULL, -- 내용
+	object     VARCHAR(15)  NULL,     -- 대상
+	board_p_cd VARCHAR(3)   NOT NULL, -- 상태
+	ip         VARCHAR(15)  NULL      -- 작성IP
+);
+
+-- 게시판
+ALTER TABLE board
+	ADD CONSTRAINT PK_board -- 게시판 기본키
+		PRIMARY KEY (
+			board_sq -- 게시물SQ
+		);
+
+-- 관리자
+CREATE TABLE admin (
+	id       VARCHAR(15) NOT NULL, -- 관리자ID
+	pw       VARCHAR(20) NOT NULL, -- 비밀번호
+	nm       VARCHAR(10) NOT NULL, -- 성명
+	dept     VARCHAR(15) NULL,     -- 부서
+	position VARCHAR(10) NULL,     -- 직급
+	emp_no   VARCHAR(10) NOT NULL, -- 사번
+	auth     VARCHAR(5)  NOT NULL, -- 권한
+	tel      VARCHAR(12) NULL,     -- 업무연락처
+	email    VARCHAR(30) NULL,     -- 업무이메일
+	path     VARCHAR(50) NULL      -- 사진경로
+);
+
+-- 관리자
+ALTER TABLE admin
+	ADD CONSTRAINT PK_admin -- 관리자 기본키
+		PRIMARY KEY (
+			id -- 관리자ID
+		);
+
+-- 회원
+CREATE TABLE users (
+	id          VARCHAR(15) NOT NULL, -- 회원ID
+	pw          VARCHAR(20) NOT NULL, -- 비밀번호
+	nm          VARCHAR(10) NOT NULL, -- 성명
+	birth       VARCHAR(7)  NOT NULL, -- 생년월일
+	tel         VARCHAR(12) NOT NULL, -- 연락처
+	zipcode     VARCHAR(6)  NULL,     -- 우편번호
+	addr        VARCHAR(100) NULL,     -- 주소
+	addr_detail VARCHAR(50) NULL,     -- 상세주소
+	email       VARCHAR(30) NOT NULL, -- 이메일
+	gender      VARCHAR(1)  NULL,     -- 성별
+	grade       VARCHAR(10) NOT NULL, -- 등급
+	point       NUMBER     NOT NULL, -- 포인트
+	reg_dt      DATE        NOT NULL, -- 가입일
+	pw_dt       DATE        NOT NULL  -- 비밀번호변경일
+);
+
+-- 회원
+ALTER TABLE users
+	ADD CONSTRAINT PK_users -- 회원 기본키
+		PRIMARY KEY (
+			id -- 회원ID
+		);
+
+-- 장바구니
+CREATE TABLE cart (
+	cart_sq      VARCHAR(10) NOT NULL, -- 장바구니SQ
+	user_id      VARCHAR(15) NOT NULL, -- 회원ID
+	goods_cd     VARCHAR(20) NOT NULL, -- 상품코드
+	cnt          NUMBER     NOT NULL, -- 수량
+	origin_price NUMBER     NOT NULL, -- 판매가
+	dc_price     NUMBER     NOT NULL, -- 할인가
+	delivery_fee NUMBER     NOT NULL  -- 배송비
+);
+
+-- 장바구니
+ALTER TABLE cart
+	ADD CONSTRAINT PK_cart -- 장바구니 기본키
+		PRIMARY KEY (
+			cart_sq -- 장바구니SQ
+		);
+
+-- 검색어
+CREATE TABLE search (
+	tag VARCHAR(3) NOT NULL, -- 태그
+	cnt NUMBER    NOT NULL  -- 클릭수
+);
+
+-- 검색어
+ALTER TABLE search
+	ADD CONSTRAINT PK_search -- 검색어 기본키
+		PRIMARY KEY (
+			tag -- 태그
+		);
+
+-- 주문상세
+ALTER TABLE order_detail
+	ADD CONSTRAINT FK_orders_TO_order_detail -- 주문 -> 주문상세
+		FOREIGN KEY (
+			order_sq -- 주문SQ
+		)
+		REFERENCES orders ( -- 주문
+			order_sq -- 주문SQ
+		);
+
+-- 반품
+ALTER TABLE returns
+	ADD CONSTRAINT FK_order_detail_TO_return -- 주문상세 -> 반품
+		FOREIGN KEY (
+			detail_sq -- 주문상세SQ
+		)
+		REFERENCES order_detail ( -- 주문상세
+			detail_sq -- 주문상세SQ
+		);
+    
+    
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('R0','R','반품요청','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('R1','R','반품수령','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('R2','R','반품확인중','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('R3','R','반품완료','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('R4','R','재배송','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('R5','R','교환요청','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O0','O','결제완료','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O1','O','배송준비','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O2','O','배송중','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O3','O','배송완료','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O4','O','수령확인','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O5','O','주문취소','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O6','O','반품요청','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O7','O','교환요청','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('G0','G','bronze','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('G1','G','silver','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('G2','G','gold','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('G3','G','platinum','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('G4','G','diamond','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('G5','G','VIP','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('A0','A','관리자','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('A1','A','회원관리자','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('A2','A','검색관리','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('A3','A','게시판관리자','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('A4','A','통계분석가','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('A5','A','상품관리자','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('M','GT','남성','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('F','GT','여성','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('U','GT','공용','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O','0T','아우터','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('I','0T','이너','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('E','0T','기타','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('JAC','1T','재킷','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('CAR','1T','가디건','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('TSH','1T','티셔츠','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('SHI','1T','셔츠','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('PAN','1T','바지','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('WAT','1T','시계','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('SHO','1T','신발','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('HAT','1T','모자','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('BAG','1T','가방','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('SKI','1T','치마','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('ONE','1T','원피스','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('SCA','1T','스카프','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('#000000','CT','검은색','N');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('#FFFFFF','CT','흰색','N');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('X2S','ST','XXS','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('X1S','ST','XS','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('X0S','ST','S','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('X0M','ST','M','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('X0L','ST','L','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('X1L','ST','XL','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('X2L','ST','XXL','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P00','ST','하의66cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P01','ST','하의68cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P02','ST','하의70cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P03','ST','하의72cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P04','ST','하의74cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P05','ST','하의76cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P06','ST','하의78cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P07','ST','하의80cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P08','ST','하의82cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P09','ST','하의84cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P10','ST','하의86cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P11','ST','하의88cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P12','ST','하의90cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P13','ST','하의92cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P14','ST','하의94cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P15','ST','하의96cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P16','ST','하의98cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('P17','ST','하의100cm','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('T00','ST','상의75','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('T01','ST','상의80','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('T02','ST','상의85','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('T03','ST','상의90','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('T04','ST','상의95','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('T05','ST','상의100','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('T06','ST','상의105','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('T07','ST','상의110','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S00','ST','신발200','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S01','ST','신발205','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S02','ST','신발210','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S03','ST','신발215','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S04','ST','신발220','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S05','ST','신발225','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S06','ST','신발230','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S07','ST','신발235','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S08','ST','신발240','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S09','ST','신발245','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S10','ST','신발250','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S11','ST','신발255','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S12','ST','신발260','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S13','ST','신발265','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S14','ST','신발270','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S15','ST','신발275','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S16','ST','신발280','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S17','ST','신발285','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S18','ST','신발290','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S19','ST','신발295','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('S20','ST','신발300','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('B0','B','공지사항','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('B1','B','건의사항','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('B2','B','문의사항','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('B3','B','신고','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('B4','B','관리자답변','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('B','menu','게시판분류','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('R','menu','반품분류','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('O','menu','결제분류','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('G','menu','회원분류','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('A','menu','권한분류','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('GT','menu','성별태그','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('0T','menu','대분류태그','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('1T','menu','소분류태그','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('CT','menu','색상태그','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('ST','menu','사이즈태그','N');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('BP0','BP','미확인','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('BP1','BP','확인','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('BP2','BP','답변완료','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('BP3','BP','처리완료','Y');
+Insert into CODE (CD,CATEGORY,MEANING,USED) values ('BP','menu','게시물진행상황','Y');
+
+Insert into GOODS (SQ,CD,NM,START_DT,END_DT,PRICE,GENDER,TOP_CATEGORY,MIDDLE_CATEGORY,COLOR,GOODS_SIZE,PATH,STOCK,DISPLAY) values ('0','FITSHX0S','투포켓반팔',to_date('18/03/29','RR/MM/DD'),to_date('18/08/22','RR/MM/DD'),5900,'F','I','TSH','#F7B1CD','X0S','/images/t1',300,'Y');
+Insert into GOODS (SQ,CD,NM,START_DT,END_DT,PRICE,GENDER,TOP_CATEGORY,MIDDLE_CATEGORY,COLOR,GOODS_SIZE,PATH,STOCK,DISPLAY) values ('1','FIPANP08','공놀이반팔',to_date('18/03/29','RR/MM/DD'),to_date('18/08/22','RR/MM/DD'),5300,'F','I','TSH','#CCFFFF','X0M','/images/t2',300,'N');
+Insert into GOODS (SQ,CD,NM,START_DT,END_DT,PRICE,GENDER,TOP_CATEGORY,MIDDLE_CATEGORY,COLOR,GOODS_SIZE,PATH,STOCK,DISPLAY) values ('2','MIPANP08','클레어 컷팅 데님 팬츠',to_date('18/03/29','RR/MM/DD'),to_date('18/08/22','RR/MM/DD'),37000,'M','I','PAN','#3682CE','P08','/images/p1',800,'Y');
+
+Insert into ORDERS (ORDER_SQ,USER_ID,origin_price,DC_PRICE,PAY_METHOD,USE_POINT,DELIVERY_FEE,ADDR,ADDR_DETAIL,ORDER_CD,ORDER_DT) values ('0000001234','imgroot',10000,5000,'우리카드',5000,2500,'서울시 강남구 테헤란로 7길 7','6층 중앙정보학원','O3',to_date('18/03/28','RR/MM/DD'));
+
+Insert into ORDER_DETAIL (DETAIL_SQ,ORDER_SQ,GOODS_CD,SALE_PRICE,DC_PRICE,CNT) values ('0000005555','0000001234','FITSHX0S',10000,7000,2);
+Insert into ORDER_DETAIL (DETAIL_SQ,ORDER_SQ,GOODS_CD,SALE_PRICE,DC_PRICE,CNT) values ('0000005556','0000001234','FIPANP08',20000,5000,1);
+
+Insert into RETURNS (RETURN_SQ,USER_ID,DETAIL_SQ,CNT,RETURN_CD,DELIVERY_FEE,RETURN_DT) values ('0000001111','imgroot','0000005555',1,'R3',2500,to_date('18/03/30','RR/MM/DD'));
+Insert into RETURNS (RETURN_SQ,USER_ID,DETAIL_SQ,CNT,RETURN_CD,DELIVERY_FEE,RETURN_DT) values ('0000001112','imgroot','0000005556',1,'R5',0,to_date('18/03/30','RR/MM/DD'));
+
+Insert into USERS (ID,PW,NM,BIRTH,TEL,ZIPCODE,ADDR,ADDR_DETAIL,EMAIL,GENDER,GRADE,POINT,REG_DT,PW_DT) values ('hellojava123','hellojava123','안자바','910101','01012341234','16334','경기도 수원시 장안구 대평로90번길 19(정자동)','101동 201호','hellojava123@hellojava.com','M','G0',0,to_date('18/01/01','RR/MM/DD'),to_date('18/01/01','RR/MM/DD'));
+Insert into USERS (ID,PW,NM,BIRTH,TEL,ZIPCODE,ADDR,ADDR_DETAIL,EMAIL,GENDER,GRADE,POINT,REG_DT,PW_DT) values ('hijquery123','hijquery123','안쿼리','980101','01011111111','06134','서울특별시 강남구 테헤란로 101(역삼동)','이즈타워 1층 101호','hijquery123@hijquery.com','F','G1',200,to_date('16/05/04','RR/MM/DD'),to_date('18/03/01','RR/MM/DD'));
+Insert into USERS (ID,PW,NM,BIRTH,TEL,ZIPCODE,ADDR,ADDR_DETAIL,EMAIL,GENDER,GRADE,POINT,REG_DT,PW_DT) values ('whatsql11','whatsql11','몰쿼리','870308','0171233214','41403','대구광역시 북구 칠곡중앙대로 125길 7(읍내동, SD 아이프라임 강북)','102동 3층 301호','whatsql11@whatsql.com','M','G0',10,to_date('17/12/01','RR/MM/DD'),to_date('17/07/06','RR/MM/DD'));
+Insert into USERS (ID,PW,NM,BIRTH,TEL,ZIPCODE,ADDR,ADDR_DETAIL,EMAIL,GENDER,GRADE,POINT,REG_DT,PW_DT) values ('imgroot','imgroot','그루트','991127','01011243574','06062','서울특별시 강남구 도산대로 406(청담동)','13층 1301호','imgroot@groot.net','M','G4',30000,to_date('17/08/20','RR/MM/DD'),to_date('18/03/20','RR/MM/DD'));
+Insert into USERS (ID,PW,NM,BIRTH,TEL,ZIPCODE,ADDR,ADDR_DETAIL,EMAIL,GENDER,GRADE,POINT,REG_DT,PW_DT) values ('maruho123','maruho123','허진무','910408','01026921234','15335','경기도 안산시 단원구 적금로4길 26(고잔동, 대동빌라13차)','6동 301호','maruho123@naver.com','M','G5',12400,to_date('18/02/07','RR/MM/DD'),to_date('18/02/07','RR/MM/DD'));
+Insert into USERS (ID,PW,NM,BIRTH,TEL,ZIPCODE,ADDR,ADDR_DETAIL,EMAIL,GENDER,GRADE,POINT,REG_DT,PW_DT) values ('gihans1991','Gihans9!','김기한','910301','01024276757','21092','인천광역시 계양구 봉오대로499번길 42(효성동)','빌라 A동 101호','gihans1991@naver.com','M','G0',0,to_date('18/03/04','RR/MM/DD'),to_date('18/03/10','RR/MM/DD'));
+
+Insert into CART (CART_SQ,USER_ID,GOODS_CD,CNT,ORIGIN_PRICE,DC_PRICE,DELIVERY_FEE) values ('0000001234','imgroot','FITSHX0S',2,10000,5000,2500);
+
+Insert into BOARD (BOARD_SQ,USER_ID,WRITE_DT,BOARD_CD,CONTENT,OBJECT,BOARD_P_CD,IP) values ('00001234','관리자',to_date('18/03/30','RR/MM/DD'),'B0','공지사항입니다.',null,'BP0','192.168.20.8');
+Insert into BOARD (BOARD_SQ,USER_ID,WRITE_DT,BOARD_CD,CONTENT,OBJECT,BOARD_P_CD,IP) values ('00009999','imgroot',to_date('18/03/30','RR/MM/DD'),'B1','건의사항입니다.','FITSHX0S','BP1','192.168.20.35');
+Insert into BOARD (BOARD_SQ,USER_ID,WRITE_DT,BOARD_CD,CONTENT,OBJECT,BOARD_P_CD,IP) values ('00009998','imgroot',to_date('18/03/30','RR/MM/DD'),'B2','문의사항입니다.',null,'BP2','192.168.20.35');
+Insert into BOARD (BOARD_SQ,USER_ID,WRITE_DT,BOARD_CD,CONTENT,OBJECT,BOARD_P_CD,IP) values ('00009997','imgroot',to_date('18/03/30','RR/MM/DD'),'B3','신고입니다.','maruho123','BP3','192.168.20.35');
+
+Insert into ADMIN (ID,PW,NM,DEPT,POSITION,EMP_NO,AUTH,TEL,EMAIL,PATH) values ('a1','1234','조안나','인사','팀장','18032701','A0','01075767655','maria_666@naver.com','/images/a01');
+Insert into ADMIN (ID,PW,NM,DEPT,POSITION,EMP_NO,AUTH,TEL,EMAIL,PATH) values ('a2','1234','최우일','회계','사장','18032702','A3','01010013097','wooil@naver.com','/images/a02');
+Insert into ADMIN (ID,PW,NM,DEPT,POSITION,EMP_NO,AUTH,TEL,EMAIL,PATH) values ('a3','1234','허진무','마케팅','이사','18032703','A2','01078778788','maruho11@gmail.com','/images/a03');
+Insert into ADMIN (ID,PW,NM,DEPT,POSITION,EMP_NO,AUTH,TEL,EMAIL,PATH) values ('a4','1234','김명화','마케팅','사원','18032704','A1','01037661533','asdf@naver.com','/images/a04');
+Insert into ADMIN (ID,PW,NM,DEPT,POSITION,EMP_NO,AUTH,TEL,EMAIL,PATH) values ('a5','1234','김기한','물류','차장','18032705','A4','01091220112','fdfe@naver.com','/images/a05');
+Insert into ADMIN (ID,PW,NM,DEPT,POSITION,EMP_NO,AUTH,TEL,EMAIL,PATH) values ('a6','1234','정수연','회계','과장','18032706','A5','01077777777','ltlt@naver.com','/images/a06');
+
+COMMENT ON COLUMN orders.order_sq IS '주문SQ';
+COMMENT ON COLUMN orders.user_id IS '회원ID';
+COMMENT ON COLUMN orders.origin_price IS '원가';
+COMMENT ON COLUMN orders.dc_price IS '할인가';
+COMMENT ON COLUMN orders.pay_method IS '결제수단';
+COMMENT ON COLUMN orders.use_point IS '사용포인트';
+COMMENT ON COLUMN orders.delivery_fee IS '배송비';
+COMMENT ON COLUMN orders.addr IS '배송지';
+COMMENT ON COLUMN orders.addr_detail IS '상세주소';
+COMMENT ON COLUMN orders.order_cd IS '주문상태';
+COMMENT ON COLUMN orders.order_dt IS '주문일';
+
+COMMENT ON COLUMN order_detail.detail_sq IS '주문상세SQ';
+COMMENT ON COLUMN order_detail.order_sq IS '주문SQ';
+COMMENT ON COLUMN order_detail.goods_cd IS '상품코드';
+COMMENT ON COLUMN order_detail.sale_price IS '판매가';
+COMMENT ON COLUMN order_detail.dc_price IS '할인가';
+COMMENT ON COLUMN order_detail.cnt IS '수량';
+
+COMMENT ON COLUMN returns.return_sq IS '반품SQ';
+COMMENT ON COLUMN returns.user_id IS '회원ID';
+COMMENT ON COLUMN returns.detail_sq IS '주문상세SQ';
+COMMENT ON COLUMN returns.cnt IS '수량';
+COMMENT ON COLUMN returns.return_cd IS '반품상태';
+COMMENT ON COLUMN returns.delivery_fee IS '배송비';
+COMMENT ON COLUMN returns.return_dt IS '반품요청일';
+
+COMMENT ON COLUMN goods.sq IS '상품SQ';
+COMMENT ON COLUMN goods.cd IS '상품코드';
+COMMENT ON COLUMN goods.nm IS '상품명';
+COMMENT ON COLUMN goods.start_dt IS '시작일';
+COMMENT ON COLUMN goods.end_dt IS '종료일';
+COMMENT ON COLUMN goods.price IS '가격';
+COMMENT ON COLUMN goods.gender IS '성별';
+COMMENT ON COLUMN goods.top_category IS '대분류';
+COMMENT ON COLUMN goods.middle_category IS '소분류';
+COMMENT ON COLUMN goods.color IS '색상';
+COMMENT ON COLUMN goods.goods_size IS '사이즈';
+COMMENT ON COLUMN goods.path IS '사진경로';
+COMMENT ON COLUMN goods.stock IS '재고량';
+COMMENT ON COLUMN goods.display IS '노출';
+
+COMMENT ON COLUMN board.board_sq IS '게시물SQ';
+COMMENT ON COLUMN board.user_id IS '회원ID';
+COMMENT ON COLUMN board.write_dt IS '작성일';
+COMMENT ON COLUMN board.board_cd IS '작성구분';
+COMMENT ON COLUMN board.content IS '내용';
+COMMENT ON COLUMN board.object IS '대상';
+COMMENT ON COLUMN board.board_p_cd IS '대상';
+COMMENT ON COLUMN board.ip IS '작성IP';
+
+COMMENT ON COLUMN admin.id IS '관리자ID';
+COMMENT ON COLUMN admin.pw IS '비밀번호';
+COMMENT ON COLUMN admin.nm IS '성명';
+COMMENT ON COLUMN admin.dept IS '부서';
+COMMENT ON COLUMN admin.position IS '직급';
+COMMENT ON COLUMN admin.emp_no IS '사번';
+COMMENT ON COLUMN admin.auth IS '권한';
+COMMENT ON COLUMN admin.tel IS '업무연락처';
+COMMENT ON COLUMN admin.email IS '업무이메일';
+COMMENT ON COLUMN admin.path IS '사진경로';
+
+COMMENT ON COLUMN users.id IS '회원ID';
+COMMENT ON COLUMN users.pw IS '비밀번호';
+COMMENT ON COLUMN users.nm IS '성명';
+COMMENT ON COLUMN users.birth IS '생년월일';
+COMMENT ON COLUMN users.tel IS '연락처';
+COMMENT ON COLUMN users.zipcode IS '우편번호';
+COMMENT ON COLUMN users.addr IS '주소';
+COMMENT ON COLUMN users.addr_detail IS '상세주소';
+COMMENT ON COLUMN users.email IS '이메일';
+COMMENT ON COLUMN users.gender IS '성별';
+COMMENT ON COLUMN users.grade IS '등급';
+COMMENT ON COLUMN users.point IS '포인트';
+COMMENT ON COLUMN users.reg_dt IS '가입일';
+COMMENT ON COLUMN users.pw_dt IS '비밀번호최종변경일';
+
+COMMENT ON COLUMN cart.cart_sq IS '장바구니SQ';
+COMMENT ON COLUMN cart.user_id IS '회원ID';
+COMMENT ON COLUMN cart.goods_cd IS '상품코드';
+COMMENT ON COLUMN cart.cnt IS '수량';
+COMMENT ON COLUMN cart.origin_price IS '판매가';
+COMMENT ON COLUMN cart.dc_price IS '할인가(할인되는가격)';
+COMMENT ON COLUMN cart.delivery_fee IS '배송비';
+
+COMMENT ON COLUMN search.tag IS '태그';
+COMMENT ON COLUMN search.cnt IS '클릭수';
+
+COMMENT ON COLUMN code.cd IS '코드';
+COMMENT ON COLUMN code.category IS '분류';
+COMMENT ON COLUMN code.meaning IS '명칭';
+COMMENT ON COLUMN code.used IS '사용여부';
