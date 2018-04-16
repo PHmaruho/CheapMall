@@ -84,7 +84,7 @@
 										${goods.sq }</a></td>
 								<td>${goods.cd }</td>
 								<td><img
-									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/original/${goods.path }">${goods.nm }</td>
+									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/original/${goods.path }.png">${goods.nm }</td>
 								<td>${goods.price }</td>
 								<td>${goods.gender }</td>
 								<td>${goods.top_category }</td>
