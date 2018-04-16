@@ -80,7 +80,6 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 			request.setAttribute("list",list);
 			request.setAttribute("search", search);
 			request.setAttribute("category", category);
-			request.setAttribute("pageSet", "/admin/goodsAdminUpdateList.jsp");
 			
 			System.out.println("count: "+count);
 			System.out.println("currentPage: "+currentPage);
@@ -93,7 +92,7 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/mall/cheapmall.jsp";
+		return "/admin/goodsAdminUpdateList.jsp";
 	}
 
 

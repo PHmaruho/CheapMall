@@ -34,12 +34,11 @@ public class OrderReturnDetailProAction implements CommandProcess {
 			result=dao.returnOrder(id, order_sq, detail_sq);
 			
 			request.setAttribute("result", result);
-			request.setAttribute("pageSet", "/mall/orderReturnDetailPro.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return "/mall/cheapmall.jsp";
+		return "/mall/orderReturnDetailPro.jsp";
 	}
 
 }

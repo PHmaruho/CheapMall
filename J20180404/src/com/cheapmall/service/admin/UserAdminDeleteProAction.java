@@ -32,12 +32,11 @@ public class UserAdminDeleteProAction implements CommandProcess{
 			
 			
 			request.setAttribute("result", result);
-			request.setAttribute("pageSet", "/admin/userAdminDeletePro.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "/mall/cheapmall.jsp";
+		return "/admin/userAdminDeletePro.jsp";
 	
 	}
 
