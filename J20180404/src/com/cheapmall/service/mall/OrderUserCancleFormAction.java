@@ -19,8 +19,7 @@ public class OrderUserCancleFormAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// 세션으로 유저 아이디 받아오기
-		/* String id = "" + request.getSession(); */
-		String id = "imgroot";
+		String id = "" + request.getSession();
 		// -------------------------
 		OrderDao od = OrderDao.getInstance();
 		try {
