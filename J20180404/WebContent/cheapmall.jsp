@@ -54,11 +54,11 @@
 </head>
 <body>
 <div class="topLayout">
-	<jsp:include page="top.jsp" />
+	<jsp:include page="mall/menu/top.jsp" />
 </div>
 
 <div class="menuLayout">
-	<jsp:include page="menu.jsp" />
+	<jsp:include page="mall/menu/menu.jsp" />
 </div>
 
 <div class="mainLayout">
@@ -67,11 +67,11 @@
 			<jsp:include page="${pageSet }" />
 		</c:if>
 		<c:if test="${pageSet == null }">
-			<jsp:include page="content.jsp" />
+			<jsp:include page="mall/menu/content.jsp" />
 		</c:if>
 	</div>
 	<div class="footerLayout">
-		<jsp:include page="footer.jsp" />
+		<jsp:include page="mall/menu/footer.jsp" />
 	</div>
 </div>
 </body>
