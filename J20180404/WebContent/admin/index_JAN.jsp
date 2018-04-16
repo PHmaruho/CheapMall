@@ -8,7 +8,7 @@
 </head>
 <body>
 <script type="text/javascript">
-	location.href="admin/AdminLoginForm.admin";
+	location.href="AdminLoginForm.admin";
 </script>
 </body>
 </html>
