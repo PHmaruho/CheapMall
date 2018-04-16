@@ -550,9 +550,10 @@ public class BoardDao{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select board_sq, subject, write_dt, meaning from(select a.*, rownum rn from "
-				+ " (select * from board where board_cd not in ('B0', 'B4') and user_id=? order by board_sq desc) a), "
-				+ "code where (rn between ? and ?) and board_p_cd = cd and used='Y' order by board_sq desc";
+		String sql = "select board_sq, subject, write_dt, c1.meaning, c2.meaning from(select a.*, rownum rn from "
+				+ " (select * from board where board_cd not in ('B0', 'B4') and user_id=? order by board_sq desc) a),"
+				+ " (select * from code where used='Y') c1, (select * from code where used='Y' ) c2"
+				+ " where (rn between ? and ?) and board_p_cd = c1.cd and board_cd = c2.cd order by board_sq desc";
 		
 		try {
 			conn = getConnection();
@@ -567,7 +568,8 @@ public class BoardDao{
 				map.put("board_sq", rs.getString(1));
 				map.put("subject", rs.getString(2));
 				map.put("write_dt", rs.getDate(3));
-				map.put("meaning", rs.getString(4));
+				map.put("board_p_cd", rs.getString(4));
+				map.put("board_cd", rs.getString(5));
 				list.add(map);
 			}
 		} catch (Exception e) {

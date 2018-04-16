@@ -13,19 +13,20 @@
 	
 	<table>
 		<tr>
-			<th>번호</th><th>제목</th><th>작성일</th><th>처리상태</th>
+			<th>번호</th><th>분류</th><th>제목</th><th>작성일</th><th>처리상태</th>
 		</tr>
 		<input type="button" value="작성" onclick="location.href='boardWriteForm.mall'">
 		<c:if test="${totCnt > 0 }">
 			<c:forEach var="board" items="${list }">
 				<tr>
 					<td>${startNum }</td>
+					<td>${board.board_cd }</td>
 					<td class="left" width="200"> 
 						 <a href="boardOtherContent.mall?board_sq=${board.board_sq}&
-						 	pageNum=${currentPage}&board_cd=${board_cd}">${board.subject}</a> 
+						 	pageNum=${currentPage}&board_cd=${board.board_cd}&board_p_cd=${board.board_p_cd}">${board.subject}</a> 
 					</td>
 					<td>${board.write_dt }</td>
-					<td>${board.meaning }</td>
+					<td>${board.board_p_cd }</td>
 				</tr>
 				<c:set var="startNum" value="${startNum - 1 }"/>
 			</c:forEach>

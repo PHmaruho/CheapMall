@@ -17,6 +17,8 @@ public class BoardOtherContentAction implements CommandProcess {
 		try {
 			String board_sq = request.getParameter("board_sq");
 			String pageNum = request.getParameter("pageNum");
+			String board_cd = request.getParameter("board_cd");
+			String board_p_cd = request.getParameter("board_p_cd");
 			String content = null;
 			BoardDao boardDao = BoardDao.getInstance();
 			BoardDto boardDto = boardDao.selectContent(board_sq);
@@ -28,6 +30,8 @@ public class BoardOtherContentAction implements CommandProcess {
 			request.setAttribute("pageNum", pageNum);
 			request.setAttribute("boardDto", boardDto);
 			request.setAttribute("content", content);
+			request.setAttribute("board_cd", board_cd);
+			request.setAttribute("board_p_cd", board_p_cd);
 			request.setAttribute("pageSet", "boardOtherContent.jsp");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
