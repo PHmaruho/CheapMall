@@ -41,6 +41,8 @@ public class BoardDao{
 		2018-04-12
 		9. updateBp(String)
 		10. getContent(String)
+		2018-04-16
+		11. listUserOther(int, int, String)
 		
 	*/
 	
@@ -89,12 +91,20 @@ public class BoardDao{
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select count(*) from board where board_cd=?";
+		String sql = null;
+		
+		if (boardCd == null) {
+			sql = "select count(*) from board where board_cd not in ('B0', 'B4')";
+		} else {
+			sql = "select count(*) from board where board_cd=?";
+		}
 		
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, boardCd);
+			if (boardCd != null) {
+				pstmt.setString(1, boardCd);
+			}
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
@@ -530,5 +540,41 @@ public class BoardDao{
 		}
 		
 		return result;
+	}
+	
+	/*작성자	: 최우일
+	수정일	: 2018-04-16
+	내용		: 일반사용자 건의 리스트 */
+	public List<HashMap> listUserOther(int startRow, int endRow, String id) throws SQLException {
+		List<HashMap> list = new ArrayList<HashMap>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select board_sq, subject, write_dt, meaning from(select a.*, rownum rn from "
+				+ " (select * from board where board_cd not in ('B0', 'B4') and user_id=? order by board_sq desc) a), "
+				+ "code where (rn between ? and ?) and board_p_cd = cd and used='Y' order by board_sq desc";
+		
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, startRow);
+			pstmt.setInt(3, endRow);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				HashMap map = new HashMap();
+				map.put("board_sq", rs.getString(1));
+				map.put("subject", rs.getString(2));
+				map.put("write_dt", rs.getDate(3));
+				map.put("meaning", rs.getString(4));
+				list.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, pstmt, rs);
+		}
+		return list;
 	}
 }
