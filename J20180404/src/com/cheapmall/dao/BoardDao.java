@@ -86,24 +86,37 @@ public class BoardDao{
 	/*작성자	: 최우일
 	수정일	: 2018-04-10
 	내용		: 게시판 페이징을 위해 게시글 종류별 게시글 갯수를 구함 */
-	public int getBoardCount(String boardCd) throws SQLException {
+	public int getBoardCount(String board_cd, String board_p_cd, String option, String searchText) throws SQLException {
 		int result = 0;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = null;
 		
-		if (boardCd == null) {
+		if (board_cd == null) {
 			sql = "select count(*) from board where board_cd not in ('B0', 'B4')";
 		} else {
 			sql = "select count(*) from board where board_cd=?";
 		}
 		
+		if (!board_p_cd.equals("all")) {
+			sql = sql + " and board_p_cd='" + board_p_cd + "'";
+		}
+		
+		if (!searchText.equals("")) {
+			if (option.equals("all")) {
+				sql = sql + " and (subject like '%" + searchText + "%' or " 
+						+ "content like '%" + searchText + "%' or user_id like '%" + searchText + "%')";
+			} else {
+				sql = sql + " and " + option + " like '%" + searchText + "%'";
+			}
+		}
+		
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			if (boardCd != null) {
-				pstmt.setString(1, boardCd);
+			if (board_cd != null) {
+				pstmt.setString(1, board_cd);
 			}
 			rs = pstmt.executeQuery();
 			
@@ -282,17 +295,32 @@ public class BoardDao{
 	
 	/*작성자	: 최우일
 	수정일	: 2018-04-12
-	내용		: 문의/건의/신고 에 필요한 리스트내용 맵에 담음 */
-	public List<HashMap> listAdminOther(int startRow, int endRow, String board_cd, String bp) throws SQLException {
+	내용		: 문의/건의/신고 에 필요한 리스트내용 맵에 담음 
+	 			2018-04-16
+	 			검색옵션 추가*/
+	public List<HashMap> listAdminOther(int startRow, int endRow, String board_cd, String bp, String option, String searchText) throws SQLException {
 		List<HashMap> list = new ArrayList<HashMap>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql1 = "select board_sq, subject, user_id, write_dt, meaning from(select a.*, rownum rn from "
-				+ " (select * from board where board_cd=? order by board_sq desc) a), code where (rn between ? and ?) "
+		String str1 = "select board_sq, subject, user_id, write_dt, meaning from(select a.*, rownum rn from "
+				+ " (select * from board where board_cd=?";
+		String str2 = null;
+		
+		if (!searchText.equals("")) {
+			if (option.equals("all")) {
+				str2 = " and (subject like '%" + searchText + "%' or " 
+						+ "content like '%" + searchText + "%' or user_id like '%" + searchText + "%') ";
+			} else {
+				str2 = " and " + option + " like '%" + searchText + "%' ";
+			}
+		} else {
+			str2 ="";
+		}
+		
+		String sql1 = str1 + str2 + " order by board_sq desc) a), code where (rn between ? and ?) "
 				+ " and board_p_cd = cd and used='Y' order by board_sq desc";
-		String sql2 = "select board_sq, subject, user_id, write_dt, meaning from(select a.*, rownum rn from "
-				+ " (select * from board where board_cd=? order by board_sq desc) a), code where (rn between ? and ?) "
+		String sql2 = str1 + str2 + " order by board_sq desc) a), code where (rn between ? and ?) "
 				+ " and board_p_cd=? and board_p_cd = cd and used='Y' order by board_sq desc";
 		
 		try {
@@ -303,12 +331,14 @@ public class BoardDao{
 				pstmt.setString(1, board_cd);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, endRow);
+				System.out.println("sql1 : " + sql1);
 			} else {
 				pstmt = conn.prepareStatement(sql2);
 				pstmt.setString(1, board_cd);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, endRow);
 				pstmt.setString(4, bp);
+				System.out.println("sql2 : " + sql2);
 			}
 			rs = pstmt.executeQuery();
 			

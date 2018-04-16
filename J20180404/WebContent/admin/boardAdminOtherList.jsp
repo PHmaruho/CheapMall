@@ -10,9 +10,11 @@
 <script type="text/javascript">
 	window.onload = function() {
 		var board_p_cd = '${bp}';
-		document.getElementById(board_p_cd).selected = true;
+		var option = '${option}';
+		$("#bp").val(board_p_cd);
+		$("#searchSelect").val(option);
 	}
-
+/* 
 	function bpSelect() {
 		var select = document.getElementById("bp");
 		var options = select.options;
@@ -20,6 +22,20 @@
 		var board_cd = '${board_cd}'
 		
 		location.href = "boardAdminOtherList.admin?board_cd=" + board_cd + "&bp=" + selected;
+	} */
+	
+	function searchSelect() {
+		var select1 = document.getElementById("bp");
+		var options1 = select1.options;
+		var selected1 = select1.options[select1.selectedIndex].value;
+		var select2 = document.getElementById("searchSelect");
+		var options2 = select2.options;
+		var selected2 = select2.options[select2.selectedIndex].value;
+		var searchText = document.getElementById("searchText").value;
+		var board_cd = '${board_cd}'
+		
+		location.href = "boardAdminOtherList.admin?board_cd=" + board_cd + "&bp=" + selected1 + "&option=" 
+						+ selected2 + "&searchText=" + searchText;
 	}
 </script>
 </head>
@@ -36,7 +52,7 @@
 			<h2>건의사항</h2>
 		</c:if>
 		
-		<select id="bp" onchange="bpSelect()">
+		<select id="bp" onchange="searchSelect()">
 			<option id="all" value="all">전체</option>
 			<option id="BP0" value="BP0">미확인</option>
 			<option id="BP1" value="BP1">처리중</option>
@@ -45,7 +61,7 @@
 		
 		<table>
 			<tr>
-				<th>번호</th><th>제목</th><th>작성일</th><th>처리상태</th>
+				<th>번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>처리상태</th>
 			</tr>
 			<c:if test="${totCnt > 0 }">
 				<c:forEach var="board" items="${list }">
@@ -55,6 +71,7 @@
 							 <a href="boardAdminOtherContent.admin?board_sq=${board.board_sq}&
 							 	pageNum=${currentPage}&board_cd=${board_cd}">${board.subject}</a> 
 						</td>
+						<td>${board.user_id }</td>
 						<td>${board.write_dt }</td>
 						<td>${board.meaning }</td>
 					</tr>
@@ -74,6 +91,15 @@
 				<a href="boardAdminOtherList.admin?pageNum=${startPage + blockSize }">[다음]</a>
 			</c:if>
 		</div>
+		<select id="searchSelect">
+			<option id="all" value="all">전체</option>
+			<option id="content" value="subject">제목</option>
+			<option id="subject" value="content">내용</option>
+			<option id="user_id" value="user_id">작성자</option>
+		</select>
+		<input type="text" id="searchText" value="${searchText }">
+		<input type="button" value="검색" onclick="searchSelect()">
+		
 	</div>
 </body>
 </html>
