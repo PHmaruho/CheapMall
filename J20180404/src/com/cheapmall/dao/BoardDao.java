@@ -117,7 +117,8 @@ public class BoardDao{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = "select board_sq, subject, user_id, write_dt from(select a.*, rownum rn from "
-				+ " (select * from board where board_cd='B0' order by board_sq desc) a) where rn between ? and ?";
+				+ " (select * from board where board_cd='B0' order by board_sq desc) a) where rn between ? and ? "
+				+ " order by board_sq desc";
 		
 		try {
 			conn = getConnection();
@@ -279,10 +280,10 @@ public class BoardDao{
 		ResultSet rs = null;
 		String sql1 = "select board_sq, subject, user_id, write_dt, meaning from(select a.*, rownum rn from "
 				+ " (select * from board where board_cd=? order by board_sq desc) a), code where (rn between ? and ?) "
-				+ " and board_p_cd = cd and used='Y' ";
+				+ " and board_p_cd = cd and used='Y' order by board_sq desc";
 		String sql2 = "select board_sq, subject, user_id, write_dt, meaning from(select a.*, rownum rn from "
 				+ " (select * from board where board_cd=? order by board_sq desc) a), code where (rn between ? and ?) "
-				+ " and board_p_cd=? and board_p_cd = cd and used='Y' ";
+				+ " and board_p_cd=? and board_p_cd = cd and used='Y' order by board_sq desc";
 		
 		try {
 			conn = getConnection();
