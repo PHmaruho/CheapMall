@@ -18,7 +18,7 @@ public class BoardAdminNoticeListAction implements CommandProcess {
 		
 		try {
 			BoardDao boardDao = BoardDao.getInstance();
-			int totCnt = boardDao.getBoardCount("B0");
+			int totCnt = boardDao.getBoardCount("B0", "all", "all", "");
 			String pageNum = request.getParameter("pageNum");
 			
 			if (pageNum == null || pageNum.equals("")) {
