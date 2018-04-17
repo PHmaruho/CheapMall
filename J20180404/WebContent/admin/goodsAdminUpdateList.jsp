@@ -26,14 +26,14 @@
 </head>
 <body>
 
-	<div id="wrap">
+	 <div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
 
 	<h2>상품수정</h2>
 	
 	<div id="main"> 
-
+<button onclick="location.href='GoodsAdminDisplayList.admin'">판매상품 리스트</button>
 		<c:set var="displayNumber" value="0" />
 		
 			<form action="goodsAdminUpdateList.admin?pageNum=${currentPage }&category=${category }&search=${search}"

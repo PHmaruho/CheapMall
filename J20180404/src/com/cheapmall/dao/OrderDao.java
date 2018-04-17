@@ -627,7 +627,10 @@ public class OrderDao {
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		Connection conn = null;
-		String sql = "select a.*,goods.* from goods inner join (select o.ORDER_SQ, o.ORDER_DT, o.ORDER_CD, d.CNT, d.SALE_PRICE, d.DC_PRICE, d.GOODS_SQ, d.detail_sq from orders o inner join order_detail d on o.order_sq = d.ORDER_SQ where user_id=? and (o.order_cd = 'O0' or o.order_cd = 'O1')) a on goods.sq = a.goods_sq order by a.ORDER_SQ";
+		String sql = "select a.*,goods.* from goods inner join (select o.ORDER_SQ, o.ORDER_DT, o.ORDER_CD, "
+				+ " d.CNT, d.ORIGIN_PRICE, d.DC_PRICE, d.GOODS_SQ, d.detail_sq "
+				+ " from orders o inner join order_detail d on o.order_sq = d.ORDER_SQ where user_id=? and "
+				+ " (o.order_cd = 'O0' or o.order_cd = 'O1')) a on goods.sq = a.goods_sq order by a.ORDER_SQ";
 		conn = getConnection();
 		try {
 			ps = conn.prepareStatement(sql);
@@ -639,7 +642,7 @@ public class OrderDao {
 				map.put("order_dt", rs.getString("order_dt"));
 				map.put("goods_sq", rs.getString("goods_sq"));
 				map.put("cnt", rs.getString("cnt"));
-				map.put("sale_price", rs.getString("sale_price"));
+				map.put("sale_price", rs.getString("origin_price"));
 				map.put("dc_price", rs.getString("dc_price"));
 				map.put("order_cd", rs.getString("order_cd"));
 				map.put("gender", rs.getString("gender"));
