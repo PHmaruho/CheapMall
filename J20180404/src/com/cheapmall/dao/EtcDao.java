@@ -217,6 +217,40 @@ public class EtcDao {
 		
 		return jsonObject;
 	}
+	// 검색어 수정
+	public JSONObject modifyKeyword(String origin, String keyword, String trans) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		JSONObject json = new JSONObject();
+		int result = 0;
+		String sql = "UPDATE search "
+				+ " SET tag = ?, full_tag = ?"
+				+ " WHERE tag = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, keyword);
+			ps.setString(2, trans);
+			ps.setString(3, origin);
+			result = ps.executeUpdate();
+			if(result == 1) {
+				json.put("value", "yes");
+			} else {
+				json.put("value", "no");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("modifyKeyword Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, null);
+		}
+		
+		return json;
+	}
 	
 	// CWI Part Start
 	
