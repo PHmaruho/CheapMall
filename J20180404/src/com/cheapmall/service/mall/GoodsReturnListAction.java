@@ -21,8 +21,7 @@ public class GoodsReturnListAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session=request.getSession();
-			String id = session.getAttribute("id").toString();
-			/*String id="test2";*/
+			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			List<ReturnsDto> list=new ArrayList<ReturnsDto>();
 			List<String> orderId=new ArrayList<String>();
 			

@@ -274,15 +274,18 @@ public class EtcDao {
 	
 	/*
 	 * 작성자 : 정수연
-	 * 최초작성일 : 20180413
+	 * 최초작성일 : 2018-04-17
 	 * 내용 :
-	 * 	1. getPopupInfo() : 팝업에 관한 정보를 가져옵니다.
-	 *  2. getPopupInfo(sq): 팝업 수정을 위한 DTO 정보를 가져옵니다.
-	 *  3. modifyPopup(PopupDto dto): 팝업을 수정합니다
+	 * 	1. getPopupMain() 메인팝업에 관한 정보를 가져옵니다.
+	 *	2. getPopupSub() 서브 팝업에 관한 정보를 가져옵니다.
+	 *	3. getPopupInfo(sq) 팝업 수정을 위한 DTO 정보를 가져옵니다.
+	 *  4. modifyPopup(dto) 팝업을 수정합니다
+	 *  5. insertPopup(dto, start_dt,end_dt): 팝업을 새로 등록합니다.
+	 *  6. getPopupUrl(): 팝업 주소를 가져옵니다.
 	 */
 	// JSY part Start!
-	// 팝업에 관한 정보를 가져옵니다.
-	public List<PopupDto> getPopupInfo() throws SQLException {
+	// 메인팝업에 관한 정보를 가져옵니다.
+	public List<PopupDto> getPopupMain() throws SQLException {
 		
 		List<PopupDto> list=new ArrayList<PopupDto>();
 		
@@ -290,7 +293,7 @@ public class EtcDao {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		
-		String sql="select * from popup";
+		String sql="select * from popup where sq not like '%S%' order by sq asc";
 		try {
 			conn=getConnection();
 			ps=conn.prepareStatement(sql);
@@ -303,12 +306,47 @@ public class EtcDao {
 				dto.setNm(rs.getString("nm"));
 				dto.setStart_dt(rs.getDate("start_dt"));
 				dto.setEnd_dt(rs.getDate("end_dt"));
+				System.out.println("main: "+rs.getString("sq"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
 		}
-		DisConnection(conn, ps, rs);
+		return list;
+	}
+	
+	// 서브 팝업에 관한 정보를 가져옵니다.
+	public List<PopupDto> getPopupSub() throws SQLException {
+		
+		List<PopupDto> list=new ArrayList<PopupDto>();
+		
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		String sql="select * from popup where sq like '%S%' order by sq asc";
+		try {
+			conn=getConnection();
+			ps=conn.prepareStatement(sql);
+			rs=ps.executeQuery();
+			
+			while(rs.next()){
+				PopupDto dto=new PopupDto();
+				dto.setSq(rs.getString("sq"));
+				dto.setUrl(rs.getString("url"));
+				dto.setNm(rs.getString("nm"));
+				dto.setStart_dt(rs.getDate("start_dt"));
+				dto.setEnd_dt(rs.getDate("end_dt"));
+				System.out.println("sub: "+rs.getString("sq"));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
 		return list;
 	}
 
@@ -336,8 +374,9 @@ public class EtcDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
 		}
-		DisConnection(conn, ps, rs);
 		
 		return dto;
 	}
@@ -350,21 +389,78 @@ public class EtcDao {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		
-		String sql="update popup set nm=?, start_dt=?, end_dt=add_months(?,1),url=? where sq=?";
+		String sql="update popup set nm=?, start_dt=?, end_dt=?,url=? where sq=?";
 		try {
 			conn=getConnection();
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, dto.getNm());
 			ps.setDate(2, new java.sql.Date(dto.getStart_dt().getTime()));
-			ps.setDate(3, new java.sql.Date(dto.getStart_dt().getTime()));
+			ps.setDate(3, new java.sql.Date(dto.getEnd_dt().getTime()));
 			ps.setString(4,dto.getUrl());
 			ps.setString(5, dto.getSq());
 			result=ps.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
 		}
-		DisConnection(conn, ps, rs);
 		return result;
+	}
+	
+	
+	// 팝업을 등록합니다.
+	public int insertPopup(PopupDto dto, String start_dt, String end_dt) throws SQLException {
+		
+		int result=0;
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		String sql="{ call insertPopup(?,?,?,?,?)}";
+	
+		try {
+			conn=getConnection();
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, dto.getSq());
+			ps.setString(2,dto.getUrl());
+			ps.setString(3, dto.getNm());
+			ps.setString(4, start_dt);
+			ps.setString(5, end_dt);
+			result=ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		return result;
+	}
+	// 팝업 주소를 가져옵니다.
+	public List<String> getPopupUrl() throws SQLException {
+		
+		List<String> urlL=new ArrayList<>();
+		
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		String sql="select url from popup where sysdate<end_dt and start_dt<sysdate";
+	
+		try {
+			conn=getConnection();
+			ps=conn.prepareStatement(sql);
+			rs=ps.executeQuery();
+			
+			while(rs.next()){
+				String dbUrl=rs.getString("url");
+				urlL.add(dbUrl);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		return urlL;
 	}
 }

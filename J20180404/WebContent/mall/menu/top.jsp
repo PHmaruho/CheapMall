@@ -94,7 +94,7 @@ li:hover{
 </head>
 <body>
 	<div class="topDiv">
-		<div class="logoDiv">logo</div>
+		<div class="logoDiv" onclick="popAction()">logo</div>
 		<!-- Ajax로 장바구니 개수 추가 예정 -->
 		<div class="cartDiv">
 			<a href="ordersCartList.mall">cart</a>
@@ -150,6 +150,14 @@ li:hover{
 	</div>
 </body>
 <script>
+// JSY popup
+function popAction(){
+	window.open
+	('../admin/popupOpen.admin','Cheap Mall','width=300px, height=230px,left='+(screen.availWidth-660)/2+',top='+(screen.availHeight-430)/2);
+	location.href="cheapmall.jsp";
+};
+
+// HJM keyword
 function key(keyword){
 	//var keyword = $('#search').val();
 	var resultDiv = $('#keywordResult');

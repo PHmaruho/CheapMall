@@ -20,9 +20,8 @@ public class OrderReturnDetailFormAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			HttpSession session = request.getSession();
-			String id = session.getAttribute("id").toString();
-			/*String id="test2";*/
+			HttpSession session=request.getSession();
+			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			String order_sq=request.getParameter("order_sq");
 			OrderDao dao=OrderDao.getInstance();
 			

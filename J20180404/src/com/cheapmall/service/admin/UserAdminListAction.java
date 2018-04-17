@@ -21,7 +21,7 @@ public class UserAdminListAction implements CommandProcess {
 
 		try {
 			HttpSession session=request.getSession();
-			String id=session.getAttribute("id").toString();
+			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			
 			MemberDao dao=MemberDao.getInstance();
 			String search=request.getParameter("search");
@@ -77,7 +77,7 @@ public class UserAdminListAction implements CommandProcess {
 			e.printStackTrace();
 		}
 		
-		return "/admin/userAdminList.jsp";
+		return "userAdminList.jsp";
 	}
 
 }

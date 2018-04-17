@@ -21,8 +21,8 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 			HttpServletResponse response) throws ServletException, IOException {
 	
 		HttpSession session=request.getSession();
-		String id=session.getAttribute("id").toString();
-		/*String id="test3";*/
+		String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
+		
 		String category=request.getParameter("category");
 		String search=request.getParameter("search");
 		try {
@@ -53,13 +53,14 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 					count=list.size();
 					list=dao.selectGoods(startRow,endRow);
 				}else{
-					list=dao.selectGoods(category,search,0,0);
+					list=dao.searchGoods(category,search,0,0);
 					count=list.size();
-					list=dao.selectGoods(category,search,startRow,endRow);
+					list=dao.searchGoods(category,search,startRow,endRow);
 				}
 				
 				
 			}else list=null;
+			
 			
 			int startNum=count-startRow+1;
 			
@@ -92,7 +93,7 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/admin/goodsAdminUpdateList.jsp";
+		return "goodsAdminUpdateList.jsp";
 	}
 
 

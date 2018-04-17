@@ -21,19 +21,23 @@ public class AdminPopupListAction implements CommandProcess {
 		System.out.println("adminpoupList action ok");
 		try {
 			EtcDao dao=EtcDao.getInstance();
-			List<PopupDto> list=new ArrayList<PopupDto>();
+			List<PopupDto> mainList=new ArrayList<PopupDto>();
+			List<PopupDto> subList=new ArrayList<PopupDto>();
+			mainList=dao.getPopupMain();
+			subList=dao.getPopupSub();
+			int mainCount=mainList.size();
+			int subCount=subList.size();
 			
-			list=dao.getPopupInfo();
-			int count=list.size();
-			
-			request.setAttribute("count", count);
-			request.setAttribute("listP", list);
+			request.setAttribute("mainList", mainList);
+			request.setAttribute("subList", subList);
+			request.setAttribute("mainCount", mainCount);
+			request.setAttribute("subCount", subCount);
+			/*request.setAttribute("pageSet", "/admin/adminPopupList.jsp");*/
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		return "adminPopupList.jsp";
-		
 	}
 
 }
