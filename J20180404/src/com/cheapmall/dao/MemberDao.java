@@ -960,4 +960,51 @@ public class MemberDao {
 		}
 		return count;
 	}
+	
+	//조건별로 검색가능
+	public ArrayList<AdminDto> searchAdmin(String how,String search) throws SQLException {
+		ArrayList<AdminDto> list = new ArrayList<AdminDto>();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = getConnection();
+			String sql1 = "select * from admin where nm like ? order by nm asc";
+			String sql2 = "select * from admin where auth like ? order by nm asc";
+			String sql3 = "select  * from admin where dept like ? order by nm asc";
+			
+			if(how.equals("1")) {       // 이름
+				ps=conn.prepareStatement(sql1);
+			}else if(how.equals("2")) { // 권한
+				ps=conn.prepareStatement(sql2);
+			}else {                    // 부서
+				ps=conn.prepareStatement(sql3);
+			}
+			String setSearch = "%"+search+"%";
+			ps.setString(1, setSearch);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				AdminDto dto = new AdminDto();
+				dto.setId(rs.getString("id"));
+				dto.setPw(rs.getString("pw"));
+				dto.setNm(rs.getString("nm"));
+				System.out.println("searchAdmin nm->"+rs.getString("nm"));				
+				System.out.println("searchAdmin dept->"+rs.getString("dept"));
+				
+				dto.setDept(rs.getString("dept"));
+				dto.setPosition(rs.getString("position"));
+				dto.setEmp_no(rs.getString("emp_no"));
+				dto.setAuth(rs.getString("auth"));
+				dto.setTel(rs.getString("tel"));
+				dto.setEmail(rs.getString("email"));
+				dto.setPath(rs.getString("path"));
+				list.add(dto);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		return list;
+	}
 }
