@@ -13,29 +13,35 @@
 		var option = '${option}';
 		$("#bp").val(board_p_cd);
 		$("#searchSelect").val(option);
+		$("#searchHidden").val('${searchText}');
 	}
-/* 
+ 
 	function bpSelect() {
-		var select = document.getElementById("bp");
-		var options = select.options;
-		var selected = select.options[select.selectedIndex].value;
-		var board_cd = '${board_cd}'
-		
-		location.href = "boardAdminOtherList.admin?board_cd=" + board_cd + "&bp=" + selected;
-	} */
-	
-	function searchSelect() {
 		var select1 = document.getElementById("bp");
 		var options1 = select1.options;
 		var selected1 = select1.options[select1.selectedIndex].value;
 		var select2 = document.getElementById("searchSelect");
 		var options2 = select2.options;
 		var selected2 = select2.options[select2.selectedIndex].value;
-		var searchText = document.getElementById("searchText").value;
+		var searchHidden = document.getElementById("searchHidden").value;
 		var board_cd = '${board_cd}'
 		
 		location.href = "boardAdminOtherList.admin?board_cd=" + board_cd + "&bp=" + selected1 + "&option=" 
-						+ selected2 + "&searchText=" + searchText;
+						+ selected2 + "&searchText=" + searchHidden;
+	} 
+	
+	function searchSelect() {
+		var select2 = document.getElementById("searchSelect");
+		var options2 = select2.options;
+		var selected2 = select2.options[select2.selectedIndex].value;
+		
+		var searchText = document.getElementById("searchText").value;
+		var board_cd = '${board_cd}'
+		$("#searchHidden").val(searchText);
+		var searchHidden = document.getElementById("searchHidden").value;
+		
+		location.href = "boardAdminOtherList.admin?board_cd=" + board_cd + "&option=" 
+						+ selected2 + "&searchText=" + searchHidden;
 	}
 </script>
 </head>
@@ -52,7 +58,7 @@
 			<h2>건의사항</h2>
 		</c:if>
 		
-		<select id="bp" onchange="searchSelect()">
+		<select id="bp" onchange="bpSelect()">
 			<option id="all" value="all">전체</option>
 			<option id="BP0" value="BP0">미확인</option>
 			<option id="BP1" value="BP1">처리중</option>
@@ -82,13 +88,16 @@
 		
 		<div style="text-align:center;">
 			<c:if test="${startPage > blockSize }">
-				<a href="boardAdminOtherList.admin?pageNum=${startPage - blockSize }">[이전]</a>
+				<a href="boardAdminOtherList.admin?pageNum=${startPage - blockSize }&board_cd=${board_cd}&bp=${bp}
+					&option=${option}&searchText=${searchText}">[이전]</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage }" end="${endPage }">
-				<a href="boardAdminOtherList.admin?pageNum=${i }">[${i }]</a>
+				<a href="boardAdminOtherList.admin?pageNum=${i }&board_cd=${board_cd}&bp=${bp}
+					&option=${option}&searchText=${searchText}">[${i }]</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
-				<a href="boardAdminOtherList.admin?pageNum=${startPage + blockSize }">[다음]</a>
+				<a href="boardAdminOtherList.admin?pageNum=${startPage + blockSize }&board_cd=${board_cd}&bp=${bp}
+					&option=${option}&searchText=${searchText}">[다음]</a>
 			</c:if>
 		</div>
 		<select id="searchSelect">
@@ -99,6 +108,7 @@
 		</select>
 		<input type="text" id="searchText" value="${searchText }">
 		<input type="button" value="검색" onclick="searchSelect()">
+		<input type="hidden" id="searchHidden">
 		
 	</div>
 </body>
