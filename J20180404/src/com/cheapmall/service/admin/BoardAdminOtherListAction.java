@@ -19,10 +19,12 @@ public class BoardAdminOtherListAction implements CommandProcess {
 		String board_cd = request.getParameter("board_cd");
 		
 		try {
-			BoardDao boardDao = BoardDao.getInstance();
-			int totCnt = boardDao.getBoardCount(board_cd);
 			String pageNum = request.getParameter("pageNum");
-			String bp = request.getParameter("bp");
+			String bp = request.getParameter("bp") == null ? "all" : request.getParameter("bp");
+			String option = request.getParameter("option") == null ? "all" : request.getParameter("option");
+			String searchText = request.getParameter("searchText") == null ? "" : request.getParameter("searchText");
+			BoardDao boardDao = BoardDao.getInstance();
+			int totCnt = boardDao.getBoardCount(board_cd, bp, option, searchText);
 			
 			if (pageNum == null || pageNum.equals("")) {
 				pageNum = "1";
@@ -36,7 +38,7 @@ public class BoardAdminOtherListAction implements CommandProcess {
 			int startRow = (currentPage - 1) * pageSize + 1;
 			int endRow = startRow + pageSize - 1;
 			int startNum = totCnt - startRow + 1;
-			List<HashMap> list = boardDao.listAdminOther(startRow, endRow, board_cd, bp);
+			List<HashMap> list = boardDao.listAdminOther(startRow, endRow, board_cd, bp, option, searchText);
 			int pageCnt = (int)Math.ceil((double)totCnt/pageSize);
 			int startPage = (int)(currentPage - 1) / blockSize * blockSize + 1;
 			int endPage = startPage + blockSize - 1;
@@ -55,6 +57,8 @@ public class BoardAdminOtherListAction implements CommandProcess {
 			request.setAttribute("endPage", endPage);
 			request.setAttribute("board_cd", board_cd);
 			request.setAttribute("bp", bp);
+			request.setAttribute("option", option);
+			request.setAttribute("searchText", searchText);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

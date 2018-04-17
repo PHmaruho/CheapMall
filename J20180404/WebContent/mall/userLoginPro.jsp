@@ -14,6 +14,7 @@
 			alert("로그인 정보를 알 수 없습니다!");
 			location.href="UserLoginForm.mall";
 		} else if('${result}' == '1'){
+			alert("로그인이 되었습니다.");
 			
 			// list에서 왔으면 list페이지로 보여준다.
 			if('${returnList}' == 'list'){
@@ -21,6 +22,8 @@
 			} else if('${returnList}' == 'main'){
 				location.href="Cheap.mall";
 			}
+			
+			location.href="Cheap.mall";
 		}
 	})()
 </script>

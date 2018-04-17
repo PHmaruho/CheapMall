@@ -87,13 +87,14 @@
 		border: solid black 1px;
 		float: left;
 	}
-
-	.none{
-		display: none;
+	
+	.ajaxKeyword{
+		width: 100%;
+		list-style-type: none;
 	}
-
-	.show{
-		display: show;
+	
+	.ajaxKeyword:hover{
+		background-color: green;
 	}
 </style>
 
@@ -106,23 +107,24 @@
 	}
 </style>
 <script type="text/javascript">
+
 	// 등록, 수정, 삭제 패널이 바뀌게 해주는 기능
 	function changeFuc(gets){
-		var getId = document.getElementById(gets);
-		var divs = document.getElementsByClassName('contentDivs');
-
-		if(getId.className.indexOf('show') == -1){
-			getId.className = getId.className.replace("none", "show");
-		} else {
-			getId.className = getId.className.replace("show", "none");
-		}
+		var getList = $(".contentDivs");
+		getList.each(function() { //  나름 핵심의 css변경기술이다.
+			if($(this).attr('id') != gets){
+				$(this).css("display", "none");
+			} else {
+				$(this).css("display", "block");
+			}
+		});
 	}
 
 	// 공통 검색 패널에 검색할 때, 출력하게 끔 나오게 해주는 기능
 	function keywordSearch(text, button, resultp){
 		var txt = $('#'+text).val();
 		var btn = $('#'+button).attr('id');
-		var result = $('#'+resultp);
+		$('#'+resultp).html("");
 
 		if(txt.length == 0){
 			alert("검색어를 입력하세요.");
@@ -135,24 +137,36 @@
 			data: {overlap:'search',
 				   keyword:txt},
 			success: function(data){
-				if(btn == "searchKeywordBtn1"){
-					$('#searchJudge').val("1");
-					$('#'+resultp).html(data);
-					$('#keywordResultPanel2').html("");
-					$('#keywordResultPanel3').html("");
+				var list = JSON.parse(data);
+				var str = "";
+				if(list.overlap == 'search'){
+					if(list.result == 'yes'){
+						str += "<ul>";
+							$.each(list.keywords, function(index){
+								if(btn == "searchKeywordBtn3"){
+									str += "<li class='ajaxKeyword' id='selectDelete'>" + this + 
+											"<input type='checkbox' value=\""+this+"\" name='selectDelete' onclick='deleteAdd()'></li>";
+									$('#keywordResultPanel1').html("");
+									$('#keywordResultPanel2').html("");
+								} else if (btn == "searchKeywordBtn2"){
+									str += "<li class='ajaxKeyword' id='selectModify' ondblclick='selectDblKeyword(\""+this+"\")'>" + this + "</li>";
+									$('#keywordResultPanel1').html("");
+									$('#keywordResultPanel3').html("");
+								} else {
+									str += "<li class='ajaxKeyword'>" + this + "</li>";
+									$('#keywordResultPanel2').html("");
+									$('#keywordResultPanel3').html("");
+								}
+							});
+						str += "</ul>";
+						
+						// 공동
+						$('#'+resultp).append(str);
+						
+					}
 				}
-				if(btn == "searchKeywordBtn2"){
-					$('#searchJudge').val("2");
-					$('#'+resultp).html(data);
-					$('#keywordResultPanel1').html("");
-					$('#keywordResultPanel3').html("");
-				}
-				if(btn == "searchKeywordBtn3"){
-					$('#searchJudge').val("3");
-					$('#'+resultp).html(data);
-					$('#keywordResultPanel1').html("");
-					$('#keywordResultPanel2').html("");
-				}
+				
+				
 
 			},
 			error:function(request,status,error){
@@ -175,11 +189,49 @@
 				   keyword:search},
 			cache: false,
 			success: function(data){
-				$('#'+overLapAjax).html(data);
-				if(data.indexOf("데이터가 없습니다") != -1){
-					$('#overlapCheck').val("1");
-				} else {
-					$('#overlapCheck').val("0");
+				var list = JSON.parse(data);
+				
+				if(list.overlap == 'overlap'){
+					if(list.value == "0"){
+						$('#overlapCheck').val("1");
+					} else {
+						
+						$('#overlapCheck').val("0");
+					}
+					// 공동
+					$('#'+overLapAjax).html(list.result);
+				}
+			}
+		});
+	}
+	
+	// 검색어 변환
+	function transAction(actionBtn){
+		var btn = $('#'+actionBtn);
+		var keyword = "";
+		
+		if(actionBtn == 'transAction1'){
+			keyword = $('#keyword').val();
+		} else if (actionBtn == 'transAction2'){
+			keyword = $('#selectKeyword').val();
+		}
+		
+		$.ajax({
+			type: "POST",
+			url: "SearchManagerPro.admin",
+			cache: false,
+			data: {overlap:"trans",
+				   keyword:keyword},
+			success: function(data){
+				var list = JSON.parse(data);
+				if(actionBtn == 'transAction1'){
+					$('#transKeyword1').val("");
+					$('#overlapCheck').val("2"); // 중복확인 - 한글분리 완료
+					$('#transKeyword1').val(list.result);	
+				} else if (actionBtn == 'transAction2'){
+					$('#electTransKeyword').val("");
+					$('#overlapCheck').val("2"); // 중복확인 - 한글분리 완료
+					$('#electTransKeyword').val(list.result);	
 				}
 			}
 		});
@@ -204,18 +256,19 @@
 						keyword:keyword,
 					    transKeyword:transKeyword},
 				success: function(data){
-					if(data.indexOf("등록되었습니다") != -1){
-						alert('등록되었습니다.');
-
-						// 아래는 검색어, 변환값을 초기화해주고, 다시 중복체크할 수 있게, hidden값 0셋팅, 중복확인용 문구 셋팅
-						$('#keyword').val("");
-						$('#transKeyword').val("");
-						$('#overlapCheck').val("0");
-						$('#overLapAjax').html("");
-					} else{
-						alert('등록실패하였습니다');
+					var list = JSON.parse(data);
+					if(list.overlap == 'regist'){
+						if(list.result == 0){
+							alert('등록되었습니다.');
+							// 아래는 검색어, 변환값을 초기화해주고, 다시 중복체크할 수 있게, hidden값 0셋팅, 중복확인용 문구 셋팅
+							$('#keyword').val("");
+							$('#transKeyword').val("");
+							$('#overlapCheck').val("0");
+							$('#overLapAjax').html("");
+						} else{
+							alert('등록실패하였습니다');
+						}
 					}
-
 					return true;
 				},
 				error:function(request,status,error){
@@ -234,26 +287,72 @@
 	}
 
 	// 수정 진행 전, 검색할 검색어를 찾아서 double click시 해당 값을 가져온다.
-	function selectKeyword(select){
-		// trim 공백제거
-		var li = $.trim($(select).text());
-		var panel = $('#keywordResultPanel2').text();
-		if($('#searchJudge').val() == '2'){
-			alert("select = " + li);
-			$.ajax({
-				type: "POST",
-				url: "SearchManagerPro.admin",
-				cache: false,
-				data: {overlap:"modify",
-						keyword:li},
-				success: function(data){
-					$('#hiddenOuput').html(data);
-					var output = $('#hiddenOutput').text();
-					$('#imsi').val(output);
-					alert($('#imsi').val());
-				}
-			});
+	function selectDblKeyword(select){
+		$.ajax({
+			type: "POST",
+			url: "SearchManagerPro.admin",
+			cache: false,
+			data: {overlap:"modify",
+					keyword:select},
+			success: function(data){
+				var list = JSON.parse(data);
+				$('#selectKeyword').val(list.tag);
+				$('#electTransKeyword').val(list.tag2);
+			}
+		});
+	}
+	
+	// delete List 생성
+	function deleteAdd(){
+		var deleteList = $('.deleteList');
+		var gets = [];
+		$("input[name='selectDelete']:checked").each(function(i, data){
+			gets[i] = this.value;
+		});
+		
+		deleteList.html("");
+		var str = "";
+		for(var i=0 ; i<gets.length ;i++){
+			if(i == 0){
+				str += gets[i];
+			} else {
+				str += " / " + gets[i];
+			}
 		}
+		deleteList.html(str);
+	}
+	
+	//삭제
+	function deleteAction(){
+		var gets = [];
+		$("input[name='selectDelete']:checked").each(function(i, data){
+			gets.push($(this).val());
+		});
+		if(gets == null){
+			alert("삭제할 데이터를 선택하세요.");
+			return false;
+		}
+		
+		var allData = { "overlap": "delete", "deleteArray": gets };
+		
+		$.ajax({
+			type: "POST",
+			url: "SearchManagerPro.admin",
+			cache: false,
+			data: allData,
+			success: function(data){
+				var list = JSON.parse(data);
+				if(list.result == 'yes'){
+					alert("삭제가 성공적으로 되었습니다.");
+					$('#deletelist').html("");
+					$('#keywordResultPanel3').html("");
+				} else {
+					alert("삭제중에 에러가 발생하였습니다.");
+					$('#deletelist').html("");
+					$('#keywordResultPanel3').html("");
+				}
+			}
+		});
 	}
 
 </script>
@@ -280,8 +379,8 @@
 		<!-- 콘텐츠 패널 -->
 		<div class="Content">
 			<input type="hidden" value="0" id="searchJudge">
-			<!-- 검색 기능 패널 -->
-			<div class="registContent contentDivs show" id="registContent">
+			<!-- 등록 기능 패널 -->
+			<div class="registContent contentDivs" id="registContent" style="display:block;">
 	
 				<!-- 검색어 공동패널 -->
 				<div class="searchInput">
@@ -309,10 +408,10 @@
 							<tr>
 								<th> 변환 : </th>
 								<td>
-									<input type="text" name="transKeyword" id="transKeyword" disabled="disabled">
+									<input type="text" name="transKeyword" id="transKeyword1" disabled="disabled">
 								</td>
 								<td>
-									<input type="button" name="transAction" id="transAction" value="검색어변환">
+									<input type="button" name="transAction" id="transAction1" value="검색어변환" onclick="transAction('transAction1')">
 								</td>
 							</tr>
 							<tr>
@@ -327,7 +426,7 @@
 			</div>
 	
 			<!-- 변경 기능 패널 -->
-			<div class="modifyContent contentDivs none" id="modifyContent">
+			<div class="modifyContent contentDivs" id="modifyContent" style="display:none;">
 	
 				<!-- 검색어 공동패널 -->
 				<div class="searchInput">
@@ -356,7 +455,7 @@
 								<input type="text" id="electTransKeyword" disabled="disabled">
 							</td>
 							<td>
-								<input type="button" name="transAction" id="transAction" value="검색어변환">
+								<input type="button" name="transAction" id="transAction2" value="검색어변환" onclick="transAction('transAction2')">
 							</td>
 						</tr>
 						<tr>
@@ -369,7 +468,7 @@
 				</div>
 			</div>
 			<!-- 삭제 기능 패널 -->
-			<div class="deleteContent contentDivs none" id="deleteContent">
+			<div class="deleteContent contentDivs" id="deleteContent" style="display:none;">
 	
 				<!-- 검색어 공동패널 -->
 				<div class="searchInput">
@@ -380,7 +479,13 @@
 	
 				<!-- 삭제 폼 -->
 				<div class="deletePanel">
-	
+					<div class="deleteList">
+					
+					</div>
+					
+					<div>
+						<input type="button" onclick="deleteAction()" value="삭제하기">
+					</div>
 				</div>
 			</div>
 		</div>

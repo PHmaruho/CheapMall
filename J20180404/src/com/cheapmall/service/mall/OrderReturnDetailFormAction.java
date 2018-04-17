@@ -47,12 +47,11 @@ public class OrderReturnDetailFormAction implements CommandProcess {
 			request.setAttribute("order_sq", order_sq);
 			request.setAttribute("detailList", detailList);
 			request.setAttribute("count", count);
-			request.setAttribute("pageSet", "/mall/orderReturnDetailForm.jsp");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/mall/cheapmall.jsp";
+		return "/mall/orderReturnDetailForm.jsp";
 	}
 
 	

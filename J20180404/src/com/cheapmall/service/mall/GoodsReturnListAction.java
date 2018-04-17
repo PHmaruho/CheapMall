@@ -34,11 +34,10 @@ public class GoodsReturnListAction implements CommandProcess {
 			
 			request.setAttribute("list",list);
 			request.setAttribute("orderId", orderId);
-			request.setAttribute("pageSet", "/mall/goodsReturnList.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return "/mall/cheapmall.jsp";
+		return "/mall/goodsReturnList.jsp";
 	}
 
 }
