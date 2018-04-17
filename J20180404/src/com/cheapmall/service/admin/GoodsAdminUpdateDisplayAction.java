@@ -15,7 +15,6 @@ public class GoodsAdminUpdateDisplayAction implements CommandProcess{
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		
-		System.out.println("displayAction �룄李�");
 		try {
 			String[] displayNumber 
 			= {request.getParameter("0"), request.getParameter("1"), request.getParameter("0")};
@@ -27,7 +26,7 @@ public class GoodsAdminUpdateDisplayAction implements CommandProcess{
 			int resultAdd=0;
 			
 			for(int i=0;i<displayNumber.length;i++){
-				result=dao.updateGoods(sq[i],displayNumber[i]);
+				result=dao.updateDisplay(sq[i],displayNumber[i]);
 				resultAdd+=result;
 			}
 			request.setAttribute("result", result);

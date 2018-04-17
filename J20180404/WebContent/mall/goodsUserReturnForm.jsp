@@ -26,11 +26,16 @@ function getDetail(r){
 
 
 </script>
+<style>
+	#main{
+		display:flex;
+	}
+</style>
 </head>
 <body>
 	
+	<h2>주문내역</h2>
 	<div id="main">
-		<h2>상품반품</h2>
 		<form action="goodsUserReturnPro.mall" method="post">
 			<table border="1">
 				<tr>
@@ -54,15 +59,74 @@ function getDetail(r){
 									 	 <input type="hidden" id="order_sq${i.index }" name="order_sq" value="${order.order_sq}">
 									     ${order.order_sq }</a>
 									</c:if>
+									<c:if test="${fn:contains(checkCd,'R')}">
+									     ${order.order_sq }
+									</c:if>
 						
 									<c:if test="${fn:contains(checkCd,'R') }">
-										${order.order_sq }
 									</c:if>
 							</td> 
 							<td>${order.dc_price }</td>
 							<td>${order.use_point }</td>
 							<td>${order.pay_method }</td>
-							<td>${order.order_cd }</td>
+							<td>
+								<c:if test="${order.order_cd =='R0'}">
+									반품요청
+								</c:if>
+								
+								<c:if test="${order.order_cd =='R1'}">
+									반품수령
+								</c:if>
+								
+								<c:if test="${order.order_cd =='R2'}">
+									반품확인중
+								</c:if>
+								
+								<c:if test="${order.order_cd =='R3'}">
+									반품완료
+								</c:if>
+								
+								<c:if test="${order.order_cd =='R4'}">
+									재배송
+								</c:if>
+								
+								<c:if test="${order.order_cd =='R5'}">
+									교환요청
+								</c:if>
+								
+								<c:if test="${order.order_cd =='O0'}">
+									교환요청
+								</c:if>
+								
+								<c:if test="${order.order_cd =='O1'}">
+									배송준비
+								</c:if>
+								
+								<c:if test="${order.order_cd =='O2'}">
+									배송중
+								</c:if>
+								
+								<c:if test="${order.order_cd =='O3'}">
+									베송완료
+								</c:if>
+								
+								<c:if test="${order.order_cd =='O4'}">
+									수령확인
+								</c:if>
+								
+								<c:if test="${order.order_cd =='O5'}">
+									주문취소
+								</c:if>
+								
+								<c:if test="${order.order_cd =='O6'}">
+									반품요청
+								</c:if>
+								
+								<c:if test="${order.order_cd =='O7'}">
+									교환요청
+								</c:if>
+								
+							</td>
 							<td>${order.order_dt }</td>
 							<td>
 								<c:if test="${!fn:contains(checkCd,'R')}">

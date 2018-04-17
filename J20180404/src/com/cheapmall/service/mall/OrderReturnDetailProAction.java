@@ -18,10 +18,8 @@ public class OrderReturnDetailProAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			HttpSession session = request.getSession();
-			String id = session.getAttribute("id").toString();
-			
-			/*String id="test2";*/
+			HttpSession session=request.getSession();
+			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			String[] order_sq1=request.getParameterValues("order_sq");
 			String[] detail_sq=request.getParameterValues("detail_sq");
 			
@@ -31,14 +29,15 @@ public class OrderReturnDetailProAction implements CommandProcess {
 			if (order_sq1.length>0) order_sq=order_sq1[0];
 			OrderDao dao=OrderDao.getInstance();
 			
-			result=dao.returnOrder(id, order_sq, detail_sq);
+			result=dao.returnOrderPart(id, order_sq, detail_sq);
 			
 			request.setAttribute("result", result);
+			request.setAttribute("pageSet", "/mall/orderReturnDetailPro.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		return "/mall/orderReturnDetailPro.jsp";
+		return "/mall/cheapmall.jsp";
 	}
 
 }

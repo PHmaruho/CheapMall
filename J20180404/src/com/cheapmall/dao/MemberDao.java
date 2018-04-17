@@ -793,168 +793,173 @@ public class MemberDao {
 	}
 	
 	// JSY Part Start!
-		 // 회원의 id와 pw를 받아와 입력받은 pw와 대조하여 결과값을 return 합니다.
-		public int removeUser(String id, String pw) throws SQLException {
-			Connection conn=null;
-			PreparedStatement ps=null;
-			int result=0;
-			ResultSet rs=null;
-			String sql="";
-			
-			try {
-				conn=getConnection();
-				
-				sql="select pwd from users where id=?";
-				ps=conn.prepareStatement(sql);
-				ps.setString(1,id);
-				
-				rs=ps.executeQuery();
-				
-				if(rs.next()){
-					String dbPw=rs.getString(1);
-					ps.close();
-					
-					if(dbPw.equals(pw)){
-						sql="delete * from users where pwd=?";
-						ps=conn.prepareStatement(sql);
-						ps.executeUpdate();
-					}else result=0;
-					
-					
-				}else result=-1;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			DisConnection(conn, ps, rs);
-			return result;
-			
-		}
-		// 회원 목록을 만들기 위해 회원 수를 가져오는 클래스 입니다.
-		public int countUser() throws SQLException {
-			int count=0;
-			Connection conn=null;
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			
-			try {
-				conn= getConnection();
-				
-				String sql="select count(*) from users";
-				ps=conn.prepareStatement(sql);
-				rs=ps.executeQuery();
-				
-				if(rs.next()){
-					count=rs.getInt(1);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+	// 회원의 id와 pw를 받아와 입력받은 pw와 대조하여 결과값을 return 합니다.
+	public int removeUser(String id, String pw) throws SQLException {
+		Connection conn=null;
+		PreparedStatement ps=null;
+		int result=0;
+		ResultSet rs=null;
+		String sql="";
 		
+		try {
+			conn=getConnection();
+			
+			sql="select pwd from users where id=?";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1,id);
+			
+			rs=ps.executeQuery();
+			
+			if(rs.next()){
+				String dbPw=rs.getString(1);
+				ps.close();
+				
+				if(dbPw.equals(pw)){
+					sql="delete * from users where pwd=?";
+					ps=conn.prepareStatement(sql);
+					ps.executeUpdate();
+				}else result=0;
+				
+				
+			}else result=-1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
 			DisConnection(conn, ps, rs);
-			
-			return count;
 		}
-		// 관리자가 선택한 회원들을 삭제하여 그 결과값을 반환합니다.
-		public int deleteUser(String check) throws SQLException {
-			Connection conn=null;
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			
-			int result=0;
-			
-			
-			String sql="delete from users where id=?";
-			
-			try {
-				conn=getConnection();
-				ps=conn.prepareStatement(sql);
-				ps.setString(1, check);
-				result=ps.executeUpdate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			DisConnection(conn, ps, rs);
-			
-			return result;
-		}
-		// 관리자가 직접 삭제할 회원들을 검색하여 나온 결과 클래스 입니다.
-		public List<UsersDto> selectUser(String search, int startRow, int endRow) throws SQLException {
-			List<UsersDto> list=new ArrayList<UsersDto>();
-			Connection conn=null;
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			
-			try {
-				conn=getConnection();
+		return result;
 		
-				String sql1 // grade X
-				="select * from (select rownum rn, users.* from (select * from users) users) where rn between ? and ?";
-				
-				String sql2 // grade O
-				="select * from (select rownum rn, users.* from (select * from users where grade=?) users) where rn between ? and ?";
-				
-				if(search==null || search.length()==0){
-					ps=conn.prepareStatement(sql1);
-					ps.setInt(1, startRow);
-					ps.setInt(2, endRow);
-				}
-				else {
-					ps=conn.prepareStatement(sql2);
-					ps.setString(1,search);
-					ps.setInt(2, startRow);
-					ps.setInt(3,endRow);
-				}
-				rs=ps.executeQuery();
-				
-				while(rs.next()){
-					UsersDto dto=new UsersDto();
-					dto.setId(rs.getString("id"));
-					dto.setPw(rs.getString("pw"));
-					dto.setNm(rs.getString("nm"));
-					dto.setBirth(rs.getString("birth"));
-					dto.setTel(rs.getString("tel"));
-					dto.setZipcode(rs.getString("zipcode"));
-					dto.setAddr(rs.getString("addr"));
-					dto.setAddr_detail(rs.getString("addr_detail"));
-					dto.setEmail(rs.getString("email"));
-					dto.setGender(rs.getString("gender"));
-					dto.setGrade(rs.getString("grade"));
-					dto.setPoint(rs.getInt("point"));
-					dto.setReg_dt(rs.getDate("reg_dt"));
-					dto.setPw_dt(rs.getDate("pw_dt"));
-					list.add(dto);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			DisConnection(conn, ps, rs);
+	}
+	// 회원 목록을 만들기 위해 회원 수를 가져오는 클래스 입니다.
+	public int countUser() throws SQLException {
+		int count=0;
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		try {
+			conn= getConnection();
 			
-			return list;
-		}
-		// 등급에 따라 해당하는 회원 수를 돌려 받습니다.
-		public int searchUserCount(String grade) throws SQLException {
-			Connection conn=null;
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			int count=0;
+			String sql="select count(*) from users";
+			ps=conn.prepareStatement(sql);
+			rs=ps.executeQuery();
 			
-			try {
-				conn=getConnection();
-				
-				String sql
-				="select count(*) from users where grade=?";
-				ps=conn.prepareStatement(sql);
-				ps.setString(1, grade);
-				rs=ps.executeQuery();
-				
-				if(rs.next()){
-					count=rs.getInt(1);
-				}
-				
-			} catch (Exception e) {
-				e.printStackTrace();
+			if(rs.next()){
+				count=rs.getInt(1);
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
 			DisConnection(conn, ps, rs);
-			return count;
 		}
+	
+		
+		return count;
+	}
+	// 관리자가 선택한 회원들을 삭제하여 그 결과값을 반환합니다.
+	public int deleteUser(String check) throws SQLException {
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		int result=0;
+		
+		
+		String sql="delete from users where id=?";
+		
+		try {
+			conn=getConnection();
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, check);
+			result=ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		
+		return result;
+	}
+	// 관리자가 직접 삭제할 회원들을 검색하여 나온 결과 클래스 입니다.
+	public List<UsersDto> selectUser(String search, int startRow, int endRow) throws SQLException {
+		List<UsersDto> list=new ArrayList<UsersDto>();
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		try {
+			conn=getConnection();
+	
+			String sql1 // grade X
+			="select * from (select rownum rn, users.* from (select * from users) users) where rn between ? and ?";
+			
+			String sql2 // grade O
+			="select * from (select rownum rn, users.* from (select * from users where grade=?) users) where rn between ? and ?";
+			
+			if(search==null || search.length()==0){
+				ps=conn.prepareStatement(sql1);
+				ps.setInt(1, startRow);
+				ps.setInt(2, endRow);
+			}
+			else {
+				ps=conn.prepareStatement(sql2);
+				ps.setString(1,search);
+				ps.setInt(2, startRow);
+				ps.setInt(3,endRow);
+			}
+			rs=ps.executeQuery();
+			
+			while(rs.next()){
+				UsersDto dto=new UsersDto();
+				dto.setId(rs.getString("id"));
+				dto.setPw(rs.getString("pw"));
+				dto.setNm(rs.getString("nm"));
+				dto.setBirth(rs.getString("birth"));
+				dto.setTel(rs.getString("tel"));
+				dto.setZipcode(rs.getString("zipcode"));
+				dto.setAddr(rs.getString("addr"));
+				dto.setAddr_detail(rs.getString("addr_detail"));
+				dto.setEmail(rs.getString("email"));
+				dto.setGender(rs.getString("gender"));
+				dto.setGrade(rs.getString("grade"));
+				dto.setPoint(rs.getInt("point"));
+				dto.setReg_dt(rs.getDate("reg_dt"));
+				dto.setPw_dt(rs.getDate("pw_dt"));
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		
+		return list;
+	}
+	// 등급에 따라 해당하는 회원 수를 돌려 받습니다.
+	public int searchUserCount(String grade) throws SQLException {
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		int count=0;
+		
+		try {
+			conn=getConnection();
+			
+			String sql
+			="select count(*) from users where grade=?";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, grade);
+			rs=ps.executeQuery();
+			
+			if(rs.next()){
+				count=rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		return count;
+	}
 }

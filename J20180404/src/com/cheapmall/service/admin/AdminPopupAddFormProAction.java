@@ -22,7 +22,8 @@ public class AdminPopupAddFormProAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			String path=request.getSession().getServletContext().getRealPath("/images/popup");
+/*			String path=request.getSession().getServletContext().getRealPath("/images/popup");*/
+			String path="C:/jsp/Sources1/J20180404/WebContent/images/popup";
 			int size= 2*1024*1024;
 			
 			MultipartRequest mr=null;
@@ -45,20 +46,28 @@ public class AdminPopupAddFormProAction implements CommandProcess {
 			EtcDao dao=EtcDao.getInstance();
 			
 			String category=mr.getParameter("category");
+			System.out.println("category: "+category);
 			String nm=mr.getParameter("nm");
-			Date start_dt= new SimpleDateFormat("yyyy-MM-dd")
-						.parse(mr.getParameter("start_dt"));
-			Date end_dt=new SimpleDateFormat("yyyy-MM-dd")
-						.parse(mr.getParameter("end_dt"));
-
+			
+			String startD=mr.getParameter("start_dt");
+			String endD=mr.getParameter("end_dt");
+			System.out.println("startD: "+startD);
+			System.out.println("endD: "+endD);
+			
+			String[] sArr=startD.split("-");
+			String[] eArr=endD.split("-");
+			
+			String start_dt="";
+			String end_dt="";
+			for(String s:sArr) start_dt+=s;
+			for(String s:eArr) end_dt+=s;
+			
 			dto.setNm(nm);
 			dto.setUrl(url);
-			dto.setStart_dt(start_dt);
-			dto.setEnd_dt(end_dt);
 			dto.setSq(category);
-			/*int result=dao.insertPopup(dto);*/
+			int result=dao.insertPopup(dto,start_dt,end_dt);
 			
-			/*request.setAttribute("result", result);*/
+			request.setAttribute("result", result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

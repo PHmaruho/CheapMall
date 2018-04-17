@@ -18,8 +18,8 @@ public class UserRemoveProAction implements CommandProcess{
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			HttpSession session = request.getSession();
-			String id = session.getAttribute("id").toString();
+			HttpSession session=request.getSession();
+			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			
 			String pw=request.getParameter("pw");
 			MemberDao dao=MemberDao.getInstance();

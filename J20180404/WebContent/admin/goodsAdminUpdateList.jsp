@@ -23,17 +23,18 @@
 		
 </script>
 
+
 </head>
 <body>
 
-	 <div id="wrap">
+	<div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
 
 	<h2>상품수정</h2>
 	
 	<div id="main"> 
-<button onclick="location.href='GoodsAdminDisplayList.admin'">판매상품 리스트</button>
+
 		<c:set var="displayNumber" value="0" />
 		
 			<form action="goodsAdminUpdateList.admin?pageNum=${currentPage }&category=${category }&search=${search}"
@@ -84,7 +85,7 @@
 										${goods.sq }</a></td>
 								<td>${goods.cd }</td>
 								<td><img
-									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/original/${goods.path }.png">${goods.nm }</td>
+									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/origin/${goods.path }">${goods.nm }</td>
 								<td>${goods.price }</td>
 								<td>${goods.gender }</td>
 								<td>${goods.top_category }</td>
@@ -113,17 +114,17 @@
 	
 					<c:if test="${ startPage > blockSize }">
 						<a
-							href='goodsAdminUpdateList.admin?pageNum=${startPage-blockSize }'>
+							href='goodsAdminUpdateList.admin?pageNum=${startPage-blockSize }&category=${category }&search=${search}'>
 							[이전] </a>
 					</c:if>
 	
 					<c:forEach var="i" begin="${startPage }" end="${endPage }">
-						<a href='goodsAdminUpdateList.admin?pageNum=${i}'> [${i }] </a>
+						<a href='goodsAdminUpdateList.admin?pageNum=${i}&category=${category }&search=${search}'> [${i }] </a>
 					</c:forEach>
 	
 					<c:if test="${endPage<totalPage }">
 						<a
-							href='goodsAdminUpdateList.admin?pageNum=${startPage+blockSize }'>
+							href='goodsAdminUpdateList.admin?pageNum=${startPage+blockSize }&category=${category }&search=${search}'>
 							[다음] </a>
 					</c:if>
 	
