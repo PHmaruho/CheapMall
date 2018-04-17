@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.GoodsDao;
 import com.cheapmall.dao.OrderDao;
@@ -19,8 +20,8 @@ public class OrderUserCancleFormAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// 세션으로 유저 아이디 받아오기
-		/* String id = "" + request.getSession(); */
-		String id = "imgroot";
+		HttpSession session = request.getSession();
+		String id = session.getAttribute("id") ==  null ? null : session.getAttribute("id").toString();
 		// -------------------------
 		OrderDao od = OrderDao.getInstance();
 		try {

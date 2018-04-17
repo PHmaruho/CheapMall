@@ -18,8 +18,10 @@ public class BoardAdminNoticeListAction implements CommandProcess {
 		
 		try {
 			BoardDao boardDao = BoardDao.getInstance();
-			int totCnt = boardDao.getBoardCount("B0");
 			String pageNum = request.getParameter("pageNum");
+			String option = request.getParameter("option") == null ? "all" : request.getParameter("option");
+			String searchText = request.getParameter("searchText") == null ? "" : request.getParameter("searchText");
+			int totCnt = boardDao.getBoardCount("B0", "all", option, searchText);
 			
 			if (pageNum == null || pageNum.equals("")) {
 				pageNum = "1";
@@ -30,7 +32,7 @@ public class BoardAdminNoticeListAction implements CommandProcess {
 			int startRow = (currentPage - 1) * pageSize + 1;
 			int endRow = startRow + pageSize - 1;
 			int startNum = totCnt - startRow + 1;
-			List<BoardDto> list = boardDao.listNotice(startRow, endRow);
+			List<BoardDto> list = boardDao.listNotice(startRow, endRow, option, searchText);
 			int pageCnt = (int)Math.ceil((double)totCnt/pageSize);
 			int startPage = (int)(currentPage - 1) / blockSize * blockSize + 1;
 			int endPage = startPage + blockSize - 1;
@@ -47,6 +49,8 @@ public class BoardAdminNoticeListAction implements CommandProcess {
 			request.setAttribute("pageCnt", pageCnt);
 			request.setAttribute("startPage", startPage);
 			request.setAttribute("endPage", endPage);
+			request.setAttribute("option", option);
+			request.setAttribute("searchText", searchText);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

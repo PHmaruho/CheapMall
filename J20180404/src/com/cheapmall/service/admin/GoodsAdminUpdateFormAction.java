@@ -31,12 +31,11 @@ public class GoodsAdminUpdateFormAction implements CommandProcess{
 			if(result>=0) dto=dao.selectGoods(sq);
 			request.setAttribute("dto", dto);
 			request.setAttribute("sq", sq);
-			request.setAttribute("pageSet", "/admin/goodsAdminUpdateForm.jsp");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		System.out.println("goodsAdminUpdateFormAction 완료");
-		return "/mall/cheapmall.jsp";
+		return "goodsAdminUpdateForm.jsp";
 	}
 
 }

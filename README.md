@@ -27,18 +27,20 @@ Cheapmall
 * Master
 * Hotfix
 * Release
+	* 20180416 02:36 add
 * Develop
 	*20180416 01:27 Add
 * Each Programmer
+    	2. 임시로 로그인 완료시 메인으로 가게 해놓음.
 
 ### Each Feature
 * CWI
+	1. 20180416 2:30 Add
 
 * HJM
 
 * KKH
 
 * JAN
-	1. 20180416 02:33 add
-	
+
 * JSY
