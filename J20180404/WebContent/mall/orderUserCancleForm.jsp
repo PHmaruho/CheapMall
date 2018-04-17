@@ -17,7 +17,7 @@ td {
 </style>
 </head>
 <body>
-	<form action="OrderUserCancleProAction.admin">
+	<form action="OrderUserCanclePro.mall">
 		<table>
 			<tr>
 				<th>º±≈√</th>
