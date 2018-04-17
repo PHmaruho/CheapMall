@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.MemberDao;
 import com.cheapmall.dto.AdminDto;
@@ -17,22 +18,27 @@ public class AdminUpdateProAction implements CommandProcess {
 			throws ServletException, IOException {
 		
 		try {
-			request.setCharacterEncoding("utf-8");
 			String pageNum = request.getParameter("pageNum");
-			AdminDto dto = new AdminDto();
-			dto.setPw(request.getParameter("pw"));
-			dto.setNm(request.getParameter("nm"));
-			dto.setDept(request.getParameter("dept"));
-			dto.setPosition(request.getParameter("position"));
-			dto.setTel(request.getParameter("tel"));
-			dto.setEmail(request.getParameter("email"));
-			dto.setPath(request.getParameter("path"));
+
+			AdminDto adminDto = new AdminDto();
+			adminDto.setId(request.getParameter("id"));
+			adminDto.setPw(request.getParameter("pw"));
+			adminDto.setNm(request.getParameter("nm"));
+			adminDto.setDept(request.getParameter("dept"));
+			adminDto.setPosition(request.getParameter("position"));
+			adminDto.setTel(request.getParameter("tel"));
+			adminDto.setEmail(request.getParameter("email1")
+					+ request.getParameter("emailCheck"));
+			adminDto.setPath(request.getParameter("path"));
 			
+			int result = 0;
 			MemberDao md = MemberDao.getInstance();
-			int result = md.adminUpdate(dto);
+			result = md.adminUpdate(adminDto);
 			
 			request.setAttribute("result", result);
 			request.setAttribute("pageNum", pageNum);
+			request.setAttribute("id", adminDto.getId());
+			
 		}catch(Exception e) { System.out.println(e.getMessage()); }
 		
 		return "adminUpdatePro.jsp";

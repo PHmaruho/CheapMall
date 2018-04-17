@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html >
 <html>
 <head>
@@ -11,7 +12,9 @@ table {
 	width : 100%;
 }
 </style>
-<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js">
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript">
 function chk() {
 	
 	if(frm.pw.value != frm.pw2.value) {
@@ -21,40 +24,40 @@ function chk() {
 	}
 	return true;
 }
-function winop() {
-	if(!frm.id.value) {
-		alert("ID를 입력하세요");
-		frm.id.focus();
-		return false;
-	}
-	window.open("confirmId.jsp?id="+frm.id.value,"","width=300 height=300");
-}
 
-function selectEmail(ele){ var $ele = $(ele); 
-var $email2 = $('input[name=email2]'); 
-// '1'인 경우 직접입력 
-if($ele.val() == "1"){ 
-	$email2.attr('readonly', false); 
-	$email2.val(''); 
-	} else { 
-		$email2.attr('readonly', true); 
-		$email2.val($ele.val()); } }
+
+//이메일 입력방식 선택 
+function SetEmailTail(emailValue) {
+  var email = document.all("email")    // 사용자 입력
+  var emailTail = document.all("email2") // Select box
+   
+  if ( emailValue == "notSelected" )
+   return;
+  else if ( emailValue == "etc" ) {
+   emailTail.readOnly = false;
+   emailTail.value = "";
+   emailTail.focus();
+  } else {
+   emailTail.readOnly = true;
+   emailTail.value = emailValue;
+  }
+ }
 
 			</script>
 
 </head>
 <body>
 <div id = "wrap">
-<%
-             if(session.getAttribute("auth")!=null && session.getAttribute("auth").equals("A0")){
-                %>
+	<c:if test="${auth eq 'A0' }">
                 <jsp:include page="adminMenuList.jsp" />
-      <% } %>
+     </c:if>
 </div>
 
 <div id="main">
 <h3>관리자 등록</h3>
 <form action="AdminInsertPro.admin?pageNum=${pageNum }" name="frm" onsubmit="return chk()" >
+<input type="hidden" name="pageNum" value="${pageNum }">
+
 <table border="1" >
 <tr>
 	<td>ID</td>
@@ -111,27 +114,33 @@ if($ele.val() == "1"){
 	
 	<tr><td>Tel</td>
 	<td><input type="tel" name="tel" required="required">
-	<!-- pattern="\d{3}-\d{3,4}-\d{4}" placeholder="xxx-xxxx-xxxx"
-				title="3자리-3,4자리-4자리"	> --></td>
+
 	</tr>
 	
 	<tr><td>Email</td>
-		<td><input name="email1" type="text"> @ <input name="email2" type="text"> 
-			<select name="select_email" onChange="selectEmail(this)">
-			<option value="" selected>직접입력</option> 
-			<option value="naver.com" selected>naver.com</option> 
-			<option value="hanmail.net">hanmail.net</option> 
-			<option value="hotmail.com">hotmail.com</option> 
-			<option value="nate.com">nate.com</option> 
-			<option value="yahoo.co.kr">yahoo.co.kr</option> 
-			<option value="empas.com">empas.com</option> 
-			<option value="dreamwiz.com">dreamwiz.com</option> 
-			<option value="freechal.com">freechal.com</option> 
-			<option value="lycos.co.kr">lycos.co.kr</option> 
-			<option value="korea.com">korea.com</option> 
-			<option value="gmail.com">gmail.com</option> 
-			<option value="hanmir.com">hanmir.com</option> 
-			<option value="paran.com">paran.com</option> </select>
+		<td><input type="text" name="email1" value="" /> @
+	<input type="text" name="email2" value="" ReadOnly="true"/>
+	<select name="emailCheck" 
+	onchange="SetEmailTail(emailCheck.options[this.selectedIndex].value)">
+    <option value="notSelected" >::선택하세요::</option>
+    <option value="etc">직접입력</option>
+    <option value="naver.com">naver.com</option>
+    <option value="nate.com">nate.com</option>
+    <option value="empal.com">empal.com</option>
+    <option value="hotmail.com">hotmail.com</option>
+    <option value="lycos.co.kr">lycos.co.kr</option>
+    <option value="msn.com">msn.com</option>
+    <option value="hanmail.net">hanmail.net</option>
+    <option value="yahoo.com">yahoo.com</option>
+    <option value="korea.com">korea.com</option>
+    <option value="kornet.net">kornet.net</option>
+    <option value="yahoo.co.kr">yahoo.co.kr</option>
+    <option value="kebi.com">kebi.com</option>
+    <option value="orgio.net">orgio.net</option>
+    <option value="paran.com">paran.com</option>    
+    <option value="gmail.com">gmail.com</option>
+   </select>
+
 	   </td>
    </tr>
    

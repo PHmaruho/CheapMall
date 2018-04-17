@@ -21,14 +21,9 @@ public class AdminFormAction implements CommandProcess {
 		try {
 			MemberDao md = MemberDao.getInstance();
 			String search=request.getParameter("search");
-			int count=0;
-			System.out.println("search: "+search);
-			
-			if(search==null|| search.length()==0){
-				 count=md.getCount();
-			}else{
-				count=md.searchCount(search);
-			}
+
+			int count=0;	
+			count=md.getCount();
 			
 			String pageNum = request.getParameter("pageNum");
 			if(pageNum ==null || pageNum.equals("")) { pageNum="1"; } 
@@ -36,12 +31,10 @@ public class AdminFormAction implements CommandProcess {
 			int pageSize = 10,blockSize = 10; 
 			int startRow = (currentPage -1) * pageSize + 1; 
 			int endRow = startRow + pageSize - 1; 
-			int startNum = count - startRow + 1; 
-			List<AdminDto> admin = md.adminList(search,startRow,endRow);
-			
-			
+			int startNum = count - startRow + 1; 			
+			List<AdminDto> admin = md.adminList(startRow, endRow);
+
 			int totalPage = (int)Math.ceil((double)count/pageSize);
-			
 			int startPage = (int)(currentPage-1)/blockSize*blockSize+1;
 			int endPage = startPage + blockSize -1;
 			if(endPage>totalPage) endPage = totalPage;
@@ -55,6 +48,7 @@ public class AdminFormAction implements CommandProcess {
 			request.setAttribute("startPage", startPage);
 			request.setAttribute("endPage", endPage);
 			request.setAttribute("search", search);
+
 			
 		}catch(Exception e) {
 			System.out.println(e.getMessage());

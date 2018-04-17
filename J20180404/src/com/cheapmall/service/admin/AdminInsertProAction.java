@@ -27,10 +27,10 @@ public class AdminInsertProAction implements CommandProcess {
 			dto.setEmp_no(request.getParameter("emp_no"));
 			dto.setAuth(request.getParameter("auth"));
 			dto.setTel(request.getParameter("tel"));
-			dto.setEmail(request.getParameter("email"));
+			String email1 = request.getParameter("email1");
+			String emailCheck = request.getParameter("emailCheck");
+			dto.setEmail(email1+"@"+emailCheck);
 			dto.setPath(request.getParameter("path"));
-			
-
 			
 			MemberDao md = MemberDao.getInstance();
 			int result = md.adminInsert(dto);
