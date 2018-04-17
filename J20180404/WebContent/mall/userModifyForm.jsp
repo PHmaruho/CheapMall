@@ -55,6 +55,7 @@
 	
 	// 비밀번호 변경 팝업
 	function pwPopup(){
+		var popup = window.open("userPwPopup.jsp",'popup', "width=500, height=500");
 		
 	}
     
@@ -85,7 +86,7 @@
 			<tr>
 				<th> 비밀번호 </th>
 				<td>
-					<input type="button" value="비밀번호 변경" id="pw" onclick="">
+					<input type="button" value="비밀번호 변경" id="pw" onclick="pwPopup()">
 				</td>
 			</tr>
 			<tr>

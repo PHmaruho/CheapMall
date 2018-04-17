@@ -540,6 +540,33 @@ public class MemberDao {
 		return result;
 	}
 	
+	public int userPwModify(String id, String pw) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		int result = 0;
+		String sql = "UPDATE users"
+				+ " SET pw = ?"
+				+ " WHERE id = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, pw);
+			ps.setString(2, id);
+			result = ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("userPwModify Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, null);
+		}
+		
+		return result;
+	}
+	
 	// KMH Part
 	public int userLoginCheck(String id, String pw) throws SQLException{
 		Connection conn = null;
