@@ -186,6 +186,37 @@ public class EtcDao {
 		
 		return jsonObject;
 	}
+	public JSONObject deleteKeyword(String[] deleteList) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		String sql = "DELETE FROM search WHERE tag = ?";
+		JSONObject jsonObject = new JSONObject();
+		int result = 0;
+		try {
+			conn = getConnection();
+			for(String str : deleteList) {
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, str);
+				result = ps.executeUpdate();
+				ps.close();
+			}
+			if(result == 1) {
+				jsonObject.put("result", "yes");
+			} else {
+				jsonObject.put("result", "no");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("deleteKeyword Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, null);
+		}
+		
+		return jsonObject;
+	}
 	
 	// CWI Part Start
 	

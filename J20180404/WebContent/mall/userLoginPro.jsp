@@ -15,16 +15,15 @@
 			location.href="UserLoginForm.mall";
 		} else if('${result}' == '1'){
 			alert("로그인이 되었습니다.");
-			location.href="Cheap.mall";
 			
-			/*
 			// list에서 왔으면 list페이지로 보여준다.
 			if('${returnList}' == 'list'){
 				location.href="goodsList.mall?gender='${gender}'&top_category='${top_category}'&middle_category=${middle_category}";
 			} else if('${returnList}' == 'main'){
 				location.href="Cheap.mall";
 			}
-			*/
+			
+			location.href="Cheap.mall";
 		}
 	})()
 </script>

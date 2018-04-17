@@ -153,7 +153,7 @@
 				<div id="BOARD" class="none">
 					<ul>
 						<li><a href="boardNoticeList.mall">공지사항</a></li>
-						<li><a href="boardWriteForm.mall">문의사항</a></li>
+						<li><a href="boardOtherList.mall">문의사항</a></li>
 					</ul>
 				</div>
 			</li>

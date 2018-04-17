@@ -66,12 +66,53 @@
 				alert("대상자 ID를 입력해주세요.")
 				return false;
 			}
+			if (reportText.value == ('${id}')) {
+				alert("자기 자신을 신고할순 없습니다.")
+				return false;
+			}
+			if ($('#checkId').value !== 1) {
+				alert("대상자 ID가 확인되지 않았습니다.")
+				return false;
+			}
 			hidden.value = "B" + index;
 			object.value = reportText.value;
 		} else {
 			alert("분류를 선택하세요.")
 			return false;
 		}
+	}
+	
+	function winop() { // 2018-04-16 userRegistForm.jsp 적용
+		var v_id = document.getElementById("reportText")
+		if (!v_id.value) {
+			alert("ID를 입력 후 대상자 확인을 눌러주세요.");
+			v_id.focus();
+			return false;
+		}
+		if(v_id.value.length < 4 || !v_id.value.length > 16){
+			alert("4자이상 16미만으로 작성해주세요.");
+			v_id.focus();
+			return false;
+		}
+		
+		// ajax
+		$.ajax({
+			type:"POST",
+			url: "UserIdCompareAjax.mall",
+			data:{id:v_id.value},
+			success: function(data){
+				var json = JSON.parse(data);
+				if(json.result == 'yes'){
+					$('#idChk').html("");
+					$('#idChk').html("확인되었습니다.");
+					$('#checkId').val("1"); // 0은 중복체크 미완료, 아이디변경됨
+				} else {
+					$('#idChk').html("");
+					$('#idChk').html("존재하지 않는 사용자입니다.");
+					$('#checkId').val("0"); // 1은 중복체크 완료
+				}
+			}
+		});
 	}
 </script>
 </head>
@@ -91,7 +132,10 @@
 	</div>
 	<div id="3" class="none">
 		<label>대상자 ID</label>
-		<input type="text" id="reportText">
+		<input type="text" id="reportText" oninput="javascript : $('#checkId').val('0');" placeholder="ID를 입력하세요" autofocus>
+		<input type="button" onclick="winop()" style="background-color:#EDCE7A" value="아이디 중복확인">
+		<input type="hidden" value="0" id="checkId">
+		<div id="idChk"></div>
 	</div><br>
 	<form action="boardWritePro.mall" method="post" onsubmit="return check()">
 		<label>제목</label><input type="text" required="required" name="subject"><br>

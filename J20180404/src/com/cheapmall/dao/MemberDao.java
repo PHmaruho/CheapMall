@@ -199,12 +199,14 @@ public class MemberDao {
 	
 	/*작성자	: 최우일
 	수정일	: 2018-04-09
-	내용		: 입력된 ID와 이메일에 일치하는 PW 재설정 */
+	내용		: 입력된 ID와 이메일에 일치하는 PW 재설정 
+	 			2018-04-16
+	 			비밀번호 변경일 수정 추가*/
 	public int updatePw(String id, String email, String pw) throws SQLException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "update users set pw=? where id=? and email=?";
+		String sql = "update users set pw=? where id=? and email=? and pw_dt=sysdate";
 		int result = 0;
 		
 		try {

@@ -63,7 +63,6 @@ public class UserAdminListAction implements CommandProcess {
 			request.setAttribute("endPage", endPage);
 			request.setAttribute("pageNum", pageNum);
 			request.setAttribute("search", search);
-			request.setAttribute("pageSet", "/admin/userAdminList.jsp");
 			
 			System.out.println("count: "+count);
 			System.out.println("currentPage: "+currentPage);
@@ -78,7 +77,7 @@ public class UserAdminListAction implements CommandProcess {
 			e.printStackTrace();
 		}
 		
-		return "/mall/cheapmall.jsp";
+		return "/admin/userAdminList.jsp";
 	}
 
 }
