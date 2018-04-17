@@ -19,7 +19,7 @@ public class GoodsAdminUpdateFormAction implements CommandProcess{
 			HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session=request.getSession();
-		String id=session.getAttribute("id").toString();
+		String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 		
 		GoodsDto dto=new GoodsDto();
 		GoodsDao dao=GoodsDao.getInstance();
@@ -31,11 +31,12 @@ public class GoodsAdminUpdateFormAction implements CommandProcess{
 			if(result>=0) dto=dao.selectGoods(sq);
 			request.setAttribute("dto", dto);
 			request.setAttribute("sq", sq);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		System.out.println("goodsAdminUpdateFormAction 완료");
-		return "goodsAdminUpdateForm.jsp";
+		return "/admin/goodsAdminUpdateForm.jsp";
 	}
 
 }

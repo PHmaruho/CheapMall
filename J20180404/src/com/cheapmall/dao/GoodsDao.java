@@ -398,175 +398,50 @@ public class GoodsDao {
 	}
 	
 	// JSY Part Start!
-		// 종료일이 지나면 노출[ display ]를 N으로 바꾸는 클래스입니다.
-		public int updateDisplay() throws SQLException {
-		
-			int result = 0;
-			Connection conn = null;
-			PreparedStatement ps = null;
-			ResultSet rs=null;
-			String sql = "update goods set display=? where end_dt<sysDate";
-			try {
+	// 종료일이 지나면 노출[ display ]를 N으로 바꾸는 클래스입니다.
+	public int updateDisplay() throws SQLException {
+	
+		int result = 0;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs=null;
+		String sql = "update goods set display=? where end_dt<sysDate";
+		try {
+			conn = getConnection();
+			ps=conn.prepareStatement(sql);
+			ps.setString(1,"N");
+			result = ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn,ps,rs);
+		}
+		return result;
+	}
+	// 상품sq에 해당하는 정보를 가져오는 클래스입니다.
+	public GoodsDto selectGoods(String sq) throws SQLException {
+		System.out.println("selectGoods Dao ok");
+		GoodsDto dto = new GoodsDto();
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+	
+		try {
+	
 				conn = getConnection();
-				ps=conn.prepareStatement(sql);
-				ps.setString(1,"N");
-				result = ps.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}finally{
-				DisConnection(conn,ps,rs);
-			}
-			return result;
-		}
-		// 상품sq에 해당하는 정보를 가져오는 클래스입니다.
-		public GoodsDto selectGoods(String sq) throws SQLException {
-			System.out.println("selectGoods Dao ok");
-			GoodsDto dto = new GoodsDto();
-			Connection conn = null;
-			PreparedStatement ps = null;
-			ResultSet rs = null;
-		
-			try {
-		
-					conn = getConnection();
-					String sql = "select * from goods where sq=?";
-					ps = conn.prepareStatement(sql);
-					ps.setString(1, sq);
-					rs = ps.executeQuery();
-		
-					if (rs.next()) {
-						dto.setSq(rs.getString("sq"));
-						dto.setCd(rs.getString("cd"));
-						dto.setNm(rs.getString("nm"));
-						dto.setStart_dt(rs.getDate("start_dt"));
-						dto.setPrice(rs.getInt("price"));
-						dto.setGender(rs.getString("gender"));
-						dto.setEnd_dt(rs.getDate("end_dt"));
-						dto.setTop_category(rs.getString("top_category"));
-						dto.setMiddle_category(rs.getString("middle_category"));
-						dto.setColor(rs.getString("color"));
-						dto.setGoods_size(rs.getString("goods_size"));
-						dto.setPath(rs.getString("path"));
-						dto.setStock(rs.getInt("stock"));
-						dto.setDisplay(rs.getString("display"));
-						System.out.println(rs.getString("sq"));
-					}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally{
-				DisConnection(conn,ps,rs);
-			}
-		
-			return dto;
-		}
-		// 상품을 수정한 후 그 정보를 저장하는 클래스입니다.
-		public int updateGoods(GoodsDto dto) throws SQLException {
-			
-			int result=0;
-			Connection conn=null;
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-											//	1	2		3		4		5		6
-			String sql="update goods set nm=?,start_dt=?,end_dt=?,price=?,gender=?,top_category=?"
-					+ ",middle_category=?,color=?,goods_size=?,path=?,stock=?,display=? where sq=?";
-							// 7			8			9		10		11		12			13
-			
-			try {
-				
-				conn=getConnection();
-				ps=conn.prepareStatement(sql);
-				ps.setString(1,dto.getNm());
-				ps.setDate(2, new java.sql.Date(dto.getStart_dt().getTime()));
-				ps.setDate(3, new java.sql.Date(dto.getEnd_dt().getTime()));
-				ps.setInt(4,dto.getPrice());
-				ps.setString(5,dto.getGender());
-				ps.setString(6,dto.getTop_category());
-				ps.setString(7,dto.getMiddle_category());
-				ps.setString(8, dto.getColor());
-				ps.setString(9,dto.getGoods_size());
-				ps.setString(10,dto.getSq());
-				ps.setInt(11,dto.getStock());
-				ps.setString(12, dto.getDisplay());
-				ps.setString(13, dto.getSq());
-				result=ps.executeUpdate();
-				System.out.println("display: "+dto.getDisplay());
-				System.out.println("boolean: "+dto.getDisplay()=="Y");
-				if(dto.getDisplay().equals("Y")) result=0;
-				System.out.println("result: "+result);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			DisConnection(conn, ps, rs);
-		
-			return result;
-		}
-		//상품의 노출도 만을 변경시키는 클래스입니다.
-		public int updateGoods(String id, String display) throws SQLException {
-			
-			int result=0;
-			
-			Connection conn=null;
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			String sql="";
-			System.out.println("updateGoods dao ok");
-			
-			sql="update goods set display=?,start_dt=sysdate,end_dt=add_months(sysdate,1) where sq=?";
-			try {
-				conn=getConnection();
-				ps=conn.prepareStatement(sql);
-				ps.setString(1, display);
-				ps.setString(2, id);
-				result=ps.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			DisConnection(conn, ps, rs);
-			return result;
-			
-			}
-		// 상품을 검색 조건과 검색값에 대한 결과 상품항목들을 가져오는 클래스입니다.
-		public List<GoodsDto> selectGoods(String category,String search, int startRow, int endRow) throws SQLException {
-			List<GoodsDto> list=new ArrayList<GoodsDto>();
-			Connection conn=null;
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			String sql="";
-			String cat=category;
-			
-			
-			try {
-				conn=getConnection();
-				
-			
-				if(startRow==0||endRow==0){
-					
-					sql="select * from (select rownum rn, goods.* from (select * from goods where "+cat+"=?) goods)";
-					System.out.println("sql: "+sql);
-					ps=conn.prepareStatement(sql);
-					ps.setString(1, search);
-					rs=ps.executeQuery();
-				}else{
-					sql="select * from (select rownum rn, goods.* from (select * from goods where "+cat+"=?) goods) where rn between ? and ?";
-					System.out.println("sql: "+sql);
-					ps=conn.prepareStatement(sql);
-					ps.setString(1, search);
-					ps.setInt(2,startRow);
-					ps.setInt(3,endRow);
-					rs=ps.executeQuery();
-					
-				}
-				
-				while(rs.next()){
-					GoodsDto dto = new GoodsDto();
+				String sql = "select * from goods where sq=?";
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, sq);
+				rs = ps.executeQuery();
+	
+				if (rs.next()) {
 					dto.setSq(rs.getString("sq"));
 					dto.setCd(rs.getString("cd"));
 					dto.setNm(rs.getString("nm"));
 					dto.setStart_dt(rs.getDate("start_dt"));
-					dto.setEnd_dt(rs.getDate("end_dt"));
 					dto.setPrice(rs.getInt("price"));
 					dto.setGender(rs.getString("gender"));
+					dto.setEnd_dt(rs.getDate("end_dt"));
 					dto.setTop_category(rs.getString("top_category"));
 					dto.setMiddle_category(rs.getString("middle_category"));
 					dto.setColor(rs.getString("color"));
@@ -574,66 +449,194 @@ public class GoodsDao {
 					dto.setPath(rs.getString("path"));
 					dto.setStock(rs.getInt("stock"));
 					dto.setDisplay(rs.getString("display"));
-					System.out.println("dto: "+rs.getString("sq"));
-					list.add(dto);
+					System.out.println(rs.getString("sq"));
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			DisConnection(conn, ps, rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally{
+			DisConnection(conn,ps,rs);
+		}
+	
+		return dto;
+	}
+	// 상품을 수정한 후 그 정보를 저장하는 클래스입니다.
+	public int updateGoods(GoodsDto dto) throws SQLException {
+		
+		int result=0;
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+										//	1	2		3		4		5		6
+		String sql="update goods set nm=?,start_dt=?,end_dt=?,price=?,gender=?,top_category=?"
+				+ ",middle_category=?,color=?,goods_size=?,path=?,stock=?,display=? where sq=?";
+						// 7			8			9		10		11		12			13
+		
+		try {
 			
-			return list;
-		}
-		// 전체 상품에 대한 정보를 가져오는 클래스입니다.
-		public List<GoodsDto> selectGoods(int startRow,int endRow) throws SQLException {
-			Connection conn=null;
-			PreparedStatement ps=null;
-			ResultSet rs=null;
-			String sql="";
-			List<GoodsDto> list=new ArrayList<GoodsDto>();
-			try {
-				conn=getConnection();
-				
-				
-				if(startRow==0||endRow==0){
-					sql="select * from (select rownum rn, goods.* from (select * from goods) goods)";
-					ps=conn.prepareStatement(sql);
-					rs=ps.executeQuery();
-				}else{
-					sql="select * from (select rownum rn, goods.* from (select * from goods) goods) where rn between ? and ?";
-					ps=conn.prepareStatement(sql);
-					ps.setInt(1, startRow);
-					ps.setInt(2, endRow);
-					rs=ps.executeQuery();
-				}
-				
-				while(rs.next()){
-					GoodsDto dto = new GoodsDto();
-					dto.setSq(rs.getString("sq"));
-					dto.setCd(rs.getString("cd"));
-					dto.setNm(rs.getString("nm"));
-					dto.setStart_dt(rs.getDate("start_dt"));
-					dto.setEnd_dt(rs.getDate("end_dt"));
-					dto.setPrice(rs.getInt("price"));
-					dto.setGender(rs.getString("gender"));
-					dto.setTop_category(rs.getString("top_category"));
-					dto.setMiddle_category(rs.getString("middle_category"));
-					dto.setColor(rs.getString("color"));
-					dto.setGoods_size(rs.getString("goods_size"));
-					dto.setPath(rs.getString("path"));
-					dto.setStock(rs.getInt("stock"));
-					dto.setDisplay(rs.getString("display"));
-					
-					list.add(dto);
-				}
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			conn=getConnection();
+			ps=conn.prepareStatement(sql);
+			ps.setString(1,dto.getNm());
+			ps.setDate(2, new java.sql.Date(dto.getStart_dt().getTime()));
+			ps.setDate(3, new java.sql.Date(dto.getEnd_dt().getTime()));
+			ps.setInt(4,dto.getPrice());
+			ps.setString(5,dto.getGender());
+			ps.setString(6,dto.getTop_category());
+			ps.setString(7,dto.getMiddle_category());
+			ps.setString(8, dto.getColor());
+			ps.setString(9,dto.getGoods_size());
+			ps.setString(10,dto.getSq());
+			ps.setInt(11,dto.getStock());
+			ps.setString(12, dto.getDisplay());
+			ps.setString(13, dto.getSq());
+			result=ps.executeUpdate();
+			System.out.println("display: "+dto.getDisplay());
+			System.out.println("boolean: "+dto.getDisplay()=="Y");
+			if(dto.getDisplay().equals("Y")) result=0;
+			System.out.println("result: "+result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
 			DisConnection(conn, ps, rs);
-			System.out.println("size: "+list.size());
-			return list;
 		}
+	
+		return result;
+	}
+	//상품의 노출도 만을 변경시키는 클래스입니다.
+	public int updateDisplay(String id, String display) throws SQLException {
+		
+		int result=0;
+		
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		String sql="";
+		System.out.println("updateGoods dao ok");
+		
+		sql="update goods set display=?,start_dt=sysdate,end_dt=add_months(sysdate,1) where sq=?";
+		try {
+			conn=getConnection();
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, display);
+			ps.setString(2, id);
+			result=ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		
+		return result;
+		
+		}
+	// 상품을 검색 조건과 검색값에 대한 결과 상품항목들을 가져오는 클래스입니다.
+	public List<GoodsDto> searchGoods(String category,String search, int startRow, int endRow) throws SQLException {
+		List<GoodsDto> list=new ArrayList<GoodsDto>();
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		String sql="";
+		String cat=category;
+		
+		
+		try {
+			conn=getConnection();
+			
+		
+			if(startRow==0||endRow==0){
+				
+				sql="select * from (select rownum rn, goods.* from (select * from goods where "+cat+"=?) goods)";
+				System.out.println("sql: "+sql);
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, search);
+				rs=ps.executeQuery();
+			}else{
+				sql="select * from (select rownum rn, goods.* from (select * from goods where "+cat+"=?) goods) where rn between ? and ?";
+				System.out.println("sql: "+sql);
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, search);
+				ps.setInt(2,startRow);
+				ps.setInt(3,endRow);
+				rs=ps.executeQuery();
+				
+			}
+			
+			while(rs.next()){
+				GoodsDto dto = new GoodsDto();
+				dto.setSq(rs.getString("sq"));
+				dto.setCd(rs.getString("cd"));
+				dto.setNm(rs.getString("nm"));
+				dto.setStart_dt(rs.getDate("start_dt"));
+				dto.setEnd_dt(rs.getDate("end_dt"));
+				dto.setPrice(rs.getInt("price"));
+				dto.setGender(rs.getString("gender"));
+				dto.setTop_category(rs.getString("top_category"));
+				dto.setMiddle_category(rs.getString("middle_category"));
+				dto.setColor(rs.getString("color"));
+				dto.setGoods_size(rs.getString("goods_size"));
+				dto.setPath(rs.getString("path"));
+				dto.setStock(rs.getInt("stock"));
+				dto.setDisplay(rs.getString("display"));
+				System.out.println("dto: "+rs.getString("sq"));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		
+		return list;
+	}
+	// 전체 상품에 대한 정보를 가져오는 클래스입니다.
+	public List<GoodsDto> selectGoods(int startRow,int endRow) throws SQLException {
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		String sql="";
+		List<GoodsDto> list=new ArrayList<GoodsDto>();
+		try {
+			conn=getConnection();
+			
+			
+			if(startRow==0||endRow==0){
+				sql="select * from (select rownum rn, goods.* from (select * from goods) goods)";
+				ps=conn.prepareStatement(sql);
+				rs=ps.executeQuery();
+			}else{
+				sql="select * from (select rownum rn, goods.* from (select * from goods) goods) where rn between ? and ?";
+				ps=conn.prepareStatement(sql);
+				ps.setInt(1, startRow);
+				ps.setInt(2, endRow);
+				rs=ps.executeQuery();
+			}
+			
+			while(rs.next()){
+				GoodsDto dto = new GoodsDto();
+				dto.setSq(rs.getString("sq"));
+				dto.setCd(rs.getString("cd"));
+				dto.setNm(rs.getString("nm"));
+				dto.setStart_dt(rs.getDate("start_dt"));
+				dto.setEnd_dt(rs.getDate("end_dt"));
+				dto.setPrice(rs.getInt("price"));
+				dto.setGender(rs.getString("gender"));
+				dto.setTop_category(rs.getString("top_category"));
+				dto.setMiddle_category(rs.getString("middle_category"));
+				dto.setColor(rs.getString("color"));
+				dto.setGoods_size(rs.getString("goods_size"));
+				dto.setPath(rs.getString("path"));
+				dto.setStock(rs.getInt("stock"));
+				dto.setDisplay(rs.getString("display"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		return list;
+	}
 	
 	//-------------------------------kkh start------------------------------------------------
 	public int getCodeTotalCnt() {

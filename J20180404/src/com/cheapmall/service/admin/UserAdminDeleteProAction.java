@@ -21,7 +21,7 @@ public class UserAdminDeleteProAction implements CommandProcess{
 			HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session=request.getSession();
-		String id=session.getAttribute("id").toString();
+		String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 		
 		String check=request.getParameter("del");
 
@@ -32,12 +32,13 @@ public class UserAdminDeleteProAction implements CommandProcess{
 			
 			
 			request.setAttribute("result", result);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		/*return "/mall/cheapmall.jsp";*/
 		return "/admin/userAdminDeletePro.jsp";
-	
 	}
 
 }

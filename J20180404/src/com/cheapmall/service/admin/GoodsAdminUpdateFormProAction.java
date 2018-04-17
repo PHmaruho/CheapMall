@@ -22,7 +22,7 @@ public class GoodsAdminUpdateFormProAction implements CommandProcess{
 		
 		try {
 			HttpSession session=request.getSession();
-			String id=session.getAttribute("id").toString();
+			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			
 			String sq=request.getParameter("sq");
 			String cd=request.getParameter("cd");
@@ -59,13 +59,12 @@ public class GoodsAdminUpdateFormProAction implements CommandProcess{
 			}else result=0;
 			
 			request.setAttribute("result", result);
-			request.setAttribute("pageSet", "/admin/goodsAdminUpdateFormPro.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		
-		return "/mall/cheapmall.jsp";
+		return "/admin/goodsAdminUpdateFormPro.jsp";
 	}
 
 }

@@ -21,9 +21,8 @@ public class GoodsUserReturnFormAction implements CommandProcess{
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			HttpSession session = request.getSession();
-			String id = session.getAttribute("id").toString();
-			/*String id="test2";*/
+			HttpSession session=request.getSession();
+			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			OrderDao dao=OrderDao.getInstance();
 			
 			

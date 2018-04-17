@@ -47,15 +47,12 @@ public class AdminPopupModifyProAction implements CommandProcess {
 			String sq= mr.getParameter("sq");
 			String nm=mr.getParameter("nm");
 			String startDt=mr.getParameter("start_dt");
+			String endDt=mr.getParameter("end_dt");
 			System.out.println("startDt: "+startDt);
 			
-			//test!
-			String[] d=startDt.split("-");
-			String str="";
-			for(String s:d){
-				str+=s;
-			}
-			System.out.println("str: "+str);
+			
+			
+			/*String dateCompare=new SimpleDateFormat("yyyy-MM-dd").format(new Date());*/
 			
 			PopupDto dto=new PopupDto();
 			EtcDao dao=EtcDao.getInstance();
@@ -65,11 +62,13 @@ public class AdminPopupModifyProAction implements CommandProcess {
 			dto.setNm(nm);
 			dto.setUrl(url);
 			Date start_dt= new Date();
+			Date end_dt=new Date();
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 			start_dt=sdf.parse(startDt);
+			end_dt=sdf.parse(endDt);
 			
 			dto.setStart_dt(start_dt);
-			
+			dto.setEnd_dt(end_dt);
 			result=dao.modifyPopup(dto);
 			request.setAttribute("result", result);
 			

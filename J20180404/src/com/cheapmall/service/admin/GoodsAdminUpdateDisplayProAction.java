@@ -18,8 +18,7 @@ public class GoodsAdminUpdateDisplayProAction implements CommandProcess{
 		
 		try {
 			HttpSession session=request.getSession();
-			String id= session.getAttribute("id").toString();
-			/*String id="test2";*/
+			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			String[] displayNumber 
 			= {request.getParameter("0"), request.getParameter("1"), request.getParameter("2")};
 			String[] sq=request.getParameterValues("sq");
@@ -31,16 +30,16 @@ public class GoodsAdminUpdateDisplayProAction implements CommandProcess{
 			
 			for(int i=0;i<displayNumber.length;i++){
 				if (displayNumber[i]==null||displayNumber[i].length()==0) break;
-				result=dao.updateGoods(sq[i],displayNumber[i]);
+				result=dao.updateDisplay(sq[i],displayNumber[i]);
 				resultAdd+=result;
 			}
 			
 			request.setAttribute("result", result);
-			request.setAttribute("pageSet", "/admin/goodsAdminUpdateDisplayPro.jsp");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "/mall/cheapmall.jsp";
+		return "/admin/goodsAdminUpdateDisplayPro.jsp";
 	}
 
 }
