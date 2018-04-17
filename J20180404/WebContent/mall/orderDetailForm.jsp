@@ -78,7 +78,7 @@
     	var realpoint = parseInt(${orderBag.point });
     	if(point == 0 || point.length == 0){
     		alert("0개는 사용할 수 없습니다.");
-    		$('#point').val(0);
+    		$('#usedPoint').val(0);
     		$('#usePoint').html("0원");
     		$('#totalPrice').html("${orderBag.total + orderBag.delivery_fee}");
     		return;
@@ -90,7 +90,14 @@
     	}
     	if(point < 100){
     		alert("100미만의 포인트는 사용할 수 없습니다.");
-    		$('#point').val(0);
+    		$('#usedPoint').val(0);
+    		$('#usePoint').html("0원");
+    		$('#totalPrice').html("${orderBag.total + orderBag.delivery_fee}");
+    		return;
+    	}
+    	if(point > ${orderBag.total + orderBag.delivery_fee}){
+    		alert("최종가격보다 높은 포인트는 사용할 수 없습니다.");
+    		$('#usedPoint').val(0);
     		$('#usePoint').html("0원");
     		$('#totalPrice').html("${orderBag.total + orderBag.delivery_fee}");
     		return;
@@ -107,7 +114,7 @@
     	str = str.substring(i, str.length);
     	point = parseInt(str);
     	
-    	$('#point').val(point);
+    	$('#usedPoint').val(point);
     	$('#inputPoint').val(point);
     	$('#usePoint').html(point+"원");
     	$('#totalPrice').html(${orderBag.total + orderBag.delivery_fee} - point +"원");
@@ -178,6 +185,7 @@
 	<input type="hidden" value="${orderBag.addr }" name="addr">
 	<input type="hidden" value="${orderBag.addr_detail }" name="addr_detail">
 	<input type="hidden" value="${orderBag.point }" name="point" id="point">
+	<input type="hidden" value="0" name="usedPoint" id="usedPoint">
 	<!-- array로 보내주기 위한 작업 -->
 	<c:forEach var="goods" items="${orderBag.orders }">
 		<input type="hidden" name="goods_sq" value="${goods.goods_sq }">
