@@ -26,14 +26,14 @@
 </head>
 <body>
 
-	<%-- <div id="wrap">
+	 <div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
-	</div> --%>
+	</div>
 
 	<h2>상품수정</h2>
 	
 	<div id="main"> 
-
+<button onclick="location.href='GoodsAdminDisplayList.admin'">판매상품 리스트</button>
 		<c:set var="displayNumber" value="0" />
 		
 			<form action="goodsAdminUpdateList.admin?pageNum=${currentPage }&category=${category }&search=${search}"
@@ -84,7 +84,7 @@
 										${goods.sq }</a></td>
 								<td>${goods.cd }</td>
 								<td><img
-									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/origin/${goods.path }">${goods.nm }</td>
+									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/original/${goods.path }.png">${goods.nm }</td>
 								<td>${goods.price }</td>
 								<td>${goods.gender }</td>
 								<td>${goods.top_category }</td>

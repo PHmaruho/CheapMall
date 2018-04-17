@@ -71,6 +71,9 @@ public class GoodsDao {
 	 * 7. insertAdminGoods(GoodsDto gt) : 상품을 등록함
 	 * 8. createGoodsCode(gender,top_category,middle_category) : 상품코드를 생성함
 	 * 9. goodsAdminGetSq() : 상품 시퀀스를 가져옴(사진명이 시퀀스와 같기 때문에 사진명을 가져오는기능) 
+ 	 * 수정일 : 2018/04/16
+	 * 내용 : admin 부분에 판매상품 리스트만 뿌리는 함수 추가
+	 * 1. List<GoodsDto> selectDisplayGoods(startRow,endRow) : 판매상품 리스트를 구하는 함수
 	 */
 	
 	private static GoodsDao instance;
@@ -887,5 +890,55 @@ public class GoodsDao {
 			DisConnection(conn, ps, rs);
 		}
 		return result;
+	}
+	
+	public List<GoodsDto> selectDisplayGoods(int startRow,int endRow) throws SQLException {
+		Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		String sql="";
+		List<GoodsDto> list=new ArrayList<GoodsDto>();
+		try {
+			conn=getConnection();
+			
+			
+			if(startRow==0||endRow==0){
+				sql="select * from (select rownum rn, goods.* from (select * from goods where display='Y') goods)";
+				ps=conn.prepareStatement(sql);
+				rs=ps.executeQuery();
+			}else{
+				sql="select * from (select rownum rn, goods.* from (select * from goods where display='Y') goods) where rn between ? and ?";
+				ps=conn.prepareStatement(sql);
+				ps.setInt(1, startRow);
+				ps.setInt(2, endRow);
+				rs=ps.executeQuery();
+			}
+			
+			while(rs.next()){
+				GoodsDto dto = new GoodsDto();
+				dto.setSq(rs.getString("sq"));
+				dto.setCd(rs.getString("cd"));
+				dto.setNm(rs.getString("nm"));
+				dto.setStart_dt(rs.getDate("start_dt"));
+				dto.setEnd_dt(rs.getDate("end_dt"));
+				dto.setPrice(rs.getInt("price"));
+				dto.setGender(rs.getString("gender"));
+				dto.setTop_category(rs.getString("top_category"));
+				dto.setMiddle_category(rs.getString("middle_category"));
+				dto.setColor(rs.getString("color"));
+				dto.setGoods_size(rs.getString("goods_size"));
+				dto.setPath(rs.getString("path"));
+				dto.setStock(rs.getInt("stock"));
+				dto.setDisplay(rs.getString("display"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		DisConnection(conn, ps, rs);
+		System.out.println("size: "+list.size());
+		return list;
 	}
 }

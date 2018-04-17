@@ -13,12 +13,7 @@
 </head>
 <body>
 
-	<div id="wrap">
-		<jsp:include page="adminMenuList.jsp" />
-	</div>
- 
 	<h2>상품 상세정보 수정</h2>
-		<div id="main">
 		
 		<form action="goodsAdminUpdateFormPro.admin" method="post">
 			상품Id: 	<input type="text" 	name="sq" 			value="${sq }"			readonly required="required"><br>
@@ -40,6 +35,5 @@
 				<input type="reset" value="취소"	>
 			</div>
 		</form>
-	</div>
 </body>
 </html>

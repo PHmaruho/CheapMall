@@ -35,5 +35,10 @@
 		장바구니
 	</a>
 </div>
+<div id="cancel">
+	<a href="OrderUserCancleForm.mall">
+		주문취소
+	</a>
+</div>
 </body>
 </html>

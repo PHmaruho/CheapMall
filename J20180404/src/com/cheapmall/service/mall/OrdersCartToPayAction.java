@@ -32,6 +32,12 @@ public class OrdersCartToPayAction implements CommandProcess {
 			OrderDao orderDao = OrderDao.getInstance();
 			list = orderDao.selectCartBeforePay(id);
 			
+			// Cart_sq Save
+			String[] cart_sq = new String[list.size()];
+			for(int i=0 ; i<list.size() ; i++) {
+				cart_sq[i] = list.get(i).getCart_sq();
+			}
+			
 			GoodsDao goodsDao = GoodsDao.getInstance();
 			
 			List<Map<String,Object>> orders = goodsDao.goodsGetPicPath(list);
@@ -53,6 +59,7 @@ public class OrdersCartToPayAction implements CommandProcess {
 			
 			// request Set
 			request.setAttribute("orderBag", orderBag);
+			request.setAttribute("cart_sq", cart_sq);
 			request.setAttribute("pageSet", "/mall/orderDetailForm.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();
