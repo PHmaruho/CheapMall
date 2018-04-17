@@ -27,7 +27,7 @@ public class UserRemoveProAction implements CommandProcess{
 			int result=dao.removeUser(id,pw);
 			
 			request.setAttribute("result",result);
-			request.setAttribute("pageSet", "mall/userRemovePro.jsp");
+			request.setAttribute("pageSet", "userRemovePro.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

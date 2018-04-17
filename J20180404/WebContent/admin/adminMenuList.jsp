@@ -37,6 +37,9 @@ table {
 				<c:if test="${auth eq 'A0' || auth eq 'A5' }">
 					<li><a class="a" href="goodsAdminUpdateList.admin">상품관리</a></li>
 				</c:if>
+				<c:if test="${auth eq 'A0' || auth eq 'A5' }">
+					<li><a class="a" href="adminPopupList.admin">팝업관리</a></li>
+				</c:if>
 				<li><a class="a" href="AdminLogout.admin">로그아웃</a></li>
 			</ul>
 		</nav>

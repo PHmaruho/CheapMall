@@ -353,7 +353,7 @@ public class OrderDao {
 
 	// JSY Part Start!
 	// 해당 회원에 해당하는 주문정보를 받아옵니다.
-	public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws SQLException {
+public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws SQLException {
 		
 		Connection conn=null;
 		PreparedStatement ps=null;
@@ -368,12 +368,12 @@ public class OrderDao {
 			
 			if(startRow==0||endRow==0){
 				
-				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders)";
+				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) order by order_sq desc";
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, id);
 				
 			}else{
-				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) where rn between ? and ?";
+				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) where rn between ? and ?  order by order_sq desc";
 				
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, id);

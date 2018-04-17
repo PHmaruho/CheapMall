@@ -86,9 +86,19 @@
 								<td>${goods.cd }</td>
 								<td><img
 									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/origin/${goods.path }">${goods.nm }</td>
-								<td>${goods.price }</td>
-								<td>${goods.gender }</td>
-								<td>${goods.top_category }</td>
+								<td>${goods.price }원</td>
+								<td>
+									<c:if test="${goods.gender=='M' }">남자</c:if>
+									<c:if test="${goods.gender=='F' }">여자</c:if>
+								</td>
+								<td>
+									<c:if test="${goods.top_category =='M' }">남성</c:if>
+									<c:if test="${goods.top_category =='F' }">여성</c:if>
+									<c:if test="${goods.top_category =='U' }">공용</c:if>
+									<c:if test="${goods.top_category =='O' }">아우터</c:if>
+									<c:if test="${goods.top_category =='I' }">이너</c:if>
+									<c:if test="${goods.top_category =='E' }">기타</c:if>
+								</td>
 								<td>${goods.stock }</td>
 								<td>${goods.end_dt }</td>
 								<td>${goods.display }</td>
