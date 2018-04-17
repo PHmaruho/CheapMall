@@ -133,15 +133,31 @@ public class BoardDao{
 	
 	/*작성자	: 최우일
 	수정일	: 2018-04-10
-	내용		: 공지사항 리스트 */
-	public List<BoardDto> listNotice(int startRow, int endRow) throws SQLException {
+	내용		: 공지사항 리스트 
+	 			2018-04-17
+	 			검색기능 추가*/
+	public List<BoardDto> listNotice(int startRow, int endRow, String option, String searchText) throws SQLException {
 		List<BoardDto> list = new ArrayList<BoardDto>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select board_sq, subject, user_id, write_dt from(select a.*, rownum rn from "
-				+ " (select * from board where board_cd='B0' order by board_sq desc) a) where rn between ? and ? "
-				+ " order by board_sq desc";
+		String str1 = "select board_sq, subject, user_id, write_dt from(select a.*, rownum rn from "
+				+ " (select * from board where board_cd='B0' ";
+		String str2 = null;
+		String str3 = " order by board_sq desc) a) where rn between ? and ?  order by board_sq desc";
+		
+		if (!searchText.equals("")) {
+			if (option.equals("all")) {
+				str2 = " and (subject like '%" + searchText + "%' or " 
+						+ "content like '%" + searchText + "%' or user_id like '%" + searchText + "%') ";
+			} else {
+				str2 = " and " + option + " like '%" + searchText + "%' ";
+			}
+		} else {
+			str2 ="";
+		}
+		
+		String sql = str1 + str2 + str3;
 		
 		try {
 			conn = getConnection();
