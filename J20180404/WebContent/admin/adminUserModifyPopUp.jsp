@@ -8,24 +8,31 @@
 <title>Insert title here</title>
 </head>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="../js/jquery.js" type="text/javascript"></script>
 <script type="text/javascript">
 	// 로드시 모든 요소를 비활성화 시킨다.
 	window.onload = function(){
-		var input = document.getElementsByClassName("inputText");
-		for (var items = 0; items < input.length; items++){
-	       input[items].disabled=true;
-	    }
-		document.getElementByClassName("submit").disable=true;
+		var inputList = $(".inputText");
+		inputList.each(function(){
+			$(this).attr("disabled", true);
+		});
+		
+		$(".submit").attr("disabled", false);
+		$("#submit").attr("disabled", true);
 	}
 	// 미정!!
 	function modifyAction(){
 		var input = document.getElementsByClassName("inputText");
-		for (var items = 0; items < input.length; items++){
-	       input[items].disabled=false;
-	    }
+		var inputList = $(".inputText");
+		
+		inputList.each(function(){
+			$(this).attr("disabled", false);
+		});
+		
+		$("#modifyBtn").attr("disabled", true);
+		$("#submit").attr("disabled", false);
 		document.getElementById("zipcode").disabled=true;
 		document.getElementById("addr").disabled=true;
-		document.getElementByClassName("submit").disabled=false;
 	}
 	
 	// onclick
@@ -99,37 +106,12 @@
     		return false;
     	}
     	
-    	// radio와 select박스 체크
-    	// 하지만 필요없다.
-    	/* var radioCheck = document.getElementsByName("gender");
-    	var i;
-    	for (i = 0; i < radioCheck.length; i++) {
-			if(radioCheck[i].checked){
-				break;
-			}
-		}
-    	if(i == radioCheck.length){
-    		alert("둘 중 하나를 체크해주세요!");
-    		return false;
-    	}
-    	
-    	var grade = document.getElementsByName("grade");
-    	if(document.getElementById("email").value.length == 0){
-    		alert("빈칸이 존재합니다.");
-    		return false;
-    	} */
-    	
-    	// 길이를 검사하는 function 추가 예정
-    	/* if(document.getElementById("id").value.length == 0 || 
-    			document.getElementById("id").value == ""){
-    		alert("빈칸이 존재합니다.");
-    		document.getElementById("id").focus();
-    	}
-    	
-    	....
-    	*/
-    	
     }
+
+	// 종료
+	function exits(){
+		window.close();
+	}
 </script>
 <body>
 <h2>회원 상세 정보</h2>
@@ -272,9 +254,9 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="button" value="수정하기" onclick="modifyAction()">
+					<input type="button" value="수정하기" id="modifyBtn" onclick="modifyAction()">
 					<input type="submit" value="제출하기" class="submit" id="submit">
-					<input type="button" value="닫기" onclick="" id="exitButton">
+					<input type="button" value="닫기" onclick="exits()" id="exitButton">
 				</td>
 			</tr>
 		</table>

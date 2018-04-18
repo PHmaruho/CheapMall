@@ -20,7 +20,12 @@ public class GoodsAdminUpdateDisplayProAction implements CommandProcess{
 			HttpSession session=request.getSession();
 			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			String[] displayNumber 
-			= {request.getParameter("0"), request.getParameter("1"), request.getParameter("2")};
+			= {request.getParameter("0"), request.getParameter("1"), request.getParameter("2")
+			   , request.getParameter("3"), request.getParameter("4"), request.getParameter("5")
+			   , request.getParameter("6"), request.getParameter("7"), request.getParameter("8")
+			   , request.getParameter("9"), request.getParameter("10"), request.getParameter("11")
+			   , request.getParameter("12"), request.getParameter("13"), request.getParameter("14")
+			   , request.getParameter("15")};
 			String[] sq=request.getParameterValues("sq");
 			
 			GoodsDao dao=GoodsDao.getInstance();

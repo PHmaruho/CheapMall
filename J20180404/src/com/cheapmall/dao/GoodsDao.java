@@ -530,13 +530,30 @@ public class GoodsDao {
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-										//	1	2		3		4		5		6
-		String sql="update goods set nm=?,start_dt=?,end_dt=?,price=?,gender=?,top_category=?"
-				+ ",middle_category=?,color=?,goods_size=?,path=?,stock=?,display=? where sq=?";
-						// 7			8			9		10		11		12			13
+		
 		
 		try {
-			
+			String sql="";
+				sql="select display from goods where sq=?";
+				conn=getConnection();
+				ps=conn.prepareStatement(sql);
+				ps.setString(1,dto.getSq());
+				rs=ps.executeQuery();
+				
+				if(rs.next()){
+					String dis=rs.getString("display");
+					if(dis.equals("Y")) result=0;
+					else result=1;
+				}
+				System.out.println("result: "+result);
+			if(result!=0){
+				rs.close();
+				ps.close();
+				conn.close();
+				//	1	2			3		4		5		6
+				sql="update goods set nm=?,start_dt=?,end_dt=?,price=?,gender=?,top_category=?"
+						+ ",middle_category=?,color=?,goods_size=?,path=?,stock=?,display=? where sq=?";
+				// 7			8			9		10		11		12			13
 			conn=getConnection();
 			ps=conn.prepareStatement(sql);
 			ps.setString(1,dto.getNm());
@@ -553,10 +570,7 @@ public class GoodsDao {
 			ps.setString(12, dto.getDisplay());
 			ps.setString(13, dto.getSq());
 			result=ps.executeUpdate();
-			System.out.println("display: "+dto.getDisplay());
-			System.out.println("boolean: "+dto.getDisplay()=="Y");
-			if(dto.getDisplay().equals("Y")) result=0;
-			System.out.println("result: "+result);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{

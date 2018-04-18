@@ -85,6 +85,13 @@ public class OrderDao {
 	 * 		5) getOrderId(detail_sq): 각 반품 항목에 따른 주문번호를 가져옵니다.
 	 * 		6) getReturnList(String id): 반품 목록을 가져옵니다. 
 	 */	
+	
+	/*
+	 * 작성자 : 조안나
+	 * 최초 작성일 : 18-04-12
+	 * 내용 :
+	 * 		1.olSimple(String id) : 간략보기시 나올 주문정보
+	 */
 
 	private static OrderDao instance;
 
@@ -353,7 +360,7 @@ public class OrderDao {
 
 	// JSY Part Start!
 	// 해당 회원에 해당하는 주문정보를 받아옵니다.
-	public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws SQLException {
+public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws SQLException {
 		
 		Connection conn=null;
 		PreparedStatement ps=null;
@@ -368,12 +375,12 @@ public class OrderDao {
 			
 			if(startRow==0||endRow==0){
 				
-				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders)";
+				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) order by order_sq desc";
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, id);
 				
 			}else{
-				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) where rn between ? and ?";
+				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) where rn between ? and ?  order by order_sq desc";
 				
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, id);
@@ -995,4 +1002,67 @@ public class OrderDao {
 		
 		return result;
 	}
+	
+	//JAN
+		/* 간략보기시 나올 주문내역 */
+		public List<HashMap> olSimple(String id, int startRow , int endRow) throws SQLException {
+			List<HashMap> olSimple = new ArrayList<HashMap>();
+			ResultSet rs = null;
+			PreparedStatement ps = null;
+			Connection conn = null;
+
+			String sql = "";
+			conn = getConnection();
+
+			try {
+				ps = conn.prepareStatement(sql);
+
+				if(startRow == 0 || endRow == 0 ) {
+					sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
+					       + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) ";
+					
+					ps.setString(1, id);
+
+				} else {
+					sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
+						 + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) where rn between ? and ?";
+				
+					ps.setString(1, id);
+					ps.setInt(2, startRow);
+					ps.setInt(3, endRow);
+				}
+				
+				System.out.println("id: "+id);
+				System.out.println("sql: "+sql);
+				
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					HashMap map = new HashMap();
+					System.out.println(rs.getString("HashMap"));
+					
+					map.put("user_id", rs.getString("user_id"));
+					System.out.println(rs.getString("user_id"));
+					
+					map.put("order_sq", rs.getString("order_sq"));
+					System.out.println(rs.getString("order_sq"));
+					
+					map.put("goods_sq", rs.getString("goods_sq"));
+					map.put("sale_price", rs.getString("sale_price"));
+					map.put("dc_price", rs.getString("dc_price"));
+					map.put("order_cd", rs.getString("order_cd"));
+					map.put("order_dt", rs.getString("order_dt"));
+					map.put("gender", rs.getString("gender"));
+					map.put("top_category", rs.getString("top_category"));
+					map.put("middle_category", rs.getString("middle_category"));
+					map.put("nm", rs.getString("nm"));
+					map.put("cnt", rs.getInt("cnt"));
+					olSimple.add(map);
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			} finally {
+				DisConnection(conn, ps, rs);
+			}
+			return olSimple;
+		}
 }

@@ -19,12 +19,11 @@ function chk() {
 	
 	if(frm.pw.value != frm.pw2.value) {
 		alert("암호가 다릅니다");
-		frm.pw.focus();
+		frm.pw2.focus();
 		return false;
 	}
 	return true;
 }
-
 
 //이메일 입력방식 선택 
 function SetEmailTail(emailValue) {
@@ -150,23 +149,16 @@ function SetEmailTail(emailValue) {
 
 
       
-  <tr><td><input type="reset" value="Reset" ></td>
-	<td><input type="submit" value="Complete" ></td></tr>
+  	<tr>
+		<td colspan="2">
+			<input type="button" onclick="location.href='AdminForm.admin'" value="뒤로가기">
+		  	<input type="reset" value="초기화" >
+			<input type="submit" value="등록하기" >
+		</td>
+	</tr>
+	</table>
+</form>
+</div> 
 		
-		 </table>
-	   </form>
-	   </div> 
-		
-	   
-	<div id="footer">
-		<ul>
-			<li><a class="a" href="AdminForm.admin">back</a></li>
-			<li><a href="#" class="a" type="reset">Reset</a></li>
-			<li>
-				<a class="a" type="submit" onclick="location.href='AdminInsertPro.admin?pageNum=${pageNum }'">Complete</a>
-			</li>	
-		</ul>
-	</div>
-       
 </body>
 </html>

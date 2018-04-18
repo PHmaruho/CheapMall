@@ -34,14 +34,13 @@ public class UserAdminListAction implements CommandProcess {
 				count=dao.searchUserCount(search);
 			}
 			
-			
 			String pageNum=request.getParameter("pageNum");
 			if(pageNum==null || pageNum.equals("")){
 				pageNum="1";
 			}
 			
 			int currentPage=Integer.parseInt(pageNum);
-			int pageSize=3, blockSize=3;
+			int pageSize=15, blockSize=10;
 			int startRow= ((currentPage-1)* pageSize)+1;
 			int endRow= startRow+pageSize-1;
 			int startNum=count-startRow+1;
