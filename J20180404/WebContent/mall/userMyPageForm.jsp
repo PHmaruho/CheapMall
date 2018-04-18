@@ -40,5 +40,10 @@
 		주문취소
 	</a>
 </div>
+<div id="memberCancel">
+	<a href="userRemoveForm.mall">
+		회원탈퇴
+	</a>
+</div>
 </body>
 </html>

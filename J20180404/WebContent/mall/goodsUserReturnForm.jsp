@@ -19,7 +19,6 @@ function getDetail(r){
 		data:{"order_sq":order_sq},
 		success:function(detail){
 			$('#detailOrder').html(detail);
-			page();
 		}	
 	});
 }
@@ -174,7 +173,7 @@ function getDetail(r){
 					<input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록">
 				</span>
 		</form>
-		
+		<p>
 		<div id="detailOrder">
 		
 		</div>

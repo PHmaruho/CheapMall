@@ -31,7 +31,8 @@ public class GoodsAdminUpdateFormProAction implements CommandProcess{
 			String gender=request.getParameter("gender");
 			String top_category=request.getParameter("top_category");
 			String middle_category=request.getParameter("middle_category");
-			String color=request.getParameter("color");
+			String color=request.getParameter("color")=="none"? null:request.getParameter("color");
+			String goods_size=request.getParameter("goods_size")=="none"? null:request.getParameter("goods_size");
 			int stock=Integer.parseInt(request.getParameter("stock"));
 			String display=request.getParameter("display");
 			GoodsDto dto=new GoodsDto();
@@ -45,6 +46,7 @@ public class GoodsAdminUpdateFormProAction implements CommandProcess{
 			dto.setTop_category(top_category);
 			dto.setMiddle_category(middle_category);
 			dto.setColor(color);
+			dto.setGoods_size(goods_size);
 			dto.setStock(stock);
 			dto.setDisplay(display);
 			Date start_dt=new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("start_dt"));

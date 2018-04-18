@@ -30,7 +30,31 @@
 						<th>${order_id }</th>
 						<th>${dto.detail_sq }</th>
 						<th>${dto.cnt }</th>
-						<th>${dto.return_cd }</th>
+						<th>
+								<c:if test="${dto.return_cd =='R0'}">
+									반품요청
+								</c:if>
+								
+								<c:if test="${dto.return_cd =='R1'}">
+									반품수령
+								</c:if>
+								
+								<c:if test="${dto.return_cd =='R2'}">
+									반품확인중
+								</c:if>
+								
+								<c:if test="${dto.return_cd =='R3'}">
+									반품완료
+								</c:if>
+								
+								<c:if test="${dto.return_cd =='R4'}">
+									재배송
+								</c:if>
+								
+								<c:if test="${dto.return_cd =='R5'}">
+									교환요청
+								</c:if>
+						</th>
 						<th>${dto.delivery_fee }</th>
 						<th>${dto.return_dt }</th>
 					</tr>
