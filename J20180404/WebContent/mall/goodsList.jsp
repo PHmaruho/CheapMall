@@ -28,14 +28,13 @@
 
 	<ul>
 		<c:forEach var="goods" items="${list }">
-			<li><a href="goodsDetail.mall?cd=${goods.cd}&gender=${gender }&top_category=${top_category}&middle_category=${middle_category}">
-				<img src="../images/${gender}/${top_category }/${middle_category }/original/${goods.path }.png">
+			<li><a href="goodsDetail.mall?cd=${goods.cd}&gender=${gender }&top_category=${goods.top_category}
+						&middle_category=${goods.middle_category}">
+				<img src="../images/${gender}/${goods.top_category }/${goods.middle_category }/original/${goods.path }.png">
 			<p align="center">${goods.nm }<br>${goods.price }<br>
 				<c:if test="${goods.stock <= 0 }">품절</c:if>
 			</p></a></li>
 		</c:forEach>
 	</ul>
-	
-	<button onclick="location.href='ordersCartList.mall'">장바구니</button>
 </body>
 </html>

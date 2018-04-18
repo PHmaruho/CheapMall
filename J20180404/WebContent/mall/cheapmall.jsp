@@ -6,7 +6,7 @@
 <head>
 <title>Cheap Mall</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style type="text/css">
+<style>
 	.topLayout{
 		width: 100%;
 		height: 100px;
@@ -35,6 +35,13 @@
 		width: 1000px;
 		height: 50px;
 	}
+		#remoteCon {
+		width: 150px;
+		height: 150px;
+		padding: 0.5em;
+		background-color: red;
+		z-index: 10;
+	}
 </style>
 <script type="text/javascript">
 	// 동일한 cheapmall.jsp를 쓰기위해서 Cheap.mall를 접속했는지 확인하기 위한 일종의 Checker
@@ -50,6 +57,8 @@
 			location.href="UserLoginForm.mall";
 		}
 	})()
+	
+	
 </script>
 </head>
 <body>
@@ -74,5 +83,45 @@
 		<jsp:include page="menu/footer.jsp" />
 	</div>
 </div>
+
 </body>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../js/jquery-ui.css">
+<script type="text/javascript">
+$('#search').autocomplete({
+	focus: function(event, ui){
+		return false;
+	},
+	matchContains: false,
+	selectFirst: false,
+	autoFocus: false,
+	source: function(request, response) {
+		var flag = true;
+		$.ajax({
+			type: "POST",
+			url: "SearchPro.mall",
+			data: {keyword:request.term},
+			success: function(data) {
+				var list = JSON.parse(data);
+				response($.map(list.keywords, function(item){
+					return {
+						label: item,
+						value: item
+					}
+				}));
+			}
+		});
+	}
+});
+
+	function searchAction1(event){
+		if(event.keyCode == 13){
+			var keyword = $('#search').val();
+			alert($('#search').val());
+			location.href="SearchResult.mall?keyword="+keyword;
+		}
+		
+	}
+</script>
 </html>

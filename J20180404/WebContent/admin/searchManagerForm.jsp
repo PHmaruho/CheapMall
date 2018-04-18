@@ -207,7 +207,6 @@
 	
 	// 검색어 변환
 	function transAction(actionBtn){
-		var btn = $('#'+actionBtn);
 		var keyword = "";
 		
 		if(actionBtn == 'transAction1'){
@@ -240,14 +239,15 @@
 	// 등록 시, Ajax로 등록 후에 결과 확인
 	function registKeyword(){
 		var chk = $('#overlapCheck').val();
-		if(chk != '1'){
+		if(chk == '0'){
 			alert("중복확인을 다시 해주세요.");
 			return false;
+		} else if (chk == '1'){
+			alert("문자 변환을 다시 해주세요.");
+			return false;
 		} else {
-			//var keyword = $('#keyword').val();
-			var keyword = "강제";
-			//var transKeyword = $('#transKeyword').val();
-			var transKeyword = "ㄱㅏㅇㅈㅔ";
+			var keyword = $('#keyword').val();
+			var transKeyword = $('#transKeyword1').val();
 			$.ajax({
 				type: "POST",
 				url: "SearchManagerPro.admin",
@@ -262,7 +262,7 @@
 							alert('등록되었습니다.');
 							// 아래는 검색어, 변환값을 초기화해주고, 다시 중복체크할 수 있게, hidden값 0셋팅, 중복확인용 문구 셋팅
 							$('#keyword').val("");
-							$('#transKeyword').val("");
+							$('#transKeyword1').val("");
 							$('#overlapCheck').val("0");
 							$('#overLapAjax').html("");
 						} else{
@@ -297,6 +297,7 @@
 			success: function(data){
 				var list = JSON.parse(data);
 				$('#selectKeyword').val(list.tag);
+				$('#tempModify').val(list.tag);
 				$('#electTransKeyword').val(list.tag2);
 			}
 		});
@@ -354,6 +355,55 @@
 			}
 		});
 	}
+	
+	// 변경
+	function modifyAction(){
+		var keyword = $('#selectKeyword');
+		var transKeyword = $('#electTransKeyword');
+		var original = $('#tempModify').val();
+		
+		if(keyword.val().length == 0){
+			alert("변경할 검색어를 입력하세요.");
+			keyword.focus();
+			return false;
+		}
+		
+		if($('#overlapCheck').val() == 0){
+			alert("검색어 중복체크를 확인해주세요.");
+			return false;
+		}
+		
+		if($('#overlapCheck').val() == 2){
+			$.ajax({
+				type: "POST",
+				url: "SearchManagerPro.admin",
+				cache: false,
+				data:{overlap:"modify2",
+					  original:original,
+					  keyword:keyword.val(),
+					  transKeyword:transKeyword.val()},
+				success: function(data){
+					var list = JSON.parse(data);
+					if(list.value == 'yes'){
+						alert("변경되었습니다.");
+						keyword.val("");
+						transKeyword.val("");
+						$('#tempModify').val("");
+						$('#overlapCheck').val("0");
+					} else {
+						alert("변경에 실패하였습니다.");
+						keyword.val("");
+						transKeyword.val("");
+						$('#tempModify').val("");
+						$('#overlapCheck').val("0");
+					}
+				}
+			});
+		} else {
+			alert("검색어 변환을 진행해주세요.");
+			return false;
+		}
+	}
 
 </script>
 </head>
@@ -378,7 +428,6 @@
 	
 		<!-- 콘텐츠 패널 -->
 		<div class="Content">
-			<input type="hidden" value="0" id="searchJudge">
 			<!-- 등록 기능 패널 -->
 			<div class="registContent contentDivs" id="registContent" style="display:block;">
 	
@@ -392,17 +441,17 @@
 				<!-- 등록 폼 -->
 				<div class="registPanel">
 					<!-- <form method="post" onsubmit="return registKeyword()"> -->
-						<input type="hidden" value="regist" name="regist" id="regist">
+						<input type="hidden" value="regist" name="regist" id="registChk">
 						<input type="hidden" value="0" id="overlapCheck">
 						<table border="1">
 							<tr>
 								<th> 검색어 : </th>
 								<td id="td">
-									<input type="text" name="Keyword" id="keyword" onkeyup="reCheckOverlap()">
+									<input type="text" name="Keyword" id="keyword" oninput="reCheckOverlap()">
 									<div id="overLapAjax"></div>
 								</td>
 								<td>
-									<input type="button" name="overLap" id="overLap" value="중복검사" onclick="overLapSearch('keyword','overLapAjax')">
+									<input type="button" name="overLap" id="overLap1" value="중복검사" onclick="overLapSearch('keyword','overLapAjax')">
 								</td>
 							</tr>
 							<tr>
@@ -437,16 +486,17 @@
 	
 				<!-- 변경 폼 -->
 				<div class="modifyPanel">
+					<input type="hidden" value="" id="tempModify">
 					<h4>현재 선택 검색어</h4>
 					<table border="1">
 						<tr>
 							<th> 검색어 : </th>
 							<td id="td">
-								<input type="text" id="selectKeyword" onkeydown="reCheckOverlap()">
+								<input type="text" id="selectKeyword" oninput="reCheckOverlap()">
 								<div id="overLapModifyAjax"></div>
 							</td>
 							<td>
-								<input type="button" name="overLap" id="overLap" value="중복검사" onclick="overLapSearch('selectKeyword','overLapModifyAjax')">
+								<input type="button" name="overLap" id="overLap2" value="중복검사" onclick="overLapSearch('selectKeyword','overLapModifyAjax')">
 							</td>
 						</tr>
 						<tr>
@@ -460,8 +510,7 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<input type="button" onclick="" value="수정하기">
-								<input type="button" onclick=""	value="취소하기">
+								<input type="button" value="수정하기" onclick="modifyAction()">
 							</td>						
 						</tr>
 					</table>

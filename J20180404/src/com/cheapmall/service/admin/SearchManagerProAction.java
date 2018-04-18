@@ -50,9 +50,9 @@ public class SearchManagerProAction implements CommandProcess{
 				int result = etcDao.registKeyword(keyword, transKeyword);
 				
 				if(result == 1) {
-					jsonObject.put("result", "등록되었습니다");
+					jsonObject.put("result", 0);
 				} else {
-					jsonObject.put("result", "등록이 안됬습니다.");
+					jsonObject.put("result", 1);
 				}
 				
 			} else if(select.equals("modify")) {
@@ -64,6 +64,10 @@ public class SearchManagerProAction implements CommandProcess{
 			} else if(select.equals("trans")) {
 				
 				jsonObject = transKeywordAction(keyword);
+			} else if(select.equals("modify2")) {
+				String transKeyword = request.getParameter("transKeyword");
+				String original = request.getParameter("original");
+				jsonObject = etcDao.modifyKeyword(original, keyword, transKeyword);
 			}
 			
 			jsonObject.put("overlap", select);
