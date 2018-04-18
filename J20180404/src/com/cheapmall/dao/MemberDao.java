@@ -35,6 +35,8 @@ public class MemberDao {
 		2018-04-13
 		5. checkGrade(String)
 		6. authGrade(String)
+		2018-04-18
+		7. checkPwDt(String)
 		
 	*/
 	
@@ -546,7 +548,7 @@ public class MemberDao {
 		
 		int result = 0;
 		String sql = "UPDATE users"
-				+ " SET pw = ?"
+				+ " SET pw = ?, pw_dt = sysdate"	// 2018-04-18 최우일 : , pw_dt = sysdate 추가
 				+ " WHERE id = ?";
 		
 		try {
@@ -1033,5 +1035,28 @@ public class MemberDao {
 			DisConnection(conn, ps, rs);
 		}
 		return list;
+	}
+	public int checkPwDt(String id) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select 1 from users where id=? and pw_dt <= trunc(sysdate)-90";
+		int result = 0;
+		
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = 1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, pstmt, rs);
+		}
+		return result;
 	}
 }
