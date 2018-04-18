@@ -6,47 +6,67 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">
 	.menuDiv {
-		height: 100%;
-		width: 200px;
-		font-size: 20px;
-		background-color: #fff;
-		/* position: fixed !important;
-		z-index: 1;
-		overflow: auto */
-	}
-	.none {
-		display: none
-	}
-	.show {
-		display: block !important
-	}
-	li {
-		list-style: none
-	}
-	ul {
-		padding-left: 20px
-	}
-	div {
-		border: 1px solid #ccc;
-	}
-	#leftbar {
-		width: 220px;
-		padding: 20px;
-		float: left;
-		margin-bottom: 20px;
-		line-height: 200%
-	}
-	
-	.container {
-		margin-left:250px;
-		width: 60%
-	}
-	.head {
-		text-align: right;
-		padding: 20px		
-	}
-	.contents {
-		height: 700px;}
+	height: 100%;
+	width: 200px;
+	font-size: 20px;
+	border-style: none;
+}
+
+.menuDiv ul li a {
+	text-decoration: none;
+	color: black;
+}
+
+.menuDiv ul {
+	background-color: white;
+}
+
+.menuDiv li {
+	background-color: white;
+	font-size:
+}
+
+#MEN li, #WOMEN li, #EVENT li, #BOARD li {
+	font-size: small;
+}
+
+.none {
+	display: none
+}
+
+.show {
+	display: block !important
+}
+
+.menuDiv li {
+	list-style: none
+}
+
+.menuDiv li ul {
+	padding-left: 20px
+}
+
+#leftbar {
+	width: 220px;
+	padding: 20px;
+	float: left;
+	margin-bottom: 20px;
+	line-height: 200%
+}
+
+.container {
+	margin-left: 250px;
+	width: 60%
+}
+
+.head {
+	text-align: right;
+	padding: 20px
+}
+
+.contents {
+	height: 700px;
+}
 </style>
 <script>
 		// Accordion 

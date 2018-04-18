@@ -659,7 +659,7 @@ public class OrderDao {
 				map.put("order_dt", rs.getString("order_dt"));
 				map.put("goods_sq", rs.getString("goods_sq"));
 				map.put("cnt", rs.getString("cnt"));
-				map.put("sale_price", rs.getString("origin_price"));
+				map.put("origin_price", rs.getString("origin_price"));
 				map.put("dc_price", rs.getString("dc_price"));
 				map.put("order_cd", rs.getString("order_cd"));
 				map.put("gender", rs.getString("gender"));
@@ -764,7 +764,7 @@ public class OrderDao {
 				map.put("detail_sq", rs.getString("detail_sq"));
 				map.put("order_sq", rs.getString("order_sq"));
 				map.put("goods_sq", rs.getString("goods_sq"));
-				map.put("sale_price", rs.getInt("sale_price"));
+				map.put("origin_price", rs.getInt("origin_price"));
 				map.put("dc_price", rs.getInt("dc_price"));
 				map.put("cnt", rs.getInt("cnt"));
 				list.add(map);
@@ -810,7 +810,7 @@ public class OrderDao {
 					map = list.get(i);
 					ps = conn.prepareStatement(sql2);
 					ps.setString(1, "" + map.get("goods_sq"));
-					ps.setInt(2, Integer.parseInt("" + map.get("sale_price")));
+					ps.setInt(2, Integer.parseInt("" + map.get("origin_price")));
 					ps.setInt(3, Integer.parseInt("" + map.get("dc_price")));
 					ps.setInt(4, Integer.parseInt("" + map.get("cnt")));
 					result2 = ps.executeUpdate();
