@@ -885,7 +885,7 @@ public class MemberDao {
 		try {
 			conn=getConnection();
 			
-			sql="select pwd from users where id=?";
+			sql="select pw from users where id=?";
 			ps=conn.prepareStatement(sql);
 			ps.setString(1,id);
 			
@@ -896,9 +896,10 @@ public class MemberDao {
 				ps.close();
 				
 				if(dbPw.equals(pw)){
-					sql="delete * from users where pwd=?";
+					sql="delete from users where pw=?";
 					ps=conn.prepareStatement(sql);
-					ps.executeUpdate();
+					ps.setString(1,pw);
+					result=ps.executeUpdate();
 				}else result=0;
 				
 				
@@ -908,6 +909,7 @@ public class MemberDao {
 		}finally{
 			DisConnection(conn, ps, rs);
 		}
+		System.out.println("result: "+result);
 		return result;
 		
 	}

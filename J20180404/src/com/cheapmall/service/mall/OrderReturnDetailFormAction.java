@@ -32,7 +32,7 @@ public class OrderReturnDetailFormAction implements CommandProcess {
 			}
 			
 			int currentPage=Integer.parseInt(pageNum);
-			int pageSize=3, blockSize=3;
+			int pageSize=15, blockSize=10;
 			
 			int count=dao.detailOrder(id,order_sq).size();
 			detailList=dao.detailOrder(id,order_sq);

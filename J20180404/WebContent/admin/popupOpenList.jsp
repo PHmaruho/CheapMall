@@ -10,10 +10,10 @@
 <style>
 img {
 	max-width: 100%;
-	width: 300px;
+	width: 400px;
 }
 </style>
 </head>
-    <img src='/J20180404/images/popup/${url }.png'>
+    <img src='/J20180404/images/popup/${url }.jpg'>
 </body>
 </html>
