@@ -112,20 +112,28 @@ public class GoodsDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select g2.cd, g1.nm, g1.price, g2.path, g1.stock from"
-				+ " (select cd, nm, price, sum(stock) stock from goods where (sysdate between start_dt and end_dt)"
-					+ " and display='Y' and (gender=? or gender='U') and top_category=? and middle_category=?"
-					+ " group by cd, nm, price) g1,"
+		String str1 = "select g2.cd, g1.nm, g1.price, g2.path, g1.stock, g1.top_category, g1.middle_category from "
+				+ " (select cd, nm, price, sum(stock) stock , top_category, middle_category "
+						+ " from goods where (sysdate between start_dt and end_dt)"
+					+ " and display='Y' and (gender=? or gender='U') ";
+		String str2 = "";
+		if (!top_category.equals("ALL")) {
+			str2 = "and top_category=? and middle_category=? ";
+		} 
+		String str3 = " group by cd, nm, price, top_category, middle_category) g1, "
 				+ " (select cd, min(path) path from goods where (sysdate between start_dt and end_dt)"
 				+ " and display='Y' group by cd) g2 where g1.cd=g2.cd";
+		String sql = str1 + str2 + str3;
 		ArrayList<GoodsDto> list = new ArrayList<GoodsDto>();
 		
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, gender);
-			pstmt.setString(2, top_category);
-			pstmt.setString(3, middle_category);
+			if (!top_category.equals("ALL")) {
+				pstmt.setString(2, top_category);
+				pstmt.setString(3, middle_category);
+			} 
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -135,6 +143,8 @@ public class GoodsDao {
 				goodsDto.setPrice(rs.getInt(3));
 				goodsDto.setPath(rs.getString(4));
 				goodsDto.setStock(rs.getInt(5));
+				goodsDto.setTop_category(rs.getString(6));
+				goodsDto.setMiddle_category(rs.getString(7));
 				list.add(goodsDto);
 			}
 		} catch (Exception e) {

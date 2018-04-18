@@ -43,6 +43,8 @@ public class BoardDao{
 		10. getContent(String)
 		2018-04-16
 		11. listUserOther(int, int, String)
+		2018-04-17
+		12
 		
 	*/
 	
@@ -96,7 +98,7 @@ public class BoardDao{
 		if (board_cd == null) {
 			sql = "select count(*) from board where board_cd not in ('B0', 'B4')";
 		} else {
-			sql = "select count(*) from board where board_cd=?";
+			sql = "select count(*) from board where board_cd = '" + board_cd + "' ";
 		}
 		
 		if (!board_p_cd.equals("all")) {
@@ -115,9 +117,6 @@ public class BoardDao{
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
-			if (board_cd != null) {
-				pstmt.setString(1, board_cd);
-			}
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
@@ -624,5 +623,54 @@ public class BoardDao{
 			DisConnection(conn, pstmt, rs);
 		}
 		return list;
+	}
+	
+	/*작성자	: 최우일
+	수정일	: 2018-04-17
+	내용		: 사용자별 검색물 카운트를 위해 기존 메소드 오버로딩 */
+	public int getBoardCount(String board_cd, String board_p_cd, String option, 
+			String searchText, String id) throws SQLException {
+		int result = 0;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = null;
+		
+		if (board_cd == null) {
+			sql = "select count(*) from board where board_cd not in ('B0', 'B4')";
+		} else {
+			sql = "select count(*) from board where board_cd = '" + board_cd + "' ";
+		}
+		
+		if (!board_p_cd.equals("all")) {
+			sql = sql + " and board_p_cd='" + board_p_cd + "'";
+		}
+		
+		if (!searchText.equals("")) {
+			if (option.equals("all")) {
+				sql = sql + " and (subject like '%" + searchText + "%' or " 
+						+ "content like '%" + searchText + "%' or user_id like '%" + searchText + "%')";
+			} else {
+				sql = sql + " and " + option + " like '%" + searchText + "%'";
+			}
+		}
+		
+		sql = sql + " and user_id=?";
+		
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, pstmt, rs);
+		}
+		return result;
 	}
 }
