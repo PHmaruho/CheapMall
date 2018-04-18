@@ -37,7 +37,7 @@ CREATE TABLE order_detail (
 	detail_sq  VARCHAR(10) NOT NULL, -- 주문상세SQ
 	order_sq   VARCHAR(10) NOT NULL, -- 주문SQ
 	goods_cd   VARCHAR(10) NOT NULL, -- 상품코드
-	sale_price NUMBER     NOT NULL, -- 판매가
+	origin_price NUMBER     NOT NULL, -- 판매가
 	dc_price   NUMBER     NOT NULL, -- 할인가
 	cnt        NUMBER     NOT NULL  -- 수량
 );
@@ -344,8 +344,8 @@ Insert into GOODS (SQ,CD,NM,START_DT,END_DT,PRICE,GENDER,TOP_CATEGORY,MIDDLE_CAT
 
 Insert into ORDERS (ORDER_SQ,USER_ID,origin_price,DC_PRICE,PAY_METHOD,USE_POINT,DELIVERY_FEE,ADDR,ADDR_DETAIL,ORDER_CD,ORDER_DT) values ('0000001234','imgroot',10000,5000,'우리카드',5000,2500,'서울시 강남구 테헤란로 7길 7','6층 중앙정보학원','O3',to_date('18/03/28','RR/MM/DD'));
 
-Insert into ORDER_DETAIL (DETAIL_SQ,ORDER_SQ,GOODS_CD,SALE_PRICE,DC_PRICE,CNT) values ('0000005555','0000001234','FITSHX0S',10000,7000,2);
-Insert into ORDER_DETAIL (DETAIL_SQ,ORDER_SQ,GOODS_CD,SALE_PRICE,DC_PRICE,CNT) values ('0000005556','0000001234','FIPANP08',20000,5000,1);
+Insert into ORDER_DETAIL (DETAIL_SQ,ORDER_SQ,GOODS_CD,origin_price,DC_PRICE,CNT) values ('0000005555','0000001234','FITSHX0S',10000,7000,2);
+Insert into ORDER_DETAIL (DETAIL_SQ,ORDER_SQ,GOODS_CD,origin_price,DC_PRICE,CNT) values ('0000005556','0000001234','FIPANP08',20000,5000,1);
 
 Insert into RETURNS (RETURN_SQ,USER_ID,DETAIL_SQ,CNT,RETURN_CD,DELIVERY_FEE,RETURN_DT) values ('0000001111','imgroot','0000005555',1,'R3',2500,to_date('18/03/30','RR/MM/DD'));
 Insert into RETURNS (RETURN_SQ,USER_ID,DETAIL_SQ,CNT,RETURN_CD,DELIVERY_FEE,RETURN_DT) values ('0000001112','imgroot','0000005556',1,'R5',0,to_date('18/03/30','RR/MM/DD'));
@@ -386,7 +386,7 @@ COMMENT ON COLUMN orders.order_dt IS '주문일';
 COMMENT ON COLUMN order_detail.detail_sq IS '주문상세SQ';
 COMMENT ON COLUMN order_detail.order_sq IS '주문SQ';
 COMMENT ON COLUMN order_detail.goods_cd IS '상품코드';
-COMMENT ON COLUMN order_detail.sale_price IS '판매가';
+COMMENT ON COLUMN order_detail.origin_price IS '판매가';
 COMMENT ON COLUMN order_detail.dc_price IS '할인가';
 COMMENT ON COLUMN order_detail.cnt IS '수량';
 

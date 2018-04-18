@@ -26,74 +26,83 @@ function popAction(){
 	}
 </script>
 <style type="text/css">
-.topDiv{
-	width:100%;
-	height: 100px;
+.topDiv {
+	width: 100%;
+	height: 120px;
+	border-style: none;
+	background-image: url(../images/main2.jpg);
+	background-repeat: no-repeat;
 }
 
-.logoDiv {
+.searchDiv {
 	float: left;
-	border-width: 1px;
 	width: 100px;
-	height: 90px;
-	background-color: green;
+	height: 20px;
+	background-color: white;
+	border-style: none;
+	margin-left: 20px;
+	margin-top: 40px;
+	background-color: rgba(255, 255, 255, 0);
 }
 
 .cartDiv {
 	float: right;
-	border-width: 1px;
 	width: 100px;
-	height: 90px;
-	background-color: yellow;
+	height: 20px;
+	background-color: white;
+	margin-right: 145px;
+	border-style: none;
+	margin-top: 70px;
+	background-color: rgba(255, 255, 255, 0);
 }
 
 .loginDiv {
 	float: right;
-	border-width: 1px;
 	width: 100px;
-	height: 90px;
-	background-color: pink;
+	height: 20px;
+	background-color: white;
+	border-style: none;
+	margin-top: 70px;
+	background-color: rgba(255, 255, 255, 0);
 }
 
-.myDiv{
+.myDiv {
 	float: right;
-	border-width: 1px;
 	width: 100px;
-	height: 90px;
-	background-color: purple;
+	height: 20px;
+	background-color: white;
+	border-style: none;
+	margin-top: 70px;
+	margin-right: 15px;
+	background-color: rgba(255, 255, 255, 0);
 }
 
-.searchDiv {
-	float: right;
-	border-width: 1px;
-	width: 100px;
-	height: 90px;
-	background-color: gray;
-}
-.none{
+.none {
 	display: none;
 }
 
-.show{
+.show {
 	display: block;
+	border-style: none;
 }
 
-#keywordResult{
+#keywordResult {
 	position: relative;
 	z-index: 1;
 	left: 0px;
 	width: 200px;
-	height: 300px;
+	height: 100%;
 	background-color: white;
 }
 
-li{
+li {
 	text-align: left;
 	width: 100%;
 	list-style-type: none;
 	background-color: white;
 }
-li:hover{
+
+li:hover {
 	background-color: yellow;
 	font-size: 20px;
 }

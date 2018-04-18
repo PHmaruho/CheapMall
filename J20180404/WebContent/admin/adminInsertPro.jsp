@@ -22,7 +22,7 @@
 </c:if>
 <c:if test="${result == 0 }">
 	<script type="text/javascript">
-	alert("정확한 정보를 입력해주세요"); history.back();
+	alert("중복된 정보이거나 올바른 형식이 아닙니다."); history.back();
 	</script>
 </c:if>
 </body>
