@@ -6,7 +6,6 @@
 <head>
 <title>Cheap Mall</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="../js/jquery-ui.css">
 <style>
 	.topLayout{
 		width: 100%;
@@ -44,8 +43,6 @@
 		z-index: 10;
 	}
 </style>
-<script src="../js/jquery.js"></script>
-<script src="../js/jquery-ui.js"></script>
 <script type="text/javascript">
 	// 동일한 cheapmall.jsp를 쓰기위해서 Cheap.mall를 접속했는지 확인하기 위한 일종의 Checker
 	(function(){
@@ -59,20 +56,12 @@
 			alert("Login이 필요한 곳 입니다.");
 			location.href="UserLoginForm.mall";
 		}
-		alert("1");
-		document.getElementById("remoteCon").draggable();
-		alert("2");
-		alert(document.getElementById("remoteCon").draggable());
-		alert("3");
 	})()
 	
 	
 </script>
 </head>
 <body>
-<div id="remoteCon" class="ui-widget-content">
-	<p>Drag me around123</p>
-</div>
 <div class="topLayout">
 	<jsp:include page="menu/top.jsp" />
 </div>
