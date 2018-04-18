@@ -18,8 +18,8 @@ import com.cheapmall.service.CommandProcess;
 public class OrderUserCancleProAction implements CommandProcess {
 
 	@Override
-	public String requestPro(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	public String requestPro(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String[] detail_sq = request.getParameterValues("check");
 		int result = 0;
 		int result2 = 0;
@@ -43,7 +43,8 @@ public class OrderUserCancleProAction implements CommandProcess {
 				int size = list[i].size();
 				for (int j = 0; j < size; j++) {
 
-					System.out.println("list[" + i + "].size() : " + list[i].size());
+					System.out.println("list[" + i + "].size() : "
+							+ list[i].size());
 					HashMap testMap = new HashMap();
 					testMap = list[i].get(j - control);
 					for (int k = 0; k < detail_sq.length; k++) {
@@ -67,18 +68,22 @@ public class OrderUserCancleProAction implements CommandProcess {
 						testMap = list[i].get(j);
 						String user_id = "" + testMap.get("user_id");
 						String pay_method = "" + testMap.get("pay_method");
-						int use_point = Integer.parseInt("" + testMap.get("use_point"));
+						int use_point = Integer.parseInt(""
+								+ testMap.get("use_point"));
 						String addr = "" + testMap.get("addr");
 						String addr_detail = "" + testMap.get("addr_detail");
 						Date order_dt = (Date) testMap.get("order_dt");
 						String order_sq = "" + testMap.get("order_sq");
-						int sale_price = Integer.parseInt("" + testMap.get("sale_price"));
+						int origin_price = Integer.parseInt(""
+								+ testMap.get("origin_price"));
 						int cnt = Integer.parseInt("" + testMap.get("cnt"));
 
 						orderDto.setOrder_sq(order_sq);
 						orderDto.setUser_id(user_id);
-						orderDto.setOrigin_price(orderDto.getOrigin_price() + sale_price * cnt);
-						orderDto.setDc_price(orderDto.getDc_price() + sale_price * cnt / 10);
+						orderDto.setOrigin_price(orderDto.getOrigin_price()
+								+ origin_price * cnt);
+						orderDto.setDc_price(orderDto.getDc_price()
+								+ origin_price * cnt / 10);
 						orderDto.setPay_method(pay_method);
 						orderDto.setUse_point(use_point);
 						if (orderDto.getOrigin_price() >= 30000) {
@@ -90,13 +95,16 @@ public class OrderUserCancleProAction implements CommandProcess {
 						orderDto.setAddr_detail(addr_detail);
 						orderDto.setOrder_cd("O1");
 						orderDto.setOrder_dt(order_dt);
-						System.out.println("오리지널 : " + orderDto.getOrigin_price());
-						System.out.println("배송비 : " + orderDto.getDelivery_fee());
+						System.out.println("오리지널 : "
+								+ orderDto.getOrigin_price());
+						System.out.println("배송비 : "
+								+ orderDto.getDelivery_fee());
 					}
 					result2 = od.khOrderReInsert(list[i], orderDto);
 				}
 			}
 			request.setAttribute("result", result2);
+			System.out.println("rer" + result);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

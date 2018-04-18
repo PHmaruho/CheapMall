@@ -24,38 +24,22 @@ td {
 }
 
 </style>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js">
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-	$(function() { //전체선택 체크박스 클릭 
-		$("#checkAll").click(function() { //만약 전체 선택 체크박스가 체크된상태일경우 
-			if ($("#checkAll").prop("checked")) { //해당화면에 전체 checkbox들을 체크해준다 
-				$("input[type=checkbox]").prop("checked", true); // 전체선택 체크박스가 해제된 경우 
-			} else { //해당화면에 모든 checkbox들의 체크를해제시킨다. 
-				$("input[type=checkbox]").prop("checked", false);
-			}
-		})
-	})
+<script type="text/javascript">
 
-	function go_modify() {
-		if ($(":checkbox[name='checkRow']:checked").length != 0) {
-			alert("수정할 항목을 하나만 체크해주세요.");
-			return;
+	function selectCheck() {
+	if(!$('#checkRow > option:selected').val()) {
+	    alert("삭제할 항목을 하나이상 선택해주세요.");
 		}
 	}
-	function go_delete() {
-		if ($(":checkbox[name='checkRow']:checked").length == 0) {
-		alert("삭제할 항목을 하나이상 체크해주세요.");
-			return;
-		}
-	}
-	
+
 	function deleteCheck() {
-		alert("asdf");
 		var gubun;
 		gubun = confirm("정말로 삭제하시겠습니까?");
 		if(gubun) {
 			alert("삭제가 완료되었습니다.")
-			return false;
+			return true;
 		} 
 		else {
 			alert("취소하셨습니다.")
@@ -70,7 +54,7 @@ td {
 <div id="wrap">
 	<jsp:include page="adminMenuList.jsp" />
 </div>
-	<h2>관리자 리스트</h2>
+	<h2>관리자 리스트 </h2>
 	<form action="AdminFormSearch.admin?pageNum=${pageNum }" method="post">
 		<div style="float:right; padding: 10 10 10 10px! important;" >
 			<select name="how">
@@ -83,11 +67,12 @@ td {
 		</div>
 	</form><br>
 	
-	<form action="AdminDeleteForm.admin?pageNum=${pageNum }" onsubmit="return deleteCheck();" method="post">
+	<form action="AdminDeleteForm.admin?pageNum=${pageNum }" name="frm" onsubmit="return deleteCheck()" >
 		<table border="1" id="list">
 			<tr>
 				<th>
-					<input type="checkbox" id="checkAll" onclick="checkAll();" >
+				삭제 여부
+					<!--  <input type="checkbox" id="checkAll" onclick="checkAll();" >-->
 				</th>
 				<th>관리자 ID</th>
 				<th>비밀번호</th>
@@ -139,20 +124,20 @@ td {
 
 	<div style="text-align: center;">
 			<c:if test="${startPage > blockSize }">
-				<a href='AdminUserListForm.admin?pageNum=${startPage-blockSize}'>[이전]</a>
+				<a href='AdminForm.admin?pageNum=${startPage-blockSize}'>[이전]</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage}" end="${endPage}">
-				<a href='AdminUserListForm.admin?pageNum=${i}'>[${i}]</a>
+				<a href='AdminForm.admin?pageNum=${i}'>[${i}]</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
-				<a href='AdminUserListForm.admin?pageNum=${startPage+blockSize}'>[다음]</a>
+				<a href='AdminForm.admin?pageNum=${startPage+blockSize}'>[다음]</a>
 			</c:if>
 		</div>
 
 		<div style="float: right; padding: 10 10 10 10px!important;"> 
-			<input type="submit" value="삭제" > 
-			<button type="button" onclick="location.href='AdminInsertForm.admin' ">등록</button>
-			<input type="reset" value="취소">
+			<input type="submit" value="삭제"  onsubmit="return selectCheck() "> 
+			<button type="button" onclick="location.href='AdminInsertForm.admin'" >등록</button>
+			<input type="reset" value="유지버튼 초기화">
 		</div>
 	</form>	
 </body>
