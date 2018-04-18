@@ -25,7 +25,7 @@ public class BoardOtherListAction implements CommandProcess {
 			}
 			
 			BoardDao boardDao = BoardDao.getInstance();
-			int totCnt = boardDao.getBoardCount(null, "all", "all", "");
+			int totCnt = boardDao.getBoardCount(null, "all", "all", "", id);
 			String pageNum = request.getParameter("pageNum");
 			
 			if (pageNum == null || pageNum.equals("")) {

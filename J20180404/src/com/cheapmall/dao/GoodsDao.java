@@ -112,20 +112,28 @@ public class GoodsDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select g2.cd, g1.nm, g1.price, g2.path, g1.stock from"
-				+ " (select cd, nm, price, sum(stock) stock from goods where (sysdate between start_dt and end_dt)"
-					+ " and display='Y' and (gender=? or gender='U') and top_category=? and middle_category=?"
-					+ " group by cd, nm, price) g1,"
+		String str1 = "select g2.cd, g1.nm, g1.price, g2.path, g1.stock, g1.top_category, g1.middle_category from "
+				+ " (select cd, nm, price, sum(stock) stock , top_category, middle_category "
+						+ " from goods where (sysdate between start_dt and end_dt)"
+					+ " and display='Y' and (gender=? or gender='U') ";
+		String str2 = "";
+		if (!top_category.equals("ALL")) {
+			str2 = "and top_category=? and middle_category=? ";
+		} 
+		String str3 = " group by cd, nm, price, top_category, middle_category) g1, "
 				+ " (select cd, min(path) path from goods where (sysdate between start_dt and end_dt)"
 				+ " and display='Y' group by cd) g2 where g1.cd=g2.cd";
+		String sql = str1 + str2 + str3;
 		ArrayList<GoodsDto> list = new ArrayList<GoodsDto>();
 		
 		try {
 			conn = getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, gender);
-			pstmt.setString(2, top_category);
-			pstmt.setString(3, middle_category);
+			if (!top_category.equals("ALL")) {
+				pstmt.setString(2, top_category);
+				pstmt.setString(3, middle_category);
+			} 
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -135,6 +143,8 @@ public class GoodsDao {
 				goodsDto.setPrice(rs.getInt(3));
 				goodsDto.setPath(rs.getString(4));
 				goodsDto.setStock(rs.getInt(5));
+				goodsDto.setTop_category(rs.getString(6));
+				goodsDto.setMiddle_category(rs.getString(7));
 				list.add(goodsDto);
 			}
 		} catch (Exception e) {
@@ -395,6 +405,60 @@ public class GoodsDao {
 		}
 		
 		return goodsDto;
+	}
+	// 검색결과 list
+	public ArrayList<GoodsDto> searchResultList(String keyword) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		ArrayList<GoodsDto> list = new ArrayList<>();
+		String sql = "SELECT g1.*, path" + 
+				"	FROM (SELECT cd, nm, gender, top_category, middle_category, price, SUM(stock) stock" + 
+				"     	  FROM goods " + 
+				"     	  WHERE nm LIKE '%'|| ? ||'%' " + 
+				"        	AND (SYSDATE BETWEEN start_dt AND end_dt) " + 
+				"        	AND display = 'Y' " + 
+				"       	AND path IS NOT NULL " + 
+				"    	  GROUP BY cd, nm, gender, top_category, middle_category, price) g1, " + 
+				"   	  (SELECT cd, MIN(path) path " + 
+				"    	   FROM goods " + 
+				"   	   WHERE nm LIKE '%'|| ? ||'%' " + 
+				"    	    AND display = 'Y' " + 
+				"   	   GROUP BY cd) g2 " + 
+				"	WHERE g1.cd = g2.cd";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, keyword);
+			ps.setString(2, keyword);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				do {
+					GoodsDto goodsDto = new GoodsDto();
+					goodsDto.setCd(rs.getString(1));
+					goodsDto.setNm(rs.getString(2));
+					goodsDto.setGender(rs.getString(3));
+					goodsDto.setTop_category(rs.getString(4));
+					goodsDto.setMiddle_category(rs.getString(5));
+					goodsDto.setPrice(rs.getInt(6));
+					goodsDto.setStock(rs.getInt(7));
+					goodsDto.setPath(rs.getString(8));
+					list.add(goodsDto);
+				} while(rs.next());
+			} else {
+				new SQLException();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("searchResultList Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		return list;
 	}
 	
 	// JSY Part Start!

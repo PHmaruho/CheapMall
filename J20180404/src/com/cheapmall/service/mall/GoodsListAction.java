@@ -18,14 +18,12 @@ public class GoodsListAction implements CommandProcess{
 		try {
 			String gender = request.getParameter("gender");
 			String top_category = request.getParameter("top_category");
-			String middle_category = request.getParameter("middle_category");
+			String middle_category = request.getParameter("middle_category") == null ? "" : request.getParameter("middle_category");
 			ArrayList<GoodsDto> list = new ArrayList<GoodsDto>();
 			GoodsDao goodsDao = GoodsDao.getInstance();
 			list = goodsDao.listMain(gender, top_category, middle_category);
 			
 			request.setAttribute("gender", gender);
-			request.setAttribute("top_category", top_category);
-			request.setAttribute("middle_category", middle_category);
 			request.setAttribute("list", list);
 			request.setAttribute("pageSet", "goodsList.jsp");
 		} catch (Exception e) {

@@ -35,6 +35,8 @@ public class MemberDao {
 		2018-04-13
 		5. checkGrade(String)
 		6. authGrade(String)
+		2018-04-18
+		7. checkPwDt(String)
 		
 	*/
 	
@@ -507,7 +509,7 @@ public class MemberDao {
 		
 		int result = 0;
 		String sql = "INSERT INTO users "
-				+ " VALUES(?,?,?,?,?,?,?,?,?,?,'G0',0,SYSDATE,SYSDATE)";
+				+ " VALUES(?,?,?,?,?,?,?,?,?,?,null,0,SYSDATE,SYSDATE)";
 		
 		try {
 			conn = getConnection();
@@ -535,6 +537,33 @@ public class MemberDao {
 			e.printStackTrace();
 		} finally {
 			DisConnection(conn, ps, rs);
+		}
+		
+		return result;
+	}
+	
+	public int userPwModify(String id, String pw) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		int result = 0;
+		String sql = "UPDATE users"
+				+ " SET pw = ?, pw_dt = sysdate"	// 2018-04-18 최우일 : , pw_dt = sysdate 추가
+				+ " WHERE id = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, pw);
+			ps.setString(2, id);
+			result = ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("userPwModify Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, null);
 		}
 		
 		return result;
@@ -574,221 +603,275 @@ public class MemberDao {
 	}
 	
 	//JAN Part Start
-	/* 로그인시 ID, PW 확인 후 권한 비교*/
-	public String check(String id, String pw) throws SQLException {
-		String result = "no";
-		Connection conn = null;
-		PreparedStatement ps = null; ResultSet rs = null;
-		String sql  = "select pw, auth from ADMIN where id=?"; 
-		try { 
-			conn  = getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
-	
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				String dbPasswd = rs.getString(1);
-				String dbAuth = rs.getString(2);
+		/* 로그인시 ID, PW 확인 후 권한 비교*/
+		public String check(String id, String pw) throws SQLException {
+			String result = "no";
+			Connection conn = null;
+			PreparedStatement ps = null; ResultSet rs = null;
+			String sql  = "select pw, auth from ADMIN where id=?"; 
+			try { 
+				conn  = getConnection();
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, id);
+		
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					String dbPasswd = rs.getString(1);
+					String dbAuth = rs.getString(2);
+					
+					if (dbPasswd.equals(pw)) result = dbAuth;
+					else result = "no";
+					
+				} else   result = "no";
 				
-				if (dbPasswd.equals(pw)) result = dbAuth;
-				else result = "no";
+			} catch(Exception e) { System.out.println(e.getMessage());
+			} finally {
+				DisConnection(conn, ps, rs);
+			}
+			return result;
+		}
+		
+		/* 관리자관리에서 관리자목록*/
+		public List<AdminDto> adminList(int startRow, int endRow) throws SQLException {
+			List<AdminDto> adminList = new ArrayList<AdminDto>();
+		
+			Connection conn = null;
+			String sql = "select * from admin";
+			PreparedStatement ps=null;
+			ResultSet rs = null;
+			try { conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+					AdminDto dto = new AdminDto();
+					dto.setId(rs.getString("id"));
+					dto.setPw(rs.getString("pw"));
+					dto.setNm(rs.getString("nm"));
+					dto.setDept(rs.getString("dept"));
+					dto.setPosition(rs.getString("position"));
+					dto.setEmp_no(rs.getString("emp_no"));
+					dto.setAuth(rs.getString("auth"));
+					dto.setTel(rs.getString("tel"));
+					dto.setEmail(rs.getString("email"));
+					dto.setPath(rs.getString("path"));
+					adminList.add(dto);
+				} 
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}finally {
+				DisConnection(conn, ps, rs);
+			}
+			return adminList;
+		}
+		
+		/* 특정 관리자정보 선택*/
+		public AdminDto select(String id) throws SQLException {
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			AdminDto select = null;
+			String sql = "select * from admin where id=?";
+			try {
+				conn = getConnection();
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, id);
+				rs = ps.executeQuery();
 				
-			} else   result = "no";
-			
-		} catch(Exception e) { System.out.println(e.getMessage());
-		} finally {
-			DisConnection(conn, ps, rs);
-		}
-		return result;
-	}
-	/* 관리자관리에서 관리자목록 뿌려주고 검색기능시 이름으로 검색 가능*/
-	public List<AdminDto> adminList(int startRow, int endRow)
-			throws SQLException {
-		List<AdminDto> adminList = new ArrayList<AdminDto>();
-
-		Connection conn = null;
-		String sql = "select * from admin";
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				AdminDto dto = new AdminDto();
-				dto.setId(rs.getString("id"));
-				dto.setPw(rs.getString("pw"));
-				dto.setNm(rs.getString("nm"));
-				dto.setDept(rs.getString("dept"));
-				dto.setPosition(rs.getString("position"));
-				dto.setEmp_no(rs.getString("emp_no"));
-				dto.setAuth(rs.getString("auth"));
-				dto.setTel(rs.getString("tel"));
-				dto.setEmail(rs.getString("email"));
-				dto.setPath(rs.getString("path"));
-				adminList.add(dto);
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		} finally {
-			DisConnection(conn, ps, rs);
-		}
-		return adminList;
-	}
-	/* 수정할 관리자정보 선택*/
-	public AdminDto select(String id) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		AdminDto select = null;
-		String sql = "select * from admin where id=?";
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
-			rs = ps.executeQuery();
-
-			if (rs.next()) {
-				select = new AdminDto();
-				select.setId(rs.getString("id"));
-				select.setPw(rs.getString("Pw"));
-				select.setNm(rs.getString("Nm"));
-				select.setDept(rs.getString("Dept"));
-				select.setPosition(rs.getString("Position"));
-				select.setEmp_no(rs.getString("Emp_no"));
-				select.setAuth(rs.getString("Auth"));
-				select.setTel(rs.getString("Tel"));
-				select.setEmail(rs.getString("Email"));
-				select.setPath(rs.getString("Path"));
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+				if(rs.next()) {
+					select = new AdminDto();
+					select.setId(rs.getString("id"));
+					select.setPw(rs.getString("Pw"));
+					select.setNm(rs.getString("Nm"));
+					select.setDept(rs.getString("Dept"));
+					select.setPosition(rs.getString("Position"));
+					select.setEmp_no(rs.getString("Emp_no"));
+					select.setAuth(rs.getString("Auth"));
+					select.setTel(rs.getString("Tel"));
+					select.setEmail(rs.getString("Email"));
+					select.setPath(rs.getString("Path"));
+				}
+			}catch (Exception e) { 
+				System.out.println(e.getMessage());
 		} finally {
 			DisConnection(conn, ps, rs);
 		}
 		return select;
 	}
-	/*AdminFormAction - search == null 기본인원 출력*/
-	public int getCount() throws SQLException {
-		Connection conn = null;
-		String sql = "select count(*) from admin";
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		int count = 0;
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement(sql);
-			rs = ps.executeQuery();
-			if (rs.next()) 
-				count = rs.getInt(1);
-		}catch (Exception e) { System.out.println(e.getMessage());
-		}finally {
-			DisConnection(conn, ps, rs);
-		}
-		return count;
-	}
-	/*search 에 값이 있을경우 검색한 인원만 출력*/
-	public int searchCount(String search) throws SQLException {
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		int count = 0;
-		try {
-			conn=getConnection();
-			String sql = "select * from admin where nm=? ";
-			ps=conn.prepareStatement(sql);
-			ps.setString(1, search);
-			rs=ps.executeQuery();
-			if(rs.next()) {
-				count=rs.getInt(1);
-			}
-		} catch(Exception e) {
-				e.printStackTrace();
-			} finally {
+		
+		/*AdminFormAction - search == null 기본인원 출력*/
+		public int getCount() throws SQLException {
+			Connection conn = null;
+			String sql = "select count(*) from admin";
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			int count = 0;
+			try {
+				conn = getConnection();
+				ps = conn.prepareStatement(sql);
+				rs = ps.executeQuery();
+				if (rs.next()) 
+					count = rs.getInt(1);
+			}catch (Exception e) { System.out.println(e.getMessage());
+			}finally {
 				DisConnection(conn, ps, rs);
 			}
-		return count;
-	}
-	/*관리자 신규등록*/
-	public int adminInsert(AdminDto dto) throws SQLException {
-		int result = 0;
-		Connection conn = null;
-		String sql = "Insert Into admin Values(?,?,?,?,?,?,?,?,?,?)";
-		PreparedStatement ps = null;
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, dto.getId());
-			ps.setString(2, dto.getPw());
-			ps.setString(3, dto.getNm());
-			ps.setString(4, dto.getDept());
-			ps.setString(5, dto.getPosition());
-			ps.setString(6, dto.getEmp_no());
-			ps.setString(7, dto.getAuth());
-			ps.setString(8, dto.getTel());
-			ps.setString(9, dto.getEmail());
-			ps.setString(10, dto.getPath());
-	
-			result = ps.executeUpdate();
+			return count;
+		}
+		
+		/*search 에 값이 있을경우 검색한 인원만 출력*/
+		public int searchCount(String search) throws SQLException {
+			Connection conn=null;
+			PreparedStatement ps=null;
+			ResultSet rs=null;
+			int count=0;
 			
-		} catch (Exception e) { System.out.println(e.getMessage());
-	} finally {
-		if(ps!=null) ps.close();
-		if(conn!=null) conn.close();
-	}
-		return result;
-	}
-	/*관리자 정보 수정*/
-	public int adminUpdate(AdminDto dto) throws SQLException {
-		int result = 0;
-		Connection conn = null;
-		String sql = "update admin set pw=?, nm=?,dept=?, position=?,auth=?,tel=?,email=? where id=?";
-		PreparedStatement ps = null;
-		try {
-			conn=getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, dto.getPw());
-			ps.setString(2, dto.getNm());
-			ps.setString(3, dto.getDept());
-			ps.setString(4, dto.getPosition());
-			ps.setString(5, dto.getAuth());
-			ps.setString(6, dto.getTel());
-			ps.setString(7, dto.getEmail());
-			ps.setString(8, dto.getId());
-	
-			result=ps.executeUpdate();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			try {
+				conn=getConnection();
+				String sql ="select count(*) from admin where nm=?";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, search);
+				rs=ps.executeQuery();
+
+				if(rs.next()){
+					count=rs.getInt(1);
+				}
+			} catch(Exception e) {
+					e.printStackTrace();
+				} finally {
+					DisConnection(conn, ps, rs);
+				}
+			return count;
+		}
+		/*조건별로 관리자 검색가능*/
+		public ArrayList<AdminDto> searchAdmin(String how,String search) throws SQLException {
+			ArrayList<AdminDto> list = new ArrayList<AdminDto>();
+			Connection conn = null;
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+			try {
+				conn = getConnection();
+				String sql1 = "select * from admin where nm like ? order by nm asc";
+				String sql2 = "select * from admin where auth like ? order by nm asc";
+				String sql3 = "select  * from admin where dept like ? order by nm asc";
+				
+				if(how.equals("1")) {       // 이름
+					ps=conn.prepareStatement(sql1);
+				}else if(how.equals("2")) { // 권한
+					ps=conn.prepareStatement(sql2);
+				}else {                    // 부서
+					ps=conn.prepareStatement(sql3);
+				}
+				String setSearch = "%"+search+"%";
+				ps.setString(1, setSearch);
+				rs=ps.executeQuery();
+				while(rs.next()) {
+					AdminDto dto = new AdminDto();
+					dto.setId(rs.getString("id"));
+					dto.setPw(rs.getString("pw"));
+					dto.setNm(rs.getString("nm"));
+					System.out.println("searchAdmin nm->"+rs.getString("nm"));				
+					System.out.println("searchAdmin dept->"+rs.getString("dept"));
+					
+					dto.setDept(rs.getString("dept"));
+					dto.setPosition(rs.getString("position"));
+					dto.setEmp_no(rs.getString("emp_no"));
+					dto.setAuth(rs.getString("auth"));
+					dto.setTel(rs.getString("tel"));
+					dto.setEmail(rs.getString("email"));
+					dto.setPath(rs.getString("path"));
+					list.add(dto);
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}finally{
+				DisConnection(conn, ps, rs);
+			}
+			return list;
+		}
+		
+		
+		/*관리자 신규등록*/
+		public int adminInsert(AdminDto dto) throws SQLException {
+			int result = 0;
+			Connection conn = null;
+			String sql = "Insert Into admin Values(?,?,?,?,?,?,?,?,?,?)";
+			PreparedStatement ps = null;
+			try {
+				conn = getConnection();
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, dto.getId());
+				ps.setString(2, dto.getPw());
+				ps.setString(3, dto.getNm());
+				ps.setString(4, dto.getDept());
+				ps.setString(5, dto.getPosition());
+				ps.setString(6, dto.getEmp_no());
+				ps.setString(7, dto.getAuth());
+				ps.setString(8, dto.getTel());
+				ps.setString(9, dto.getEmail());
+				ps.setString(10, dto.getPath());
+		
+				result = ps.executeUpdate();
+				
+			} catch (Exception e) { System.out.println(e.getMessage());
 		} finally {
 			if(ps!=null) ps.close();
-			if(conn != null) conn.close();
+			if(conn!=null) conn.close();
 		}
-		return result;
-	}
-	/*관리자 삭제*/
-	public int adminDelete(String id) throws SQLException {
-		int result = 0;
-		System.out.println(id);
-		Connection conn = null;
-		PreparedStatement ps = null;
-
-		String sql = "Delete From admin Where id=?";
-
-		try {
-			conn = getConnection();
-			ps = conn.prepareStatement(sql);
-			ps.setString(1, id);
-			result = ps.executeUpdate();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		} finally {
-			if (ps != null)
-				ps.close();
-			if (conn != null)
-				conn.close();
+			return result;
 		}
-		return result;
-	}
+		
+		/*관리자 정보 수정*/
+		public int adminUpdate(AdminDto dto) throws SQLException {
+			int result = 0;
+			System.out.println("adminUpdate Start");
+			Connection conn = null;
+			String sql = "update admin set pw=?, nm=?,dept=?, position=?,auth=?,tel=?,email=?, path=? where id=?";
+			PreparedStatement ps = null;
+			try {
+				conn=getConnection();
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, dto.getPw());
+				ps.setString(2, dto.getNm());
+				ps.setString(3, dto.getDept());
+				ps.setString(4, dto.getPosition());
+				ps.setString(5, dto.getAuth());
+				ps.setString(6, dto.getTel());
+				ps.setString(7, dto.getEmail());
+				ps.setString(8, dto.getPath());
+				ps.setString(9, dto.getId());
+		
+				result=ps.executeUpdate();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			} finally {
+				if(ps!=null) ps.close();
+				if(conn != null) conn.close();
+			}
+			return result;
+		}
+		
+		/*관리자 삭제*/
+		public int adminDelete(String id) throws SQLException {
+			int result = 0;
+			System.out.println(id);
+			Connection conn = null;
+			PreparedStatement ps=null;
+
+			String sql = "Delete From admin Where id=?";
+		
+			try {
+				conn=getConnection();
+				ps=conn.prepareStatement(sql);
+				ps.setString(1, id);
+				result=ps.executeUpdate();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			} finally {
+				if(ps!=null) ps.close();
+				if(conn!=null)conn.close();			
+			}
+			return result;
+		}
 	
 	// JSY Part Start!
 	// 회원의 id와 pw를 받아와 입력받은 pw와 대조하여 결과값을 return 합니다.
@@ -963,50 +1046,27 @@ public class MemberDao {
 		return count;
 	}
 	
-	//조건별로 검색가능
-	public ArrayList<AdminDto> searchAdmin(String how,String search) throws SQLException {
-		ArrayList<AdminDto> list = new ArrayList<AdminDto>();
+	public int checkPwDt(String id) throws SQLException {
 		Connection conn = null;
-		PreparedStatement ps = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		String sql = "select 1 from users where id=? and pw_dt <= trunc(sysdate)-90";
+		int result = 0;
+		
 		try {
 			conn = getConnection();
-			String sql1 = "select * from admin where nm like ? order by nm asc";
-			String sql2 = "select * from admin where auth like ? order by nm asc";
-			String sql3 = "select  * from admin where dept like ? order by nm asc";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
 			
-			if(how.equals("1")) {       // 이름
-				ps=conn.prepareStatement(sql1);
-			}else if(how.equals("2")) { // 권한
-				ps=conn.prepareStatement(sql2);
-			}else {                    // 부서
-				ps=conn.prepareStatement(sql3);
+			if (rs.next()) {
+				result = 1;
 			}
-			String setSearch = "%"+search+"%";
-			ps.setString(1, setSearch);
-			rs=ps.executeQuery();
-			while(rs.next()) {
-				AdminDto dto = new AdminDto();
-				dto.setId(rs.getString("id"));
-				dto.setPw(rs.getString("pw"));
-				dto.setNm(rs.getString("nm"));
-				System.out.println("searchAdmin nm->"+rs.getString("nm"));				
-				System.out.println("searchAdmin dept->"+rs.getString("dept"));
-				
-				dto.setDept(rs.getString("dept"));
-				dto.setPosition(rs.getString("position"));
-				dto.setEmp_no(rs.getString("emp_no"));
-				dto.setAuth(rs.getString("auth"));
-				dto.setTel(rs.getString("tel"));
-				dto.setEmail(rs.getString("email"));
-				dto.setPath(rs.getString("path"));
-				list.add(dto);
-			}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			DisConnection(conn, ps, rs);
+		} finally {
+			DisConnection(conn, pstmt, rs);
 		}
-		return list;
+		return result;
 	}
 }

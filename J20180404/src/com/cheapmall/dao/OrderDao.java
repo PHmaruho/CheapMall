@@ -85,6 +85,13 @@ public class OrderDao {
 	 * 		5) getOrderId(detail_sq): 각 반품 항목에 따른 주문번호를 가져옵니다.
 	 * 		6) getReturnList(String id): 반품 목록을 가져옵니다. 
 	 */	
+	
+	/*
+	 * 작성자 : 조안나
+	 * 최초 작성일 : 18-04-12
+	 * 내용 :
+	 * 		1.olSimple(String id) : 간략보기시 나올 주문정보
+	 */
 
 	private static OrderDao instance;
 
@@ -659,7 +666,7 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 				map.put("order_dt", rs.getString("order_dt"));
 				map.put("goods_sq", rs.getString("goods_sq"));
 				map.put("cnt", rs.getString("cnt"));
-				map.put("sale_price", rs.getString("origin_price"));
+				map.put("origin_price", rs.getString("origin_price"));
 				map.put("dc_price", rs.getString("dc_price"));
 				map.put("order_cd", rs.getString("order_cd"));
 				map.put("gender", rs.getString("gender"));
@@ -764,7 +771,7 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 				map.put("detail_sq", rs.getString("detail_sq"));
 				map.put("order_sq", rs.getString("order_sq"));
 				map.put("goods_sq", rs.getString("goods_sq"));
-				map.put("sale_price", rs.getInt("sale_price"));
+				map.put("origin_price", rs.getInt("origin_price"));
 				map.put("dc_price", rs.getInt("dc_price"));
 				map.put("cnt", rs.getInt("cnt"));
 				list.add(map);
@@ -810,7 +817,7 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 					map = list.get(i);
 					ps = conn.prepareStatement(sql2);
 					ps.setString(1, "" + map.get("goods_sq"));
-					ps.setInt(2, Integer.parseInt("" + map.get("sale_price")));
+					ps.setInt(2, Integer.parseInt("" + map.get("origin_price")));
 					ps.setInt(3, Integer.parseInt("" + map.get("dc_price")));
 					ps.setInt(4, Integer.parseInt("" + map.get("cnt")));
 					result2 = ps.executeUpdate();
@@ -827,7 +834,7 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 	}
 	
 	// HJM Start!!
-	public int userOrder(String[] goods_sq, int[] origin_price, int[] dc_price, int[] cnt, String[] cart_sq, OrdersDto ordersDto) throws SQLException{
+	public int userOrder(String[] goods_sq, int[] origin_price, int[] dc_price, int[] cnt, String[] cart_sq, OrdersDto ordersDto, int usedPoint) throws SQLException{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -845,7 +852,7 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 			ps.setInt(2, ordersDto.getOrigin_price());
 			ps.setInt(3, ordersDto.getDc_price());
 			ps.setString(4, ordersDto.getPay_method());
-			ps.setInt(5, ordersDto.getUse_point());
+			ps.setInt(5, usedPoint);
 			ps.setInt(6, ordersDto.getDelivery_fee());
 			ps.setString(7, ordersDto.getAddr());
 			ps.setString(8, ordersDto.getAddr_detail());
@@ -902,14 +909,15 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 						ps.close();
 					}
 				}
-				System.out.println("@@@@@@@@POINT -> " + ordersDto.getUse_point());
-				
-				if(result == 1 || ordersDto.getUse_point() !=0) {
+				// syso
+				System.out.println("###########################" + usedPoint);
+				// 포인트 사용
+				if(result == 1 && usedPoint !=0) {
 					sql = "UPDATE users "
 							+ " SET point = point - ?"
 							+ " WHERE id = ?";
 					ps = conn.prepareStatement(sql);
-					ps.setInt(1, ordersDto.getUse_point());
+					ps.setInt(1, usedPoint);
 					ps.setString(2, ordersDto.getUser_id());
 					result = ps.executeUpdate();
 					if(result != 1) {
@@ -922,20 +930,20 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 				if(result == 1) {
 					// 나중에 프로시저로 만들면 좋을 것
 					sql = "UPDATE users " + 
-							" SET point = " + 
+							" SET point = point+" + 
 							"        (CASE " + 
 							"            WHEN grade = 'G0' " + 
-							"                THEN point+( ? *0.02) " + 
+							"                THEN ROUND(( ? *0.02), 0) " + 
 							"            WHEN grade = 'G1' " + 
-							"                THEN point+( ? *0.03) " + 
+							"                THEN ROUND(( ? *0.03), 0) " + 
 							"            WHEN grade = 'G2' " + 
-							"                THEN point+( ? *0.04) " + 
+							"                THEN ROUND(( ? *0.04), 0) " + 
 							"            WHEN grade = 'G3' " + 
-							"                THEN point+( ? *0.07) " + 
+							"                THEN ROUND(( ? *0.07), 0) " + 
 							"            WHEN grade = 'G4' " + 
-							"                THEN point+( ? *0.09) " + 
+							"                THEN ROUND(( ? *0.09), 0) " + 
 							"            WHEN grade = 'G5' " + 
-							"                THEN point+( ? *0.10) " + 
+							"                THEN ROUND(( ? *0.10), 0) " + 
 							"        END)," + 
 							"    grade = " + 
 							"        (CASE " + 
@@ -964,12 +972,12 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 							"            END) " + 
 							" WHERE id = ?";
 					ps = conn.prepareStatement(sql);
-					ps.setInt(1, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(2, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(3, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(4, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(5, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(6, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
+					ps.setInt(1, (ordersDto.getOrigin_price()));
+					ps.setInt(2, (ordersDto.getOrigin_price()));
+					ps.setInt(3, (ordersDto.getOrigin_price()));
+					ps.setInt(4, (ordersDto.getOrigin_price()));
+					ps.setInt(5, (ordersDto.getOrigin_price()));
+					ps.setInt(6, (ordersDto.getOrigin_price()));
 					ps.setString(7, ordersDto.getUser_id());
 					ps.setString(8, ordersDto.getUser_id());
 					ps.setString(9, ordersDto.getUser_id());
@@ -994,4 +1002,67 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 		
 		return result;
 	}
+	
+	//JAN
+		/* 간략보기시 나올 주문내역 */
+		public List<HashMap> olSimple(String id, int startRow , int endRow) throws SQLException {
+			List<HashMap> olSimple = new ArrayList<HashMap>();
+			ResultSet rs = null;
+			PreparedStatement ps = null;
+			Connection conn = null;
+
+			String sql = "";
+			conn = getConnection();
+
+			try {
+				ps = conn.prepareStatement(sql);
+
+				if(startRow == 0 || endRow == 0 ) {
+					sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
+					       + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) ";
+					
+					ps.setString(1, id);
+
+				} else {
+					sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
+						 + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) where rn between ? and ?";
+				
+					ps.setString(1, id);
+					ps.setInt(2, startRow);
+					ps.setInt(3, endRow);
+				}
+				
+				System.out.println("id: "+id);
+				System.out.println("sql: "+sql);
+				
+				rs = ps.executeQuery();
+				while (rs.next()) {
+					HashMap map = new HashMap();
+					System.out.println(rs.getString("HashMap"));
+					
+					map.put("user_id", rs.getString("user_id"));
+					System.out.println(rs.getString("user_id"));
+					
+					map.put("order_sq", rs.getString("order_sq"));
+					System.out.println(rs.getString("order_sq"));
+					
+					map.put("goods_sq", rs.getString("goods_sq"));
+					map.put("sale_price", rs.getString("sale_price"));
+					map.put("dc_price", rs.getString("dc_price"));
+					map.put("order_cd", rs.getString("order_cd"));
+					map.put("order_dt", rs.getString("order_dt"));
+					map.put("gender", rs.getString("gender"));
+					map.put("top_category", rs.getString("top_category"));
+					map.put("middle_category", rs.getString("middle_category"));
+					map.put("nm", rs.getString("nm"));
+					map.put("cnt", rs.getInt("cnt"));
+					olSimple.add(map);
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			} finally {
+				DisConnection(conn, ps, rs);
+			}
+			return olSimple;
+		}
 }

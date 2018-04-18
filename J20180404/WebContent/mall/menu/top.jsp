@@ -5,92 +5,109 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<style type="text/css">
-.topDiv{
-	width:100%;
-	height: 100px;
+
+<script type="text/javascript">
+
+function searchFunc(){
+	var icon = document.getElementById("searchIcon");
+	var search = document.getElementById("searchInput");
+	var searchDiv = document.getElementById("searchDiv");
+	
+	searchDiv.style.width = "200px";
+	icon.className = icon.className.replace("show", "none");
+	search.className = search.className.replace("none", "show");
 }
 
-.logoDiv {
+// JSY popup
+function popAction(){
+	window.open
+	('../admin/popupOpen.admin','Cheap Mall','width=400px, height=500px,left='+(screen.availWidth-660)/2+',top='+(screen.availHeight-430)/2);
+	location.href="cheapmall.jsp";
+	}
+</script>
+<style type="text/css">
+.topDiv {
+	width: 100%;
+	height: 120px;
+	border-style: none;
+	background-image: url(../images/main2.jpg);
+	background-repeat: no-repeat;
+}
+
+.searchDiv {
 	float: left;
-	border-width: 1px;
 	width: 100px;
-	height: 90px;
-	background-color: green;
+	height: 20px;
+	background-color: white;
+	border-style: none;
+	margin-left: 20px;
+	margin-top: 40px;
+	background-color: rgba(255, 255, 255, 0);
 }
 
 .cartDiv {
 	float: right;
-	border-width: 1px;
 	width: 100px;
-	height: 90px;
-	background-color: yellow;
+	height: 20px;
+	background-color: white;
+	margin-right: 145px;
+	border-style: none;
+	margin-top: 70px;
+	background-color: rgba(255, 255, 255, 0);
 }
 
 .loginDiv {
 	float: right;
-	border-width: 1px;
 	width: 100px;
-	height: 90px;
-	background-color: pink;
+	height: 20px;
+	background-color: white;
+	border-style: none;
+	margin-top: 70px;
+	background-color: rgba(255, 255, 255, 0);
 }
 
-.myDiv{
+.myDiv {
 	float: right;
-	border-width: 1px;
 	width: 100px;
-	height: 90px;
-	background-color: purple;
+	height: 20px;
+	background-color: white;
+	border-style: none;
+	margin-top: 70px;
+	margin-right: 15px;
+	background-color: rgba(255, 255, 255, 0);
 }
 
-.searchDiv {
-	float: right;
-	border-width: 1px;
-	width: 100px;
-	height: 90px;
-	background-color: gray;
-}
-.none{
+.none {
 	display: none;
 }
 
-.show{
+.show {
 	display: block;
+	border-style: none;
 }
 
-#keywordResult{
+#keywordResult {
 	position: relative;
 	z-index: 1;
 	left: 0px;
 	width: 200px;
-	height: 300px;
+	height: 100%;
 	background-color: white;
 }
 
-li{
+li {
 	text-align: left;
 	width: 100%;
 	list-style-type: none;
 	background-color: white;
 }
-li:hover{
+
+li:hover {
 	background-color: yellow;
 	font-size: 20px;
 }
 </style>
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript">
-	function searchFunc(){
-		var icon = document.getElementById("searchIcon");
-		var search = document.getElementById("searchInput");
-		var searchDiv = document.getElementById("searchDiv");
-		
-		searchDiv.style.width = "200px";
-		icon.className = icon.className.replace("show", "none");
-		search.className = search.className.replace("none", "show");
-	}
-	
-</script>
+
 </head>
 <body>
 	<div class="topDiv">
@@ -99,21 +116,6 @@ li:hover{
 		<div class="cartDiv">
 			<a href="ordersCartList.mall">cart</a>
 		</div>
-		<!-- Test Code -->
-		<%-- <c:if test="${sessionCheck == 'yes'}">
-			<div class="loginDiv">
-				<a href="Logout.mall">
-					Logout
-				</a>
-			</div>
-		</c:if>
-		<c:if test="${sessionCheck == 'no'}">
-			<div class="loginDiv">
-				<a href="UserLoginForm.mall">
-					login
-				</a>
-			</div>
-		</c:if> --%>
 		<c:if test="${id != null}">
 			<div class="myDiv">
 				<a href="UserMyPageForm.mall">
@@ -140,8 +142,8 @@ li:hover{
 			<div class="show" id="searchIcon">
 				<a onclick="searchFunc()" href="#">search</a>
 			</div>
-			<div class="none" id="searchInput">
-				<input type="text" width="15" id="search" onkeyup="key($('#search').val())"><input type="button" value="검색하기" onclick="">
+			<div class="none" id="searchInput" >
+				<input type="text" width="15" id="search" onkeypress="searchAction1(event)"><input type="button" value="검색하기" onclick="">
 				<!-- Ajax 출력 구간 -->
 				<div id="keywordResult" class="keywordResult none"></div>
 				
@@ -149,79 +151,5 @@ li:hover{
 		</div>
 	</div>
 </body>
-<script>
-// JSY popup
-function popAction(){
-	window.open
-	('../admin/popupOpen.admin','Cheap Mall','width=300px, height=230px,left='+(screen.availWidth-660)/2+',top='+(screen.availHeight-430)/2);
-	location.href="cheapmall.jsp";
-};
 
-// HJM keyword
-function key(keyword){
-	//var keyword = $('#search').val();
-	var resultDiv = $('#keywordResult');
-	if(keyword.length != 0){
-		$.ajax({
-			type: "POST",
-			url: "SearchPro.mall",
-			data:{keyword:keyword},
-			success: function(data){
-				var result = JSON.parse(data);
-				if(result.result == "yes"){
-					// div 동적 컨텐츠 추가할 것(size)
-					resultDiv.html("");
-					if(resultDiv.attr('class','none')){
-						resultDiv.removeClass('none');
-						resultDiv.addClass(' show');
-					}
- 					$('#keywordResult').append("<ul>");
-						$.each(result.keywords, function(){
-							$('#keywordResult').append("<li>" + this + "</li>");
-						}); 
-					$('#keywordResult').append("</ul>");
-				} else {
-					resultDiv.html("");
-					if(resultDiv.attr('class', 'show')){
-						resultDiv.removeClass('show');
-						resultDiv.addClass(' none');
-					} else {
-						resultDiv.addClass(' none');
-					}
-				}
-			},
-			error:function(request,status,error){
-		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-		    }
-		})
-	} else {
-		if(resultDiv.attr('class','show')){
-			resultDiv.removeClass('show');
-			resultDiv.addClass(' none');
-		} else {
-			resultDiv.addClass(' none');
-		}
-	}
-}
-/*
-	function key(){
-		var keyword = $("#div").html($("#search").val());
-		$("#keywordResult").addClass(" show");
-		
-		$("#div").html("");
-		$("#div").html($("#search").val());
-		
-		$.ajax({
-			type:"POST",
-			url: "SearchPro.mall?keyword=" + keyword,
-			dataType: "html",
-			success:function(data){
-				//var list = $.parseJSON(data);
-				$("#keywordResult").html("");
-				$("#keywordResult").html(data);
-			}
-		});
-}
-*/
-</script>
 </html>

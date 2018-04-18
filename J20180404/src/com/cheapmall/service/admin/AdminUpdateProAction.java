@@ -18,7 +18,8 @@ public class AdminUpdateProAction implements CommandProcess {
 			throws ServletException, IOException {
 		
 		try {
-			String pageNum = request.getParameter("pageNum");
+			System.out.println("AdminUpdateProAction start->");
+		//	String pageNum = request.getParameter("pageNum");
 
 			AdminDto adminDto = new AdminDto();
 			adminDto.setId(request.getParameter("id"));
@@ -26,18 +27,22 @@ public class AdminUpdateProAction implements CommandProcess {
 			adminDto.setNm(request.getParameter("nm"));
 			adminDto.setDept(request.getParameter("dept"));
 			adminDto.setPosition(request.getParameter("position"));
+			adminDto.setAuth(request.getParameter("auth"));
 			adminDto.setTel(request.getParameter("tel"));
-			adminDto.setEmail(request.getParameter("email1")
-					+ request.getParameter("emailCheck"));
+			adminDto.setEmail(request.getParameter("email"));
 			adminDto.setPath(request.getParameter("path"));
+			
+			System.out.println("AdminUpdateProAction nm->"+request.getParameter("nm"));
+			System.out.println("AdminUpdateProAction tel->"+request.getParameter("tel"));
+			System.out.println("AdminUpdateProAction email->"+request.getParameter("email"));
 			
 			int result = 0;
 			MemberDao md = MemberDao.getInstance();
 			result = md.adminUpdate(adminDto);
 			
 			request.setAttribute("result", result);
-			request.setAttribute("pageNum", pageNum);
-			request.setAttribute("id", adminDto.getId());
+	//		request.setAttribute("pageNum", pageNum);
+	//		request.setAttribute("id", adminDto.getId());
 			
 		}catch(Exception e) { System.out.println(e.getMessage()); }
 		

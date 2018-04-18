@@ -40,7 +40,7 @@ td {
 						src="images/${list.gender }/${list.top_category}/${list.middle_category}/thumbnail/sm_${list.goods_sq}.jpg"
 						height="40" width="40" align="left">${list.nm }</td>
 					<td>${list.cnt }</td>
-					<td>${list.sale_price }</td>
+					<td>${list.origin_price }</td>
 					<td>${list.dc_price }</td>
 					<c:if test="${list.order_cd=='O0' }">
 						<td>결제완료</td>

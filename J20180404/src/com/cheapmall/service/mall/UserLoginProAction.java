@@ -30,19 +30,23 @@ public class UserLoginProAction implements CommandProcess{
 			MemberDao memberDao = MemberDao.getInstance();
 			int result = memberDao.userLoginCheck(id, pw);
 			if(result == 1) {
-				// SYSO
-				System.out.println("success");
-				
 				// 로그인 성공 시, session에 id를 저장한다.
 				HttpSession session = request.getSession();
 				session.setAttribute("id", id);
 				
-				
-				String email = memberDao.checkGrade(id);	// 2018-04-13 최우일, 회원등급 체크 후 null이면 미인증 사용자로 판단, 이메일인증 유도
+				String email = memberDao.checkGrade(id);	// 2018-04-13 최우일 : 회원등급 체크 후 null이면 미인증 사용자로 판단, 이메일인증 유도
 				if (email != null) {
 					request.setAttribute("email", email);
 					session.setAttribute("id", id);
 					request.setAttribute("pageSet", "/mall/userLoginAuthEmailForm.jsp");
+					return "/mall/cheapmall.jsp";
+				}
+				
+				int pwDate = memberDao.checkPwDt(id);	// 2018-04-18 최우일 : 비밀번호 변경일 검사
+				if (pwDate == 1) {
+					System.out.println("asdf");
+					session.setAttribute("id", id);
+					request.setAttribute("pageSet", "userChangePwDtForm.jsp");
 					return "/mall/cheapmall.jsp";
 				}
 				
@@ -52,8 +56,11 @@ public class UserLoginProAction implements CommandProcess{
 				}
 				
 				
+			} else {
+				request.setAttribute("result", result);
+				request.setAttribute("pageSet", "/mall/userLoginPro.jsp");
+				return "/mall/cheapmall.jsp";
 			}
-			System.out.println("finish");
 			request.setAttribute("result", result);
 			request.setAttribute("returnList", "main");
 		} catch (Exception e) {

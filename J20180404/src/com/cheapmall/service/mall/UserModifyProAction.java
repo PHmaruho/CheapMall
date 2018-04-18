@@ -22,10 +22,14 @@ public class UserModifyProAction implements CommandProcess{
 			HttpSession session = request.getSession();
 			String id = session.getAttribute("id").toString();
 			
+			String birth = request.getParameter("birth");
+			String[] tempBirth = birth.split("-");
+			birth = tempBirth[0].substring(2, 4) + tempBirth[1] + tempBirth[2];
+			
 			UsersDto usersDto = new UsersDto();
 			usersDto.setId(id);
 			usersDto.setNm(request.getParameter("nm"));
-			usersDto.setBirth(request.getParameter("birth"));
+			usersDto.setBirth(birth);
 			usersDto.setTel(request.getParameter("tel") + request.getParameter("tel1")
 							 + request.getParameter("tel2"));
 			usersDto.setZipcode(request.getParameter("zipcode"));

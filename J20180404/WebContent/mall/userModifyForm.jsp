@@ -9,7 +9,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="../js/jquery.js"></script>
+<link href="../js/jquery-ui.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-ui.js"></script>
 <script>
+	// 주소 API
     function findZipcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -51,8 +55,32 @@
             }
         }).open();
     }
+	
+	// 비밀번호 변경 팝업
+	function pwPopup(){
+		var popup = window.open("userPwPopup.jsp",'popup', "width=500, height=500");
+		
+	}
+    
+    // 취소하기 버튼
     function returnMyPage(){
     	location.href="UserMyPageForm.mall"
+    }
+    
+    // date Pic
+    function datePic(){
+    	$('#birth').datepicker({
+    		changeMonth: true, 
+            changeYear: true,
+            nextText: '다음 달',
+            prevText: '이전 달',
+            dateFormat: 'yy-mm-dd'
+    	});
+    	
+    	if('${birth}' != ''){
+    		var parsedDate = $.datepicker.parseDate('yy-mm-dd', ${birth});
+    		$('#birth').datepicker('setDate', parsedDate);
+    	}
     }
 </script>
 </head>
@@ -75,9 +103,15 @@
 				</td>
 			</tr>
 			<tr>
+				<th> 비밀번호 </th>
+				<td>
+					<input type="button" value="비밀번호 변경" id="pw" onclick="pwPopup()">
+				</td>
+			</tr>
+			<tr>
 				<th> 생년월일 </th>
 				<td>
-					<input type="text" value="${usersDto.birth }" id="birth" name="birth">
+					<input type="text" value="${usersDto.birth }" id="birth" name="birth" onclick="datePic()">
 				</td>
 			</tr>
 			<tr>
