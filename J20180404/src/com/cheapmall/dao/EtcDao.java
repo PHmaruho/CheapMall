@@ -258,13 +258,14 @@ public class EtcDao {
 		
 		int result = 0;
 		String sql = "UPDATE search "
-				+ " SET cnt += 1 "
-				+ " WHERE tag = ?";
+				+ " SET cnt = cnt + 1 "
+				+ " WHERE tag LIKE ?";
 		
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, keyword);
+			result = ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
 		} finally {
