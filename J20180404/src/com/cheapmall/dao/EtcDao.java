@@ -252,6 +252,28 @@ public class EtcDao {
 		return json;
 	}
 	
+	public int keywordCntUp(String keyword) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		int result = 0;
+		String sql = "UPDATE search "
+				+ " SET cnt += 1 "
+				+ " WHERE tag = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, keyword);
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			DisConnection(conn, ps, null);
+		}
+		
+		return result;
+	}
+	
 	// CWI Part Start
 	
 	/*작성자	: 최우일

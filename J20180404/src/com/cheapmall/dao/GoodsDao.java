@@ -396,6 +396,60 @@ public class GoodsDao {
 		
 		return goodsDto;
 	}
+	// 검색결과 list
+	public ArrayList<GoodsDto> searchResultList(String keyword) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		ArrayList<GoodsDto> list = new ArrayList<>();
+		String sql = "SELECT g1.*, path" + 
+				"	FROM (SELECT cd, nm, gender, top_category, middle_category, price, SUM(stock) stock" + 
+				"     	  FROM goods " + 
+				"     	  WHERE nm LIKE '%'|| ? ||'%' " + 
+				"        	AND (SYSDATE BETWEEN start_dt AND end_dt) " + 
+				"        	AND display = 'Y' " + 
+				"       	AND path IS NOT NULL " + 
+				"    	  GROUP BY cd, nm, gender, top_category, middle_category, price) g1, " + 
+				"   	  (SELECT cd, MIN(path) path " + 
+				"    	   FROM goods " + 
+				"   	   WHERE nm LIKE '%'|| ? ||'%' " + 
+				"    	    AND display = 'Y' " + 
+				"   	   GROUP BY cd) g2 " + 
+				"	WHERE g1.cd = g2.cd";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, keyword);
+			ps.setString(2, keyword);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				do {
+					GoodsDto goodsDto = new GoodsDto();
+					goodsDto.setCd(rs.getString(1));
+					goodsDto.setNm(rs.getString(2));
+					goodsDto.setGender(rs.getString(3));
+					goodsDto.setTop_category(rs.getString(4));
+					goodsDto.setMiddle_category(rs.getString(5));
+					goodsDto.setPrice(rs.getInt(6));
+					goodsDto.setStock(rs.getInt(7));
+					goodsDto.setPath(rs.getString(8));
+					list.add(goodsDto);
+				} while(rs.next());
+			} else {
+				new SQLException();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("searchResultList Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		return list;
+	}
 	
 	// JSY Part Start!
 	// 종료일이 지나면 노출[ display ]를 N으로 바꾸는 클래스입니다.
