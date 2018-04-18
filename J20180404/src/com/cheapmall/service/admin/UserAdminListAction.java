@@ -34,7 +34,6 @@ public class UserAdminListAction implements CommandProcess {
 				count=dao.searchUserCount(search);
 			}
 			
-			
 			String pageNum=request.getParameter("pageNum");
 			if(pageNum==null || pageNum.equals("")){
 				pageNum="1";

@@ -15,12 +15,12 @@
 	}
 	if('${result}' >= 1) {
 		alert("등록되었습니다.");
-		opener.parent.location="AdminUserListForm.admin?pageNum="+${pageNum};
+		opener.parent.location="userAdminList.admin?pageNum="+${pageNum};
 		window.close();
 	}
 	if('${result}' == -1) {
 		alert("수상한 접근입니다.");
-		opener.parent.location="AdminUserListForm.admin?pageNum="+${pageNum};
+		opener.parent.location="userAdminList.admin?pageNum="+${pageNum};
 		window.close();
 	}
 </script>

@@ -18,8 +18,7 @@ public class AdminUserModifyPopUpProAction implements CommandProcess{
 		try {
 			//HttpSession session = request.getSession(); // 꼭 확인할것!
 			String pageNum = request.getParameter("pageNum");
-			
-			// SYSO
+			int point = request.getParameter("point") == null ? 0 : Integer.parseInt(request.getParameter("point"));
 			
 			UsersDto usersDto = new UsersDto();
 			usersDto.setId(request.getParameter("id"));
@@ -31,7 +30,7 @@ public class AdminUserModifyPopUpProAction implements CommandProcess{
 			usersDto.setEmail(request.getParameter("email"));
 			usersDto.setGender(request.getParameter("gender"));
 			usersDto.setGrade(request.getParameter("grade"));
-			usersDto.setPoint(Integer.parseInt(request.getParameter("point")));
+			usersDto.setPoint(point);
 			
 			int result = 0;
 			MemberDao memberDao = MemberDao.getInstance();
