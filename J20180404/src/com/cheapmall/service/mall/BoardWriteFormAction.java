@@ -14,11 +14,13 @@ public class BoardWriteFormAction implements CommandProcess {
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String id = (String) session.getAttribute("id");
+		String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+		
 		if(id == null) {
 			request.setAttribute("warning", "notLogin");
 			return "cheapmall.jsp";
 		}
+		
 		
 		request.setAttribute("id", id);
 		request.setAttribute("pageSet", "boardWriteForm.jsp");

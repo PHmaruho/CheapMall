@@ -24,7 +24,13 @@ public class OrdersCartToPayAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
-			String id = session.getAttribute("id").toString();
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
+			if(id == null) {
+				request.setAttribute("warning", "notLogin");
+				return "cheapmall.jsp";
+			}
+			
 			int delivery_fee = Integer.parseInt(request.getParameter("delivery_fee"));
 			int total = Integer.parseInt(request.getParameter("total"));
 			

@@ -18,7 +18,8 @@ public class UserMyPageFormAction implements CommandProcess{
 			// session 을 나중에 받아와서 해당 정보를 Dto에 저장하여서 Request로 넘겨줄 예정
 			// HttpSession session = request.getSession();
 			HttpSession session = request.getSession();
-			String id = (String) session.getAttribute("id");
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
 			if(id == null) {
 				request.setAttribute("warning", "notLogin");
 				return "cheapmall.jsp";

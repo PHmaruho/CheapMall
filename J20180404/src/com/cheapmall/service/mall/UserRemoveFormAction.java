@@ -18,8 +18,13 @@ public class UserRemoveFormAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			HttpSession session=request.getSession();
-			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
+			HttpSession session = request.getSession();
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
+			if(id == null) {
+				request.setAttribute("warning", "notLogin");
+				return "cheapmall.jsp";
+			}
 			
 			request.setAttribute(id, "id");
 			request.setAttribute("pageSet", "userRemoveForm.jsp");

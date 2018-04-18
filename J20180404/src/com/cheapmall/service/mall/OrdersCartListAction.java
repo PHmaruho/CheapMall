@@ -19,7 +19,13 @@ public class OrdersCartListAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
-			String id = session.getAttribute("id").toString();
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
+			if(id == null) {
+				request.setAttribute("warning", "notLogin");
+				return "cheapmall.jsp";
+			}
+			
 			
 			ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 			OrderDao orderDato = OrderDao.getInstance();
