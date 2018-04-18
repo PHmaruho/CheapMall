@@ -507,7 +507,7 @@ public class MemberDao {
 		
 		int result = 0;
 		String sql = "INSERT INTO users "
-				+ " VALUES(?,?,?,?,?,?,?,?,?,?,'G0',0,SYSDATE,SYSDATE)";
+				+ " VALUES(?,?,?,?,?,?,?,?,?,?,null,0,SYSDATE,SYSDATE)";
 		
 		try {
 			conn = getConnection();
