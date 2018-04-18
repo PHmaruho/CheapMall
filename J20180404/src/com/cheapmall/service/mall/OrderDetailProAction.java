@@ -34,6 +34,7 @@ public class OrderDetailProAction implements CommandProcess{
 			int delivery_fee = request.getParameter("delivery_fee") == null ? 0 :Integer.parseInt(request.getParameter("delivery_fee"));
 			int total = Integer.parseInt(request.getParameter("total"));
 			int point = Integer.parseInt(request.getParameter("point"));
+			int usedPoint = Integer.parseInt(request.getParameter("usedPoint")) == 0 ? 0 : Integer.parseInt(request.getParameter("usedPoint"));
 			int totalDc = 0;
 			int[] dc_price = new int[s_cnt.length];
 			int[] origin_price = new int[s_cnt.length];
@@ -84,7 +85,7 @@ public class OrderDetailProAction implements CommandProcess{
 			ordersDto.setDc_price(totalDc);
 			
 			OrderDao orderDao = OrderDao.getInstance();
-			int result = orderDao.userOrder(goods_sq, origin_price, dc_price, cnt, cart_sq,ordersDto);
+			int result = orderDao.userOrder(goods_sq, origin_price, dc_price, cnt, cart_sq, ordersDto, usedPoint);
 			
 			request.setAttribute("result", result);
 			//request.setAttribute("pageSet", arg1);

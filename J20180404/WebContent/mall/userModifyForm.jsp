@@ -10,6 +10,7 @@
 <title>Cheap Mall</title>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
+	// 주소 API
     function findZipcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -51,6 +52,14 @@
             }
         }).open();
     }
+	
+	// 비밀번호 변경 팝업
+	function pwPopup(){
+		var popup = window.open("userPwPopup.jsp",'popup', "width=500, height=500");
+		
+	}
+    
+    // 취소하기 버튼
     function returnMyPage(){
     	location.href="UserMyPageForm.mall"
     }
@@ -72,6 +81,12 @@
 				<th> 이름 </th>
 				<td>
 					<input type="text" value="${usersDto.nm }" id="name" name="nm">
+				</td>
+			</tr>
+			<tr>
+				<th> 비밀번호 </th>
+				<td>
+					<input type="button" value="비밀번호 변경" id="pw" onclick="pwPopup()">
 				</td>
 			</tr>
 			<tr>

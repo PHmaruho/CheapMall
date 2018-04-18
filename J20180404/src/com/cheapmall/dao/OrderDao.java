@@ -827,7 +827,7 @@ public class OrderDao {
 	}
 	
 	// HJM Start!!
-	public int userOrder(String[] goods_sq, int[] origin_price, int[] dc_price, int[] cnt, String[] cart_sq, OrdersDto ordersDto) throws SQLException{
+	public int userOrder(String[] goods_sq, int[] origin_price, int[] dc_price, int[] cnt, String[] cart_sq, OrdersDto ordersDto, int usedPoint) throws SQLException{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -845,7 +845,7 @@ public class OrderDao {
 			ps.setInt(2, ordersDto.getOrigin_price());
 			ps.setInt(3, ordersDto.getDc_price());
 			ps.setString(4, ordersDto.getPay_method());
-			ps.setInt(5, ordersDto.getUse_point());
+			ps.setInt(5, usedPoint);
 			ps.setInt(6, ordersDto.getDelivery_fee());
 			ps.setString(7, ordersDto.getAddr());
 			ps.setString(8, ordersDto.getAddr_detail());
@@ -902,14 +902,15 @@ public class OrderDao {
 						ps.close();
 					}
 				}
-				System.out.println("@@@@@@@@POINT -> " + ordersDto.getUse_point());
-				
-				if(result == 1 || ordersDto.getUse_point() !=0) {
+				// syso
+				System.out.println("###########################" + usedPoint);
+				// 포인트 사용
+				if(result == 1 && usedPoint !=0) {
 					sql = "UPDATE users "
 							+ " SET point = point - ?"
 							+ " WHERE id = ?";
 					ps = conn.prepareStatement(sql);
-					ps.setInt(1, ordersDto.getUse_point());
+					ps.setInt(1, usedPoint);
 					ps.setString(2, ordersDto.getUser_id());
 					result = ps.executeUpdate();
 					if(result != 1) {
@@ -922,20 +923,20 @@ public class OrderDao {
 				if(result == 1) {
 					// 나중에 프로시저로 만들면 좋을 것
 					sql = "UPDATE users " + 
-							" SET point = " + 
+							" SET point = point+" + 
 							"        (CASE " + 
 							"            WHEN grade = 'G0' " + 
-							"                THEN point+( ? *0.02) " + 
+							"                THEN ROUND(( ? *0.02), 0) " + 
 							"            WHEN grade = 'G1' " + 
-							"                THEN point+( ? *0.03) " + 
+							"                THEN ROUND(( ? *0.03), 0) " + 
 							"            WHEN grade = 'G2' " + 
-							"                THEN point+( ? *0.04) " + 
+							"                THEN ROUND(( ? *0.04), 0) " + 
 							"            WHEN grade = 'G3' " + 
-							"                THEN point+( ? *0.07) " + 
+							"                THEN ROUND(( ? *0.07), 0) " + 
 							"            WHEN grade = 'G4' " + 
-							"                THEN point+( ? *0.09) " + 
+							"                THEN ROUND(( ? *0.09), 0) " + 
 							"            WHEN grade = 'G5' " + 
-							"                THEN point+( ? *0.10) " + 
+							"                THEN ROUND(( ? *0.10), 0) " + 
 							"        END)," + 
 							"    grade = " + 
 							"        (CASE " + 
@@ -964,12 +965,12 @@ public class OrderDao {
 							"            END) " + 
 							" WHERE id = ?";
 					ps = conn.prepareStatement(sql);
-					ps.setInt(1, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(2, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(3, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(4, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(5, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
-					ps.setInt(6, (ordersDto.getOrigin_price()-ordersDto.getDc_price()-ordersDto.getUse_point()));
+					ps.setInt(1, (ordersDto.getOrigin_price()));
+					ps.setInt(2, (ordersDto.getOrigin_price()));
+					ps.setInt(3, (ordersDto.getOrigin_price()));
+					ps.setInt(4, (ordersDto.getOrigin_price()));
+					ps.setInt(5, (ordersDto.getOrigin_price()));
+					ps.setInt(6, (ordersDto.getOrigin_price()));
 					ps.setString(7, ordersDto.getUser_id());
 					ps.setString(8, ordersDto.getUser_id());
 					ps.setString(9, ordersDto.getUser_id());
