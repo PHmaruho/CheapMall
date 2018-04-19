@@ -24,8 +24,6 @@ public class AdminFormSearchAction implements CommandProcess {
 			String how=request.getParameter("how");
 			String search=request.getParameter("search");
 	
-	System.out.println("how->"+how);		
-	System.out.println("search->"+search);
 			
 			
 			MemberDao md = MemberDao.getInstance();
@@ -51,7 +49,6 @@ public class AdminFormSearchAction implements CommandProcess {
 						
 			request.setAttribute("count", list.size());
 			request.setAttribute("adminList", list);
-			System.out.println("AdminFormSearch list->"+list.size());
 			
 			
 		} catch (Exception e) {

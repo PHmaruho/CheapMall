@@ -6,12 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript">
-	function goodsPop() {
-		var object = ('${boardDto.object}');
-		window.open("boardAdminOtherReplyGoods.admin?object=" + object, "a", "width=400, height=300, left=100, top=50");
-	}
 </script>
 <style type="text/css">
 	table {width: 80%}
@@ -37,7 +31,7 @@
 						일반문의
 					</c:if>
 					<c:if test="${boardDto.object != null || boardDto.object ne ''}">
-						<a href="#" onclick="goodsPop(); return false;">${boardDto.object }</a>
+						${boardDto.object }
 					</c:if>
 				</td>
 			</tr>

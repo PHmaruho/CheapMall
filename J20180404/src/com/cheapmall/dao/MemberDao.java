@@ -769,8 +769,6 @@ public class MemberDao {
 					dto.setId(rs.getString("id"));
 					dto.setPw(rs.getString("pw"));
 					dto.setNm(rs.getString("nm"));
-					System.out.println("searchAdmin nm->"+rs.getString("nm"));				
-					System.out.println("searchAdmin dept->"+rs.getString("dept"));
 					
 					dto.setDept(rs.getString("dept"));
 					dto.setPosition(rs.getString("position"));

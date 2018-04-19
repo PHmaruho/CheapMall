@@ -22,11 +22,9 @@ public class UserAdminDeleteFormAction implements CommandProcess {
 			
 			MemberDao dao=MemberDao.getInstance();
 			String search=request.getParameter("search");
-			System.out.println("검색 Parameter 완료");
 			
 			
 			int count=0;
-			System.out.println("search: "+search);
 			if(search==null|| search.length()==0){
 				count=dao.countUser();
 			}else{
@@ -63,14 +61,6 @@ public class UserAdminDeleteFormAction implements CommandProcess {
 			request.setAttribute("pageNum", pageNum);
 			request.setAttribute("search", search);
 			
-			System.out.println("count: "+count);
-			System.out.println("currentPage: "+currentPage);
-			System.out.println("blockSize: "+blockSize);
-			System.out.println("totalPage: "+totalPage);
-			System.out.println("startPage: "+startPage);
-			System.out.println("endPage: "+endPage);
-			System.out.println("pageNum: "+pageNum);
-			System.out.println("search: "+search);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

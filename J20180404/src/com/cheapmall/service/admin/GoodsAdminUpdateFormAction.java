@@ -27,7 +27,6 @@ public class GoodsAdminUpdateFormAction implements CommandProcess{
 		try {
 			
 			int result=dao.updateDisplay();
-			System.out.println("result: "+result);
 			if(result>=0) dto=dao.selectGoods(sq);
 			request.setAttribute("dto", dto);
 			request.setAttribute("sq", sq);

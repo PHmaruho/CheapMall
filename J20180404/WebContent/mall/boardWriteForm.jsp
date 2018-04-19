@@ -14,6 +14,7 @@
 		display: block
 	}
 </style>
+<script type="text/javascript" src="../js/jquery.js"></script>
 <script>
 	function list() {
 		var index = document.getElementById("select").selectedIndex;
@@ -21,7 +22,7 @@
 		var report = document.getElementById(3);
 		
 		if (index == 3) {
-			document.getElementById("suggestText").value="";
+			document.getElementById("suggestDiv").value="";
 			report.className = report.className.replace(" show", "");
 			suggest.className = suggest.className.replace(" show", "");
 			report.className += " show";
@@ -34,33 +35,32 @@
 	}
 	
 	function radio(check) {
-		var suggestText = document.getElementById("suggestText");
+		var suggestDiv = document.getElementById("suggestDiv");
 
 		if (check == 1) {
-			suggestText.disabled = false;
+			suggestDiv.className += " show";
 		} else {
-			suggestText.disabled = true;
-			suggestText.value="";
+			suggestDiv.className = suggestDiv.className.replace(" show", "");
 		}
 	}
 	
 	function check() {
 		var index = document.getElementById("select").selectedIndex;
-		var suggestText = document.getElementById("suggestText");
+		var suggestDiv = document.getElementById("suggestDiv");
 		var reportText = document.getElementById("reportText");
 		var hidden = document.getElementById("hidden");
 		var object = document.getElementById("object");
 		var board_cd = "B" + index;
 		
 		if (index == 1 || index == 2) {
-			if (!suggestText.disabled) {
-				if (suggestText.value == "") {
+			if (!suggestDiv.disabled) {
+				if (suggestDiv.value == "") {
 					alert("대상 상품을 입력해주세요.")
 					return false;
 				}
 			}
 			hidden.value = "B" + index;
-			object.value = suggestText.value;
+			object.value = suggestDiv.value;
 		} else if (index == 3) {
 			if (reportText.value == "") {
 				alert("대상자 ID를 입력해주세요.")
@@ -114,6 +114,10 @@
 			}
 		});
 	}
+	
+	function popUp() {
+		window.open('boardWriteFormPopup.mall', '상품찾기', 'width=500, height=500');
+	}
 </script>
 </head>
 <body>
@@ -128,7 +132,10 @@
 	<div id="1" class="none">
 		<label>일반</label><input type="radio" name="radio" onclick="radio(0)" checked="checked">
 		<label>상품</label><input type="radio" name="radio" onclick="radio(1)">
-		<input type="text" id="suggestText" disabled="disabled">
+		<div id="suggestDiv" class="none">
+			<input type="text" disabled="disabled" id="suggestText" name="suggestText">
+			<input type="button" value="상품찾기" onclick="popUp()">
+		</div>
 	</div>
 	<div id="3" class="none">
 		<label>대상자 ID</label>
