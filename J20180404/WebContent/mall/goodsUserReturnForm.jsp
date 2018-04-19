@@ -10,6 +10,15 @@
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
 
+function checkReturnOrder(){
+	var returnOrder= $("#returnOrder_sq:checked").length;
+	if (returnOrder!=0){
+		 $('#submitButton').show();
+	}else{
+		 $('#submitButton').hide();
+	}
+}
+
 
 function getDetail(r){
 	var order_sq = $('#'+r).val();
@@ -35,11 +44,12 @@ function getDetail(r){
 	
 	<h2>주문내역</h2>
 	<div id="main">
-		<form action="goodsUserReturnPro.mall" method="post">
+		<form action="goodsUserReturnPro.mall" method="post" name="all">
 			<table border="1">
 				<tr>
 					<th>주문ID</th>
-					<th>최종가격</th>
+					<th>할인가</th>
+					<th>배송비</th>
 					<th>사용포인트</th>
 					<th>결제수단</th>
 					<th>주문상태</th>
@@ -66,6 +76,7 @@ function getDetail(r){
 									</c:if>
 							</td> 
 							<td>${order.dc_price }</td>
+							<td>${order.delivery_fee }</td>
 							<td>${order.use_point }</td>
 							<td>${order.pay_method }</td>
 							<td>
@@ -130,7 +141,7 @@ function getDetail(r){
 							<td>
 								<c:if test="${!fn:contains(checkCd,'R')}">
 									<c:if test="${order.origin_price!=0}">
-										<input type="checkbox" name="returnOrder_sq" value=${order.order_sq }>
+										<input type="checkbox" name="returnOrder_sq" id="returnOrder_sq" value=${order.order_sq } onclick="checkReturnOrder()">
 									</c:if>
 									
 									<c:if test="${order.origin_price==0}">
@@ -168,7 +179,7 @@ function getDetail(r){
 					</c:if>
 			</div>
 				<span style="float: right; padding: 10 10 10 10px!important;">
-					<input type="submit" value="반품">
+					<input type="submit" value="반품" id="submitButton" style="display:none;">
 					<input type="reset" value="취소">
 					<input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록">
 				</span>

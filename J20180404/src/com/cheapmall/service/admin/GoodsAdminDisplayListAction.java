@@ -21,7 +21,10 @@ public class GoodsAdminDisplayListAction implements CommandProcess {
 		System.out.println("여기 들어옴");
 		HttpSession session = request.getSession();
 		String id = session.getAttribute("id").toString();
-		String category = request.getParameter("category");
+/*		String category = request.getParameter("category");*/
+		String gender=request.getParameter("gender");
+		String top_category=request.getParameter("top_category");
+		String middle_category=request.getParameter("middle_category");
 		try {
 
 			GoodsDao dao = GoodsDao.getInstance();
@@ -32,7 +35,7 @@ public class GoodsAdminDisplayListAction implements CommandProcess {
 			}
 
 			int currentPage = Integer.parseInt(pageNum);
-			int pageSize = 3, blockSize = 3;
+			int pageSize = 15, blockSize = 10;
 
 			int startRow = (currentPage - 1) * pageSize + 1;
 			int endRow = startRow + pageSize - 1;
@@ -41,10 +44,20 @@ public class GoodsAdminDisplayListAction implements CommandProcess {
 
 			List<GoodsDto> list = new ArrayList<GoodsDto>();
 
-			list = dao.selectDisplayGoods(0, 0);
+			
+			if (gender == null) gender = "All";
+			if (top_category == null) top_category = "All";
+			if (middle_category == null) middle_category = "All";
+
+					
+			list = dao.selectDisplayGoods(gender, top_category,middle_category, 0, 0);
+			count = list.size();
+			list = dao.selectDisplayGoods(gender, top_category,middle_category, startRow,endRow);
+	
+			/*list = dao.selectDisplayGoods(0, 0);
 			count = list.size();
 			list = dao.selectDisplayGoods(startRow, endRow);
-
+*/
 			int startNum = count - startRow + 1;
 
 			int totalPage = (int) Math.ceil((double) count / pageSize);
@@ -62,8 +75,11 @@ public class GoodsAdminDisplayListAction implements CommandProcess {
 			request.setAttribute("endPage", endPage);
 			request.setAttribute("pageNum", pageNum);
 			request.setAttribute("list", list);
-			request.setAttribute("category", category);
-
+			/*request.setAttribute("category", category);*/
+			request.setAttribute("gender", gender);
+			request.setAttribute("top_category", top_category);
+			request.setAttribute("middle_category", middle_category);
+			
 			System.out.println("count: " + count);
 			System.out.println("currentPage: " + currentPage);
 			System.out.println("blockSize: " + blockSize);

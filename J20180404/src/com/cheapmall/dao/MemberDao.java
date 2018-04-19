@@ -875,44 +875,45 @@ public class MemberDao {
 	
 	// JSY Part Start!
 	// 회원의 id와 pw를 받아와 입력받은 pw와 대조하여 결과값을 return 합니다.
-	public int removeUser(String id, String pw) throws SQLException {
-		Connection conn=null;
-		PreparedStatement ps=null;
-		int result=0;
-		ResultSet rs=null;
-		String sql="";
-		
-		try {
-			conn=getConnection();
+		public int removeUser(String id, String pw) throws SQLException {
+			Connection conn=null;
+			PreparedStatement ps=null;
+			int result=0;
+			ResultSet rs=null;
+			String sql="";
 			
-			sql="select pw from users where id=?";
-			ps=conn.prepareStatement(sql);
-			ps.setString(1,id);
+			try {
+				conn=getConnection();
+				
+				sql="select pw from users where id=?";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1,id);
+				
+				rs=ps.executeQuery();
+				
+				if(rs.next()){
+					String dbPw=rs.getString(1);
+					ps.close();
+					
+					if(dbPw.equals(pw)){
+						sql="update users set grade='GG', PW_DT=sysdate where id=? and pw=?";
+						ps=conn.prepareStatement(sql);
+						ps.setString(1,id);
+						ps.setString(2,pw);
+						result=ps.executeUpdate();
+					}else result=0;
+					
+					
+				}else result=-1;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				DisConnection(conn, ps, rs);
+			}
+			System.out.println("result: "+result);
+			return result;
 			
-			rs=ps.executeQuery();
-			
-			if(rs.next()){
-				String dbPw=rs.getString(1);
-				ps.close();
-				
-				if(dbPw.equals(pw)){
-					sql="delete from users where pw=?";
-					ps=conn.prepareStatement(sql);
-					ps.setString(1,pw);
-					result=ps.executeUpdate();
-				}else result=0;
-				
-				
-			}else result=-1;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			DisConnection(conn, ps, rs);
 		}
-		System.out.println("result: "+result);
-		return result;
-		
-	}
 	// 회원 목록을 만들기 위해 회원 수를 가져오는 클래스 입니다.
 	public int countUser() throws SQLException {
 		int count=0;
@@ -948,7 +949,8 @@ public class MemberDao {
 		int result=0;
 		
 		
-		String sql="delete from users where id=?";
+		/*String sql="delete from users where id=?";*/
+		String sql="update users set grade='GG', PW_DT=sysdate where id=?";
 		
 		try {
 			conn=getConnection();
