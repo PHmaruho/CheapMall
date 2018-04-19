@@ -19,7 +19,7 @@
 <h2> MY PAGE </h2>
 
 <div id="order">
-	<a href="goodsUserReturnForm.mall">
+	<a href="OrderListSimpleForm.mall">
 		주문내역 조회
 	</a>
 </div>

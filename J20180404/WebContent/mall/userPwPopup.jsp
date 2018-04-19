@@ -64,6 +64,24 @@
 			frm.pw.focus();
 			return false;
 		}
+		
+		// 문자가 최소 3개 이상 들어가게 한다.
+		checkPwUpper = 0;
+		for(var i=0 ; i<v_pw.value.length ; i++){
+			var asciiset = v_pw.value.charCodeAt(i);
+			if((asciiset >= 65 && asciiset <= 90) || (asciiset >= 97 && asciiset <= 122)){
+				checkPwUppder += 1;
+			}
+		}
+		if(checkPwUpper < 3){
+			alert("비밀번호 형식에 맞지않습니다.");
+			v_pw.value = "";
+			frm.pw2.value ="";
+			v_pw.focus();
+			return false;
+		}
+		
+		return true;
 	}
 	
 	// 취소
