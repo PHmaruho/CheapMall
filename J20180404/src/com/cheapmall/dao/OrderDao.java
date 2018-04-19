@@ -362,12 +362,12 @@ public class OrderDao {
 
 	// JSY Part Start!
 	// 해당 회원에 해당하는 주문정보를 받아옵니다.
-public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws SQLException {
+public List<HashMap> selectOrders(String id, int startRow, int endRow) throws SQLException {
 		
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		List<OrdersDto> list=new ArrayList<OrdersDto>();
+		List<HashMap> list=new ArrayList<HashMap>();
 		
 		String sql="";
 		
@@ -377,12 +377,28 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 			
 			if(startRow==0||endRow==0){
 				
-				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) order by order_sq desc";
+				sql=
+				"select a1.*, b1.cnt, b1.origin_price, b1.meaning, b1.order_dt "
+				+ "from(select order_sq, g.nm, g.gender, g.top_category, g.middle_category, g.path from "
+				+ "(select d.order_sq, min(d.goods_sq) sq from orders o, order_detail d where user_id=?"
+				+ " and o.order_sq = d.order_sq group by d.order_sq order by order_sq)"
+				+ " a, goods g where a.sq = g.sq) a1,(select d.order_sq, o.origin_price, c.meaning, o.order_dt, sum(d.cnt) cnt "
+				+ "from orders o, order_detail d, code c where user_id=?"
+				+ " and o.order_sq = d.order_sq and o.order_cd = c.cd group by d.order_sq, o.origin_price, c.meaning, o.order_dt)"
+				+ " b1 where a1.order_sq = b1.order_sq order by a1.order_sq desc";
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, id);
 				
 			}else{
-				sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) where rn between ? and ?  order by order_sq desc";
+				sql="select * from (select a1.*, b1.cnt, b1.origin_price, b1.meaning, b1.order_dt "
+								+ "from(select order_sq, g.nm, g.gender, g.top_category, g.middle_category, g.path from "
+								+ "(select d.order_sq, min(d.goods_sq) sq from orders o, order_detail d where user_id=?"
+								+ " and o.order_sq = d.order_sq group by d.order_sq order by order_sq)"
+								+ " a, goods g where a.sq = g.sq) a1,(select d.order_sq, o.origin_price, c.meaning, o.order_dt, sum(d.cnt) cnt "
+								+ "from orders o, order_detail d, code c where user_id=?"
+								+ " and o.order_sq = d.order_sq and o.order_cd = c.cd group by d.order_sq, o.origin_price, c.meaning, o.order_dt)"
+								+ " b1 where a1.order_sq = b1.order_sq order by a1.order_sq desc) where rn between ? and ?";
+				/*sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) where rn between ? and ?  order by order_sq desc";*/
 				
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, id);
@@ -392,19 +408,20 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 			}
 			rs=ps.executeQuery();
 			while(rs.next()){
-				OrdersDto dto=new OrdersDto();
-				dto.setOrder_sq(rs.getString("order_sq"));
-				dto.setUser_id(id);
-				dto.setOrigin_price(rs.getInt("origin_price"));
-				dto.setDc_price(rs.getInt("dc_price"));
-				dto.setPay_method(rs.getString("pay_method"));
-				dto.setUse_point(rs.getInt("use_point"));
-				dto.setDelivery_fee(rs.getInt("delivery_fee"));
-				dto.setAddr(rs.getString("addr"));
-				dto.setAddr_detail(rs.getString("addr_detail"));
-				dto.setOrder_cd(rs.getString("order_cd"));
-				dto.setOrder_dt(rs.getDate("order_dt"));
-				list.add(dto);
+				HashMap map = new HashMap();
+				map.put("order_sq", rs.getString("order_sq"));
+				map.put("order_dt", rs.getString("order_dt"));
+				map.put("goods_sq", rs.getString("goods_sq"));
+				map.put("cnt", rs.getString("cnt"));
+				map.put("origin_price", rs.getString("origin_price"));
+				map.put("dc_price", rs.getString("dc_price"));
+				map.put("order_cd", rs.getString("order_cd"));
+				map.put("gender", rs.getString("gender"));
+				map.put("top_category", rs.getString("top_category"));
+				map.put("middle_category", rs.getString("middle_category"));
+				map.put("nm", rs.getString("nm"));
+				map.put("detail_sq", rs.getString("detail_sq"));
+				list.add(map);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -415,30 +432,34 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 	}
 	
 	// 해당 회원의 특정 주문에 대한 주문상세 정보를 받아옵니다.
-	public List<Order_detailDto> detailOrder(String id, String order_sq) throws SQLException {
+	public List<HashMap> detailOrder(String id, String order_sq) throws SQLException {
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		List<Order_detailDto> detailList=new ArrayList<Order_detailDto>();
+		List<HashMap> detailList=new ArrayList<HashMap>();
 		String sql="";
 		try {
 			conn=getConnection();
 			
-				sql="select * from (select rownum rn, order_detail.* from "
-						+ "(select * from order_detail where order_sq=?) order_detail)";
+				sql="select d.*, g.gender, g.top_category, g.middle_category, g.path from order_detail d, goods g"
+						+ " where order_sq=? and d.goods_sq = g.sq";
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, order_sq);
 				rs=ps.executeQuery();
 			
 			while(rs.next()){
-				Order_detailDto dto=new Order_detailDto();
-				dto.setDetail_sq(rs.getString("detail_sq"));
-				dto.setOrder_sq(rs.getString("order_sq"));
-				dto.setGoods_sq(rs.getString("goods_sq"));
-				dto.setOrigin_price(rs.getInt("origin_price"));
-				dto.setDc_price(rs.getInt("dc_price"));
-				dto.setCnt(rs.getInt("cnt"));
-				detailList.add(dto);
+				HashMap map=new HashMap();
+				map.put("detail_sq",rs.getString("detail_sq"));
+				map.put("order_sq",rs.getString("order_sq"));
+				map.put("goods_sq",rs.getString("goods_sq"));
+				map.put("origin_price",rs.getInt("origin_price"));
+				map.put("dc_price",rs.getInt("dc_price"));
+				map.put("cnt",rs.getInt("cnt"));
+				map.put("gender",rs.getString("gender"));
+				map.put("top_category",rs.getString("top_category"));
+				map.put("middle_category",rs.getString("middle_category"));
+				map.put("path",rs.getString("path"));
+				detailList.add(map);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
