@@ -984,65 +984,48 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 	
 	//JAN
 	/* 간략보기시 나올 주문내역 */
-	public List<HashMap> olSimple(String id, int startRow , int endRow) throws SQLException {
-		List<HashMap> olSimple = new ArrayList<HashMap>();
+	/* 간략보기시 나올 주문내역 */
+	public List<HashMap> olSimple(String id) throws SQLException {
+		List<HashMap> list = new ArrayList<HashMap>();
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		Connection conn = null;
-
-		String sql = "";
+		String sql = 
+				"select a1.*, b1.cnt, b1.origin_price, b1.meaning, b1.order_dt "
+				+ "from(select order_sq, g.nm, g.gender, g.top_category, g.middle_category, g.path from "
+				+ "(select d.order_sq, min(d.goods_sq) sq from orders o, order_detail d where user_id=?"
+				+ " and o.order_sq = d.order_sq group by d.order_sq order by order_sq)"
+				+ " a, goods g where a.sq = g.sq) a1,(select d.order_sq, o.origin_price, c.meaning, o.order_dt, sum(d.cnt) cnt "
+				+ "from orders o, order_detail d, code c where user_id=?"
+				+ " and o.order_sq = d.order_sq and o.order_cd = c.cd group by d.order_sq, o.origin_price, c.meaning, o.order_dt)"
+				+ " b1 where a1.order_sq = b1.order_sq order by a1.order_sq desc";
 		conn = getConnection();
-
 		try {
 			ps = conn.prepareStatement(sql);
-
-			if(startRow == 0 || endRow == 0 ) {
-				sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
-				       + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) ";
-				
-				ps.setString(1, id);
-
-			} else {
-				sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
-					 + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) where rn between ? and ?";
-			
-				ps.setString(1, id);
-				ps.setInt(2, startRow);
-				ps.setInt(3, endRow);
-			}
-			
-			System.out.println("id: "+id);
-			System.out.println("sql: "+sql);
+			ps.setString(1, id);
+			ps.setString(2, id);
 			
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				HashMap map = new HashMap();
-				System.out.println(rs.getString("HashMap"));
-				
-				map.put("user_id", rs.getString("user_id"));
-				System.out.println(rs.getString("user_id"));
-				
 				map.put("order_sq", rs.getString("order_sq"));
-				System.out.println(rs.getString("order_sq"));
-				
-				map.put("goods_sq", rs.getString("goods_sq"));
-				map.put("sale_price", rs.getString("sale_price"));
-				map.put("dc_price", rs.getString("dc_price"));
-				map.put("order_cd", rs.getString("order_cd"));
-				map.put("order_dt", rs.getString("order_dt"));
+				map.put("nm", rs.getString("nm"));
 				map.put("gender", rs.getString("gender"));
 				map.put("top_category", rs.getString("top_category"));
 				map.put("middle_category", rs.getString("middle_category"));
-				map.put("nm", rs.getString("nm"));
-				map.put("cnt", rs.getInt("cnt"));
-				olSimple.add(map);
+				map.put("path", rs.getString("path"));
+				map.put("cnt", rs.getString("cnt"));
+				map.put("origin_price", rs.getString("origin_price"));
+				map.put("order_cd", rs.getString("meaning"));
+				map.put("order_dt", rs.getString("order_dt"));
+				list.add(map);
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
 			DisConnection(conn, ps, rs);
 		}
-		return olSimple;
+		return list;
 	}
 	
 	public void return_UsePoint(int return_use, String id) throws SQLException {
