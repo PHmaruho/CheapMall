@@ -363,7 +363,6 @@ public class EtcDao {
 				dto.setNm(rs.getString("nm"));
 				dto.setStart_dt(rs.getDate("start_dt"));
 				dto.setEnd_dt(rs.getDate("end_dt"));
-				System.out.println("main: "+rs.getString("sq"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -396,7 +395,6 @@ public class EtcDao {
 				dto.setNm(rs.getString("nm"));
 				dto.setStart_dt(rs.getDate("start_dt"));
 				dto.setEnd_dt(rs.getDate("end_dt"));
-				System.out.println("sub: "+rs.getString("sq"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {

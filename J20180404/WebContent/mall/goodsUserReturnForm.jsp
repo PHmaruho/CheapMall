@@ -45,6 +45,7 @@ function getDetail(r){
 					<th>주문상태</th>
 					<th>주문일</th>
 					<th>반품체크</th>
+					<th>리뷰작성</th>
 				</tr>
 				
 				<c:if test="${count>0 }">
@@ -137,6 +138,11 @@ function getDetail(r){
 									</c:if>
 								</c:if>
 								<c:if test="${fn:contains(checkCd,'R') }">
+								</c:if>
+							</td>
+							<td>
+								<c:if test="${order.order_cd =='O3'}">
+									<input type="button" value="리뷰작성" onclick="writeReview()">
 								</c:if>
 							</td>
 						</tr>

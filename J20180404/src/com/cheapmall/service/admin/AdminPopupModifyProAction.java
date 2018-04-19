@@ -28,7 +28,6 @@ public class AdminPopupModifyProAction implements CommandProcess {
 			
 			MultipartRequest mr=null;
 			
-			System.out.println("경로: "+path);
 			
 			mr=new MultipartRequest(request, path, size, "utf-8", new DefaultFileRenamePolicy());
 			
@@ -37,18 +36,12 @@ public class AdminPopupModifyProAction implements CommandProcess {
 			
 			String[] fileN= fileName.split("\\.");
 			
-			if(fileName==null||fileName.length()==0){
-				System.out.println("fail");
-			}else
-				System.out.println("ok!");
-			
 			String url=fileN[0];
 			
 			String sq= mr.getParameter("sq");
 			String nm=mr.getParameter("nm");
 			String startDt=mr.getParameter("start_dt");
 			String endDt=mr.getParameter("end_dt");
-			System.out.println("startDt: "+startDt);
 			
 			
 			

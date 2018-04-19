@@ -18,7 +18,13 @@ public class OrdersAddCartAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
-			String id = session.getAttribute("id").toString();
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
+			if(id == null) {
+				request.setAttribute("warning", "notLogin");
+				return "cheapmall.jsp";
+			}
+			
 			String cd = request.getParameter("cd");
 			String color = request.getParameter("color");
 			String size = request.getParameter("size");

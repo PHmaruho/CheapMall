@@ -62,6 +62,8 @@ public class OrderDao {
 	 * 4. khReMakeOrderList(String valueList) : 취소된 상품 이외의 다시 주문을 상품리스트를 생성함
 	 * 수정일 : 2018/04/12 
 	 * 1. khOrderReInsert(List<HashMap> list) : 다시 주문할 상품리스틀를 주문함
+	 * 수정일 : 2018/04/19
+	 * return_UsePoint(return_use,id) 추가(취소한 상품들의 포인트를 다시 돌려줌)
 	 */
 	
 	/*
@@ -388,8 +390,6 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 				ps.setInt(3,endRow);
 				
 			}
-			System.out.println("id: "+id);
-			System.out.println("sql: "+sql);
 			rs=ps.executeQuery();
 			while(rs.next()){
 				OrdersDto dto=new OrdersDto();
@@ -416,7 +416,6 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 	
 	// 해당 회원의 특정 주문에 대한 주문상세 정보를 받아옵니다.
 	public List<Order_detailDto> detailOrder(String id, String order_sq) throws SQLException {
-		System.out.println("detailOrder 도착");
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
@@ -461,7 +460,6 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 		String sql="";
 		
 		try {
-			System.out.println("전체 1번째 프로시저 들어감");
 			conn=getConnection();
 			sql="{call returnorderall.selectOrder(?,?)}";
 			cs=conn.prepareCall(sql);
@@ -470,7 +468,6 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 			result=cs.executeUpdate();
 			
 				if(result>0){
-					System.out.println("전체 2번째 프로시저 들어감");
 					cs.close();
 					sql="{call returnorderall.updatePoint(?)}";
 					cs=conn.prepareCall(sql);
@@ -499,21 +496,17 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 		ArrayList<String> list=new ArrayList<>();
 		int sum=0;
 		int count=0;
-		System.out.println("order_sq: "+order_sq);
 		
 		try {
 			conn=getConnection();
-			System.out.println("부분 1번째 프로시저 들어감");
 			String sql="{call returnOrderPart.selectOrder(?,?)}";
 			cs=conn.prepareCall(sql);
 			cs.setString(1,id);
 			cs.setString(2,order_sq);
 			result=cs.executeUpdate();
-			System.out.println("부분 1번째 result: "+result);
 			
 			cs.close();
 			if(result>0){
-				System.out.println("부분 1번째 sum: 들어감");
 				sql="select dc_price, detail_sq from order_detail where detail_sq not in (?";
 				
 				for(int i=0;i<detail_sq.length-1;i++){
@@ -524,24 +517,19 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 				
 				for(int i=0;i<detail_sq.length;i++){
 					ps.setString(i+1,detail_sq[i]);
-					System.out.println("detail_sq: "+detail_sq[i]);
 				}
 				ps.setString(detail_sq.length+1, order_sq);
-				System.out.println("sql: "+sql);
 				rs=ps.executeQuery();
 			}
 			
 			while(rs.next()){
 				sum+=rs.getInt(1);
-				System.out.println("sum: "+sum);
 				
 				/*dsArr[count]=Integer.toString(rs.getInt(2));*/
 				list.add(rs.getString(2));
-				System.out.println("arr: "+list.get(count));
 				count++;
 			}
 			
-					System.out.println("부분 2번째 프로시저 들어감");
 					rs.close();
 					ps.close();
 					
@@ -552,23 +540,19 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 					cs.setInt(3, sum);
 					result=cs.executeUpdate();
 					
-					System.out.println("result: "+result);
 					
 					if(result>0){
 						
 						if(rs!=null) rs.close();
 						if(cs!=null) cs.close();
 						
-						System.out.println("부분 3번째 프로시저 들어감");
 						for(int i=0;i< list.size();i++){
-							System.out.println("length: "+list.get(i));
 							sql="{call returnOrderPart.updateOrderDetail(?,?)}";
 							cs=conn.prepareCall(sql);
 							cs.setString(1,id);
 							cs.setString(2, list.get(i) );
 							result=cs.executeUpdate();
 							if(cs!=null) cs.close();
-							System.out.println("result: "+result);
 						} // for 문
 					}else result=0; // 3번째 종료
 			
@@ -605,7 +589,6 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 				dto.setReturn_cd(rs.getString("return_cd"));
 				dto.setDelivery_fee(rs.getInt("delivery_fee"));
 				dto.setReturn_dt(rs.getDate("return_dt"));
-				System.out.println("detail: "+rs.getString("detail_sq"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -777,7 +760,6 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 				list.add(map);
 			}
 		} catch (Exception e) {
-			System.out.println("여기가 실행됨");
 			System.out.println(e.getMessage());
 		} finally {
 			DisConnection(conn, ps, rs);
@@ -794,7 +776,7 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 		PreparedStatement ps = null;
 		Connection conn = null;
 		String sql = "insert into orders values('O' || lpad(order_sq.nextval, 9, '0'),?,?,?,?,?,?,?,?,?,?)";
-		String sql2 = "insert into order_detail values('D' || lpad(detail_sq.nextval, 9, '0'),'O' || lpad(order_sq.currval, 9, '0'),?,?,?,?)";
+		String sql2 = "insert into order_detail values('D' || lpad(order_detail_sq.nextval, 9, '0'),'O' || lpad(order_sq.currval, 9, '0'),?,?,?,?)";
 		conn = getConnection();
 		try {
 			ps = conn.prepareStatement(sql);
@@ -811,7 +793,6 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 			result = ps.executeUpdate();
 			if (result > 0) {
 				ps.close();
-				System.out.println("성공");
 				for (int i = 0; i < list.size(); i++) {
 					HashMap map = new HashMap();
 					map = list.get(i);
@@ -822,8 +803,6 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 					ps.setInt(4, Integer.parseInt("" + map.get("cnt")));
 					result2 = ps.executeUpdate();
 				}
-			} else {
-				System.out.println("실패");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -1004,65 +983,85 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 	}
 	
 	//JAN
-		/* 간략보기시 나올 주문내역 */
-		public List<HashMap> olSimple(String id, int startRow , int endRow) throws SQLException {
-			List<HashMap> olSimple = new ArrayList<HashMap>();
-			ResultSet rs = null;
-			PreparedStatement ps = null;
-			Connection conn = null;
+	/* 간략보기시 나올 주문내역 */
+	public List<HashMap> olSimple(String id, int startRow , int endRow) throws SQLException {
+		List<HashMap> olSimple = new ArrayList<HashMap>();
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection conn = null;
 
-			String sql = "";
-			conn = getConnection();
+		String sql = "";
+		conn = getConnection();
 
-			try {
-				ps = conn.prepareStatement(sql);
+		try {
+			ps = conn.prepareStatement(sql);
 
-				if(startRow == 0 || endRow == 0 ) {
-					sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
-					       + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) ";
-					
-					ps.setString(1, id);
-
-				} else {
-					sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
-						 + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) where rn between ? and ?";
+			if(startRow == 0 || endRow == 0 ) {
+				sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
+				       + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) ";
 				
-					ps.setString(1, id);
-					ps.setInt(2, startRow);
-					ps.setInt(3, endRow);
-				}
-				
-				System.out.println("id: "+id);
-				System.out.println("sql: "+sql);
-				
-				rs = ps.executeQuery();
-				while (rs.next()) {
-					HashMap map = new HashMap();
-					System.out.println(rs.getString("HashMap"));
-					
-					map.put("user_id", rs.getString("user_id"));
-					System.out.println(rs.getString("user_id"));
-					
-					map.put("order_sq", rs.getString("order_sq"));
-					System.out.println(rs.getString("order_sq"));
-					
-					map.put("goods_sq", rs.getString("goods_sq"));
-					map.put("sale_price", rs.getString("sale_price"));
-					map.put("dc_price", rs.getString("dc_price"));
-					map.put("order_cd", rs.getString("order_cd"));
-					map.put("order_dt", rs.getString("order_dt"));
-					map.put("gender", rs.getString("gender"));
-					map.put("top_category", rs.getString("top_category"));
-					map.put("middle_category", rs.getString("middle_category"));
-					map.put("nm", rs.getString("nm"));
-					map.put("cnt", rs.getInt("cnt"));
-					olSimple.add(map);
-				}
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-			} finally {
-				DisConnection(conn, ps, rs);
+				ps.setString(1, id);
+
+			} else {
+				sql = "select * from (select rownum rn, o.*, od.cnt c from orders o, order_detail od "
+					 + " where od.order_sq=o.order_sq and od.order_sq=(select order_sq from orders where user_id=?) ) where rn between ? and ?";
+			
+				ps.setString(1, id);
+				ps.setInt(2, startRow);
+				ps.setInt(3, endRow);
 			}
-			return olSimple;
+			
+			System.out.println("id: "+id);
+			System.out.println("sql: "+sql);
+			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				HashMap map = new HashMap();
+				System.out.println(rs.getString("HashMap"));
+				
+				map.put("user_id", rs.getString("user_id"));
+				System.out.println(rs.getString("user_id"));
+				
+				map.put("order_sq", rs.getString("order_sq"));
+				System.out.println(rs.getString("order_sq"));
+				
+				map.put("goods_sq", rs.getString("goods_sq"));
+				map.put("sale_price", rs.getString("sale_price"));
+				map.put("dc_price", rs.getString("dc_price"));
+				map.put("order_cd", rs.getString("order_cd"));
+				map.put("order_dt", rs.getString("order_dt"));
+				map.put("gender", rs.getString("gender"));
+				map.put("top_category", rs.getString("top_category"));
+				map.put("middle_category", rs.getString("middle_category"));
+				map.put("nm", rs.getString("nm"));
+				map.put("cnt", rs.getInt("cnt"));
+				olSimple.add(map);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			DisConnection(conn, ps, rs);
 		}
+		return olSimple;
+	}
+	
+	public void return_UsePoint(int return_use, String id) throws SQLException {
+		System.out.println("리턴유즈" + return_use);
+		int result = 0;
+		PreparedStatement ps = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		String sql = "update users set point=point+? where id=?";
+		conn = getConnection();
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, return_use);
+			ps.setString(2, id);
+			result = ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+	}
 }

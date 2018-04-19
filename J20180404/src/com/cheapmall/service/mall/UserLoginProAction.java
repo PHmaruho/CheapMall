@@ -44,7 +44,6 @@ public class UserLoginProAction implements CommandProcess{
 				
 				int pwDate = memberDao.checkPwDt(id);	// 2018-04-18 최우일 : 비밀번호 변경일 검사
 				if (pwDate == 1) {
-					System.out.println("asdf");
 					session.setAttribute("id", id);
 					request.setAttribute("pageSet", "userChangePwDtForm.jsp");
 					return "/mall/cheapmall.jsp";

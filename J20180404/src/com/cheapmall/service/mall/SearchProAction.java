@@ -25,8 +25,6 @@ public class SearchProAction implements CommandProcess{
 			json = etcDao.searchTagGet(keyword);
 		
 			// SYSO
-			System.out.println(keyword);
-			System.out.println(json);
 			
 			request.setAttribute("json", json);
 		} catch (Exception e) {

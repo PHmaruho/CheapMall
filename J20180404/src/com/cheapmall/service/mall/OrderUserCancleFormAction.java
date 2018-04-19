@@ -21,8 +21,13 @@ public class OrderUserCancleFormAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 		// 세션으로 유저 아이디 받아오기
 		HttpSession session = request.getSession();
-		String id = session.getAttribute("id") == null ? null : session
-				.getAttribute("id").toString();
+		String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+		
+		if(id == null) {
+			request.setAttribute("warning", "notLogin");
+			return "cheapmall.jsp";
+		}
+		
 		// -------------------------
 		OrderDao od = OrderDao.getInstance();
 		try {

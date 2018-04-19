@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<c:if test="${result == 0}">
+	<c:if test="${result == 1}">
 		<script type="text/javascript">
 			alert("취소가 성공하셨습니다.");
 			location.href = "OrderUserCancleForm.mall";
