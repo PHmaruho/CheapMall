@@ -25,7 +25,6 @@ public class UserAdminListAction implements CommandProcess {
 			
 			MemberDao dao=MemberDao.getInstance();
 			String search=request.getParameter("search");
-			System.out.println("search: "+search);
 			
 			int count=0;
 			if(search==null|| search.length()==0){
@@ -63,14 +62,6 @@ public class UserAdminListAction implements CommandProcess {
 			request.setAttribute("pageNum", pageNum);
 			request.setAttribute("search", search);
 			
-			System.out.println("count: "+count);
-			System.out.println("currentPage: "+currentPage);
-			System.out.println("blockSize: "+blockSize);
-			System.out.println("startNum: "+startNum);
-			System.out.println("totalPage: "+totalPage);
-			System.out.println("startPage: "+startPage);
-			System.out.println("endPage: "+endPage);
-			System.out.println("pageNum: "+pageNum);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

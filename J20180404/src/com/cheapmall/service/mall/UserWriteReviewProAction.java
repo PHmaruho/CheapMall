@@ -122,7 +122,6 @@ public class UserWriteReviewProAction implements CommandProcess{
 			reviewDto.setPath(path);
 			reviewDto.setIp(ip);
 
-			System.out.println(path + "333333333325235235235");
 			
 			BoardDao boardDao = BoardDao.getInstance();
 			int result = boardDao.writeReview(reviewDto);

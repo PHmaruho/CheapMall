@@ -15,10 +15,8 @@ public class CodeCheckAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String code = request.getParameter("id");
-		System.out.println("code : "+code);
 		GoodsDao gd = GoodsDao.getInstance();
 		int result = gd.checkCode(code);
-		System.out.println("result : "+result);
 		request.setAttribute("result", result);
 
 		return "codeCheck.jsp";

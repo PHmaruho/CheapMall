@@ -28,16 +28,11 @@ public class AdminPopupAddFormProAction implements CommandProcess {
 			
 			MultipartRequest mr=null;
 			
-			System.out.println("path: "+path);
 			
 			mr=new MultipartRequest(request, path, size, "utf-8", new DefaultFileRenamePolicy());
 			
 			String origin= mr.getOriginalFileName("url");
 			String fileName=mr.getFilesystemName("url");
-			
-			if(fileName==null|| fileName.length()==0){
-				System.out.println("fail");
-			}else System.out.println("ok!");
 			
 			String[] fileN=fileName.split("\\.");
 			String url=fileN[0];
@@ -46,13 +41,10 @@ public class AdminPopupAddFormProAction implements CommandProcess {
 			EtcDao dao=EtcDao.getInstance();
 			
 			String category=mr.getParameter("category");
-			System.out.println("category: "+category);
 			String nm=mr.getParameter("nm");
 			
 			String startD=mr.getParameter("start_dt");
 			String endD=mr.getParameter("end_dt");
-			System.out.println("startD: "+startD);
-			System.out.println("endD: "+endD);
 			
 			String[] sArr=startD.split("-");
 			String[] eArr=endD.split("-");

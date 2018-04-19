@@ -18,7 +18,6 @@ public class GoodsAdminDisplayListAction implements CommandProcess {
 	@Override
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("여기 들어옴");
 		HttpSession session = request.getSession();
 		String id = session.getAttribute("id").toString();
 		String category = request.getParameter("category");
@@ -64,14 +63,6 @@ public class GoodsAdminDisplayListAction implements CommandProcess {
 			request.setAttribute("list", list);
 			request.setAttribute("category", category);
 
-			System.out.println("count: " + count);
-			System.out.println("currentPage: " + currentPage);
-			System.out.println("blockSize: " + blockSize);
-			System.out.println("startNum: " + startNum);
-			System.out.println("totalPage: " + totalPage);
-			System.out.println("startPage: " + startPage);
-			System.out.println("endPage: " + endPage);
-			System.out.println("pageNum: " + pageNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

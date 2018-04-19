@@ -24,7 +24,6 @@ public class AdminLoginProAction implements CommandProcess {
 			request.setAttribute("id", id);
 			request.setAttribute("pw", pw);
 			request.setAttribute("auth", result);
-			System.out.println("AdminLoginProAction result->"+result);
 			
 			request.setAttribute("result", result);
 		} catch(Exception e) {
