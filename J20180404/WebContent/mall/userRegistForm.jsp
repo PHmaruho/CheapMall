@@ -33,6 +33,7 @@ table {
 			return false;
 		}
 		
+		// 대문자 체크
 		var checkPwUpper = 0;
 		for(var i=0; i<v_pw.value.length ; i++){
 			if(v_pw.value.charAt(i) == v_pw.value.charAt(i).toUpperCase()){
@@ -41,6 +42,22 @@ table {
 			}
 		}
 		if(checkPwUpper == 0){
+			alert("비밀번호 형식에 맞지않습니다.");
+			v_pw.value = "";
+			frm.pw2.value ="";
+			v_pw.focus();
+			return false;
+		}
+		
+		// 문자가 최소 3개 이상 들어가게 한다.
+		checkPwUpper = 0;
+		for(var i=0 ; i<v_pw.value.length ; i++){
+			var asciiset = v_pw.value.charCodeAt(i);
+			if((asciiset >= 65 && asciiset <= 90) || (asciiset >= 97 && asciiset <= 122)){
+				checkPwUppder += 1;
+			}
+		}
+		if(checkPwUpper < 3){
 			alert("비밀번호 형식에 맞지않습니다.");
 			v_pw.value = "";
 			frm.pw2.value ="";
@@ -169,12 +186,12 @@ table {
 			</tr>
 			<tr>
 				<td><span style="color:orange">◎</span>비밀번호</td>
-				<td><input type="password" name="pw" placeholder="비번을 입력하세요" maxlength="8" required="required">(영문&nbsp;대소문자/숫자&nbsp;4~20자)</td>
+				<td><input type="password" name="pw" placeholder="비번을 입력하세요" maxlength="20" required="required">(영문&nbsp;대소문자/숫자&nbsp;4~20자)</td>
 				
 			</tr>
 			<tr>
 				<td><span style="color:orange">◎</span>비밀번호 확인</td>
-				<td><input type="password" name="pw2" placeholder="비번을 재입력하세요" maxlength="8" required="required"></td>
+				<td><input type="password" name="pw2" placeholder="비번을 재입력하세요" maxlength="20" required="required"></td>
 			</tr>
 			<tr>
 				<td><span style="color:orange">◎</span>이름</td>
@@ -183,7 +200,7 @@ table {
 			<tr>
 				<td>&nbsp;&nbsp;&nbsp;&nbsp;주소</td>
 				<td><input type="text" name="addtext1" id="zipcode" readonly="readonly" onclick="findZipcode()">
-					<input type="button" onclick="findZipcode()" style="background-color:#EDCE7A"><br>
+					<input type="button" onclick="findZipcode()" style="background-color:#EDCE7A" value="우편번호검색"><br>
 					<input type="text" name="addtext2" id="addr" readonly="readonly"><br>
 					<input type="text" name="addtext3" id="addr_detail" placeholder="상세주소" readonly="readonly">
 				</td>
