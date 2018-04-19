@@ -22,15 +22,6 @@ public class GoodsReviewProAction implements CommandProcess{
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
-			HttpSession session = request.getSession();
-			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
-			
-			if(id == null) {
-				request.setAttribute("warning", "notLogin");
-				return "cheapmall.jsp";
-			}
-			
-			
 			String goods_cd = request.getParameter("goods_cd");
 			String reviewType = request.getParameter("reviewType");
 			String pageNum = request.getParameter("pageNum");
