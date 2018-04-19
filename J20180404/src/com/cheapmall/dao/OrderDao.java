@@ -776,7 +776,7 @@ public List<OrdersDto> selectOrders(String id, int startRow, int endRow) throws 
 		PreparedStatement ps = null;
 		Connection conn = null;
 		String sql = "insert into orders values('O' || lpad(order_sq.nextval, 9, '0'),?,?,?,?,?,?,?,?,?,?)";
-		String sql2 = "insert into order_detail values('D' || lpad(detail_sq.nextval, 9, '0'),'O' || lpad(order_sq.currval, 9, '0'),?,?,?,?)";
+		String sql2 = "insert into order_detail values('D' || lpad(order_detail_sq.nextval, 9, '0'),'O' || lpad(order_sq.currval, 9, '0'),?,?,?,?)";
 		conn = getConnection();
 		try {
 			ps = conn.prepareStatement(sql);

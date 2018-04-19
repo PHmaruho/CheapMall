@@ -22,9 +22,9 @@ public class OrderUserCancleProAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+		String sessionId = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
 		
-		if(id == null) {
+		if(sessionId == null) {
 			request.setAttribute("warning", "notLogin");
 			return "cheapmall.jsp";
 		}
@@ -48,8 +48,6 @@ public class OrderUserCancleProAction implements CommandProcess {
 				int control = 0;
 				int size = list[i].size();
 				for (int j = 0; j < size; j++) {
-
-							+ list[i].size());
 					HashMap testMap = new HashMap();
 					testMap = list[i].get(j - control);
 					for (int k = 0; k < detail_sq.length; k++) {
@@ -109,8 +107,6 @@ public class OrderUserCancleProAction implements CommandProcess {
 						orderDto.setAddr_detail(addr_detail);
 						orderDto.setOrder_cd("O1");
 						orderDto.setOrder_dt(order_dt);
-								+ orderDto.getOrigin_price());
-								+ orderDto.getDelivery_fee());
 					}
 					int totalPrice = orderDto.getOrigin_price()
 							- orderDto.getDc_price()
