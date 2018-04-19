@@ -18,7 +18,6 @@ public class AdminUpdateProAction implements CommandProcess {
 			throws ServletException, IOException {
 		
 		try {
-			System.out.println("AdminUpdateProAction start->");
 		//	String pageNum = request.getParameter("pageNum");
 
 			AdminDto adminDto = new AdminDto();
@@ -31,10 +30,6 @@ public class AdminUpdateProAction implements CommandProcess {
 			adminDto.setTel(request.getParameter("tel"));
 			adminDto.setEmail(request.getParameter("email"));
 			adminDto.setPath(request.getParameter("path"));
-			
-			System.out.println("AdminUpdateProAction nm->"+request.getParameter("nm"));
-			System.out.println("AdminUpdateProAction tel->"+request.getParameter("tel"));
-			System.out.println("AdminUpdateProAction email->"+request.getParameter("email"));
 			
 			int result = 0;
 			MemberDao md = MemberDao.getInstance();

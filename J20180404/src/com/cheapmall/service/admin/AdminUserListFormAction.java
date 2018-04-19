@@ -46,16 +46,6 @@ public class AdminUserListFormAction implements CommandProcess{
 			request.setAttribute("startPage", startPage);
 			request.setAttribute("endPage", endPage);
 			
-			// SYSO
-			System.out.println("-----------------------------------------------");  // /ch16/list.do
-			System.out.println("startNum-->" + startNum);  // /ch16/list.do
-			System.out.println("totCnt-->" + totCnt);  // /ch16/list.do
-			System.out.println("currentPage-->" + currentPage);  // /ch16/list.do
-			System.out.println("blockSize-->" + blockSize);  // /ch16/list.do
-			System.out.println("pageSize-->" + pageSize);  // /ch16/list.do
-			System.out.println("pageCnt-->" + pageCnt);  // /ch16/list.do
-			System.out.println("startPage-->" + startPage);  // /ch16/list.do
-			System.out.println("endPage-->" + endPage);  // /ch16/list.do
 		} catch (Exception e) {
 			// TODO: handle exception
 			// SYSO

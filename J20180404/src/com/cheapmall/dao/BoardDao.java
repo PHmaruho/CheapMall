@@ -346,14 +346,12 @@ public class BoardDao{
 				pstmt.setString(1, board_cd);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, endRow);
-				System.out.println("sql1 : " + sql1);
 			} else {
 				pstmt = conn.prepareStatement(sql2);
 				pstmt.setString(1, board_cd);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, endRow);
 				pstmt.setString(4, bp);
-				System.out.println("sql2 : " + sql2);
 			}
 			rs = pstmt.executeQuery();
 			

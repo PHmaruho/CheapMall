@@ -484,7 +484,6 @@ public class GoodsDao {
 	}
 	// 상품sq에 해당하는 정보를 가져오는 클래스입니다.
 	public GoodsDto selectGoods(String sq) throws SQLException {
-		System.out.println("selectGoods Dao ok");
 		GoodsDto dto = new GoodsDto();
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -513,7 +512,6 @@ public class GoodsDao {
 					dto.setPath(rs.getString("path"));
 					dto.setStock(rs.getInt("stock"));
 					dto.setDisplay(rs.getString("display"));
-					System.out.println(rs.getString("sq"));
 				}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -545,7 +543,6 @@ public class GoodsDao {
 					if(dis.equals("Y")) result=0;
 					else result=1;
 				}
-				System.out.println("result: "+result);
 			if(result!=0){
 				rs.close();
 				ps.close();
@@ -588,7 +585,6 @@ public class GoodsDao {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		String sql="";
-		System.out.println("updateGoods dao ok");
 		
 		sql="update goods set display=?,start_dt=sysdate,end_dt=add_months(sysdate,1) where sq=?";
 		try {
@@ -623,13 +619,11 @@ public class GoodsDao {
 			if(startRow==0||endRow==0){
 				
 				sql="select * from (select rownum rn, goods.* from (select * from goods where "+cat+"=?) goods)";
-				System.out.println("sql: "+sql);
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, search);
 				rs=ps.executeQuery();
 			}else{
 				sql="select * from (select rownum rn, goods.* from (select * from goods where "+cat+"=?) goods) where rn between ? and ?";
-				System.out.println("sql: "+sql);
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, search);
 				ps.setInt(2,startRow);
@@ -654,7 +648,6 @@ public class GoodsDao {
 				dto.setPath(rs.getString("path"));
 				dto.setStock(rs.getInt("stock"));
 				dto.setDisplay(rs.getString("display"));
-				System.out.println("dto: "+rs.getString("sq"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -834,7 +827,6 @@ public class GoodsDao {
 		Connection conn = null;
 		String sql = "update code set category=?,meaning=?,used=? where cd=?";
 		int result = 0;
-		System.out.println("체인지코드 codeDto.getCd() : " + codeDto.getCategory() + "  " + codeDto.getMeaning());
 		conn = getConnection();
 	
 		try {
@@ -853,11 +845,9 @@ public class GoodsDao {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("result : " + result);
 		return result;
 	}
 	public int checkCode(String code) {
-		System.out.println("코드길이는 : " + code.length());
 		int result = 0;
 		if (code.length() == 0) {
 			result = 1;
@@ -1019,7 +1009,6 @@ public class GoodsDao {
 			e.printStackTrace();
 		}
 		DisConnection(conn, ps, rs);
-		System.out.println("size: "+list.size());
 		return list;
 	}
 }
