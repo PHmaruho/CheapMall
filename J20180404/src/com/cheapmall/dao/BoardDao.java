@@ -492,6 +492,7 @@ public class BoardDao{
 		
 		JSONObject json = new JSONObject();
 		JSONArray list = new JSONArray();
+		double totalStar = 0;
 		
 		String sql = " select * "
 				+ "	from "
@@ -529,6 +530,7 @@ public class BoardDao{
 					board.put("up", rs.getInt(7));
 					board.put("down", rs.getInt(8));
 					board.put("star", rs.getInt(9));
+					totalStar += rs.getInt(9);
 					board.put("goods_cd", rs.getString(10));
 					//board.put("ip", rs.getString(11));
 					if(reviewType.equals("photo")) {
@@ -537,6 +539,7 @@ public class BoardDao{
 					list.add(board);
 				}while(rs.next());
 				json.put("review", list);
+				json.put("totalStar", Math.round(totalStar/5));
 			} else {
 				json.put("result", "no");
 			}
