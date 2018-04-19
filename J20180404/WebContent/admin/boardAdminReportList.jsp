@@ -19,7 +19,7 @@
 		var selected = select.options[select.selectedIndex].value;
 		var board_cd = '${board_cd}'
 		
-		location.href = "boardAdminReportList.admin?board_cd=" + board_cd + "&bp=" + selected;
+		location.href = "boardAdminOtherList.admin?board_cd=" + board_cd + "&bp=" + selected;
 	}
 </script>
 </head>
@@ -27,8 +27,10 @@
 	<div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
-	
+		
 	<div id="main">
+		<jsp:include page="boardAdminMenu.jsp"/>
+		<h2>신고처리</h2>
 		<c:if test="${board_cd eq 'B1' }">
 			<h2>문의사항</h2>
 		</c:if>

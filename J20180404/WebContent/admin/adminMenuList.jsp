@@ -28,8 +28,7 @@ table {
 					<li><a class="a" href="SearchManagerForm.admin">검색어관리</a></li>
 				</c:if>
 				<c:if test="${auth eq 'A0' || auth eq 'A3' }">
-					<!-- <li><a class="a" href="boardAdminNoticeList.admin">게시판관리</a></li> -->
-					<li><a class="a" href="boardAdminTempPageCwi.jsp">게시판관리</a></li>
+					<li><a class="a" href="boardAdminNoticeList.admin">게시판관리</a></li>
 				</c:if>
 				<c:if test="${auth eq 'A0' || auth eq 'A4' }">
 					<li><a class="a" href="#">통계</a></li>

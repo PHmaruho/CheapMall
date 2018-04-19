@@ -51,6 +51,7 @@
 	</div>
 	
 	<div id="main">
+		<jsp:include page="boardAdminMenu.jsp"/>
 		<c:if test="${board_cd eq 'B1' }">
 			<h2>문의사항</h2>
 		</c:if>
