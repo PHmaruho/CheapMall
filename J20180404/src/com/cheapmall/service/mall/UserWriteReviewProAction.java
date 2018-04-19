@@ -14,6 +14,7 @@ import javax.media.jai.RenderedOp;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.BoardDao;
 import com.cheapmall.dto.ReviewDto;
@@ -29,7 +30,14 @@ public class UserWriteReviewProAction implements CommandProcess{
 		
 		
 		try {
-			String id = null;
+			HttpSession session = request.getSession();
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
+			if(id == null) {
+				request.setAttribute("warning", "notLogin");
+				return "cheapmall.jsp";
+			}
+			// String id = null;
 			String goods_sq = null;
 			String ip = null;
 			String content = null;
@@ -37,7 +45,7 @@ public class UserWriteReviewProAction implements CommandProcess{
 			String goods_cd = null;
 			int star = 0;
 			if(request.getParameter("method").equals("simple")) {
-				id = request.getParameter("id");
+				// id = request.getParameter("id");
 				goods_sq = request.getParameter("goods_sq");
 				ip = request.getParameter("ip");
 				content = request.getParameter("content");
@@ -57,7 +65,7 @@ public class UserWriteReviewProAction implements CommandProcess{
 				MultipartRequest multi = new MultipartRequest(request, savePath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 				
 				// session id get
-				id = multi.getParameter("id");
+				// id = multi.getParameter("id");
 				goods_sq = multi.getParameter("goods_sq");
 				ip = multi.getParameter("ip");
 				content = multi.getParameter("content");

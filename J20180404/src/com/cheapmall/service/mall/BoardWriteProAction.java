@@ -17,6 +17,14 @@ public class BoardWriteProAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
+			if(id == null) {
+				request.setAttribute("warning", "notLogin");
+				return "cheapmall.jsp";
+			}
+			
+			
 			BoardDto boardDto = new BoardDto();
 			BoardDao boardDao = BoardDao.getInstance();
 			

@@ -21,8 +21,15 @@ public class GoodsUserReturnFormAction implements CommandProcess{
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			HttpSession session=request.getSession();
-			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
+			HttpSession session = request.getSession();
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
+			if(id == null) {
+				request.setAttribute("warning", "notLogin");
+				return "cheapmall.jsp";
+			}
+			
+			
 			OrderDao dao=OrderDao.getInstance();
 			
 			

@@ -21,8 +21,11 @@ public class OrderDetailProAction implements CommandProcess{
 			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
 			
 			if(id == null) {
+				request.setAttribute("warning", "notLogin");
 				return "cheapmall.jsp";
 			}
+			
+			
 			
 			String[] goods_sq = request.getParameterValues("goods_sq");
 			String[] cart_sq = request.getParameterValues("cart_sq") == null ? null : request.getParameterValues("cart_sq");
