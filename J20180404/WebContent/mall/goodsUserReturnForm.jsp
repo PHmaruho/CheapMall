@@ -42,16 +42,19 @@ function getDetail(r){
 </head>
 <body>
 	
-	<h2>주문내역</h2>
+	<h2>반품</h2>
 	<div id="main">
 		<form action="goodsUserReturnPro.mall" method="post" name="all">
 			<table border="1">
 				<tr>
-					<th>주문ID</th>
-					<th>할인가</th>
-					<th>배송비</th>
-					<th>사용포인트</th>
+					<th>주문번호</th>
+					<th>상품</th>
+					<th>원가</th>
 					<th>결제수단</th>
+					<th>사용포인트</th>
+					<th>배송비</th>
+					<th>배송지</th>
+					<th>상세주소</th>
 					<th>주문상태</th>
 					<th>주문일</th>
 					<th>반품체크</th>
@@ -75,66 +78,31 @@ function getDetail(r){
 									<c:if test="${fn:contains(checkCd,'R') }">
 									</c:if>
 							</td> 
-							<td>${order.dc_price }</td>
-							<td>${order.delivery_fee }</td>
-							<td>${order.use_point }</td>
-							<td>${order.pay_method }</td>
 							<td>
-								<c:if test="${order.order_cd =='R0'}">
-									반품요청
-								</c:if>
-								
-								<c:if test="${order.order_cd =='R1'}">
-									반품수령
-								</c:if>
-								
-								<c:if test="${order.order_cd =='R2'}">
-									반품확인중
-								</c:if>
-								
-								<c:if test="${order.order_cd =='R3'}">
-									반품완료
-								</c:if>
-								
-								<c:if test="${order.order_cd =='R4'}">
-									재배송
-								</c:if>
-								
-								<c:if test="${order.order_cd =='R5'}">
-									교환요청
-								</c:if>
-								
-								<c:if test="${order.order_cd =='O0'}">
-									교환요청
-								</c:if>
-								
-								<c:if test="${order.order_cd =='O1'}">
-									배송준비
-								</c:if>
-								
-								<c:if test="${order.order_cd =='O2'}">
-									배송중
-								</c:if>
-								
-								<c:if test="${order.order_cd =='O3'}">
-									베송완료
-								</c:if>
-								
-								<c:if test="${order.order_cd =='O4'}">
-									수령확인
-								</c:if>
-								
-								<c:if test="${order.order_cd =='O5'}">
-									주문취소
-								</c:if>
-								
-								<c:if test="${order.order_cd =='O6'}">
-									반품요청
-								</c:if>
-								
-								<c:if test="${order.order_cd =='O7'}">
-									교환요청
-								</c:if>
+							<img src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/thumbnail/${goods.path }.png">
+							${ goodsInfo.nm}
+							</td>
+							<td>${order.origin_price }</td>
+							<td>${order.pay_method }</td>
+							<td>${order.use_point }</td>
+							<td>${order.delivery_fee }</td>
+							<td>${order.addr }</td>
+							<td>${order.addr_detail }</td>
+							<td>
+								<c:if test="${order.order_cd =='R0'}">반품요청</c:if>
+								<c:if test="${order.order_cd =='R1'}">반품수령</c:if>
+								<c:if test="${order.order_cd =='R2'}">반품확인중</c:if>
+								<c:if test="${order.order_cd =='R3'}">반품완료</c:if>
+								<c:if test="${order.order_cd =='R4'}">재배송</c:if>
+								<c:if test="${order.order_cd =='R5'}">교환요청</c:if>
+								<c:if test="${order.order_cd =='O0'}">교환요청</c:if>
+								<c:if test="${order.order_cd =='O1'}">배송준비</c:if>
+								<c:if test="${order.order_cd =='O2'}">배송중</c:if>
+								<c:if test="${order.order_cd =='O3'}">배송완료</c:if>
+								<c:if test="${order.order_cd =='O4'}">수령확인</c:if>
+								<c:if test="${order.order_cd =='O5'}">주문취소</c:if>
+								<c:if test="${order.order_cd =='O6'}">반품요청</c:if>
+								<c:if test="${order.order_cd =='O7'}">교환요청</c:if>
 								
 							</td>
 							<td>${order.order_dt }</td>
@@ -151,12 +119,12 @@ function getDetail(r){
 								</c:if>
 							</td>
 						</tr>
-					</c:forEach>
+						</c:forEach>
 				</c:if>
 				
 				<c:if test="${count==0 }">
 					<tr>
-						<td colspan=7>no data exists</td>
+						<td colspan="11">no data exists</td>
 					</tr>
 				</c:if>
 				
