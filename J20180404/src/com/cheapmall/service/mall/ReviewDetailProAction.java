@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.BoardDao;
-import com.cheapmall.dto.ReviewDto;
 import com.cheapmall.service.CommandProcess;
 
-public class ReviewPopUpAction implements CommandProcess{
+public class ReviewDetailProAction implements CommandProcess{
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -20,21 +19,28 @@ public class ReviewPopUpAction implements CommandProcess{
 			HttpSession session = request.getSession();
 			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
 			
-			if(id == null) {
-				request.setAttribute("id", id);
-			}
-			
 			String sq = request.getParameter("sq");
-					
-			BoardDao boardDao = BoardDao.getInstance();
-			boardDao.upToReviewCnt(sq); // count ++
-			ReviewDto reviewDto = boardDao.getReviewOne(sq);
+			String type = request.getParameter("type");
+			String writer = request.getParameter("writer");
 			
-			request.setAttribute("reviewDto", reviewDto);
+			BoardDao boardDao = BoardDao.getInstance();
+			int result = 0;
+			if(id.equals(writer)) {
+				if(type.equals("delete")) {
+					result = boardDao.deleteReview(sq);
+					
+					request.setAttribute("type", type);
+					request.setAttribute("result", result);
+				}
+			} else {
+				request.setAttribute("type", "warning");
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			// SYSO
+			System.out.println("ReviewDetailProAction Error");
+			e.printStackTrace();
 		}
-		
-		return "/mall/reviewPopup.jsp";
+		return "reviewDetailPro.jsp";
 	}
 }

@@ -500,23 +500,23 @@ public class BoardDao{
 				+ "			from "
 				+ " 			("
 				+ "				select * "
-				+ "				from review "
-				+ "				order by sq desc) a ) "
-				+ " where rn between ? and ? "
-				+ " AND goods_cd LIKE ? ";
-		
+				+ "				from review ";
 		if(reviewType.equals("photo")) {
-			sql += " AND path IS NOT NULL";
+			sql += " WHERE path IS NOT NULL";
 		} else if(reviewType.equals("simple")) {
-			sql += " AND path IS NULL";
+			sql += " WHERE path IS NULL";
 		}
+		
+			sql	+= " AND goods_cd = ? "
+				+  " order by sq desc) a ) "
+				+  " where rn between ? and ? ";
 		
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, startRow);
-			ps.setInt(2, endRow);
-			ps.setString(3, goods_cd);
+			ps.setString(1, goods_cd);
+			ps.setInt(2, startRow);
+			ps.setInt(3, endRow);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				do {
@@ -587,6 +587,27 @@ public class BoardDao{
 		return result;
 	}
 	
+	public void upToReviewCnt(String sq) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		String sql = "UPDATE review SET cnt = cnt + 1 WHERE sq = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, sq);
+			ps.executeQuery();
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("upToReviewCnt Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, null);
+		}
+	}
+
 	public ReviewDto getReviewOne(String sq) throws SQLException{
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -621,6 +642,30 @@ public class BoardDao{
 		}
 		
 		return reviewDto;
+	}
+	
+	public int deleteReview(String sq) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		int result = 0;
+		String sql = "DELETE FROM review WHERE sq = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, sq);
+			result = ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("deleteReview Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, null);
+		}
+		
+		return result;
 	}
 	
 	/*작성자	: 최우일

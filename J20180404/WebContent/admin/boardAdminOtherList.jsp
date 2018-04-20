@@ -14,7 +14,6 @@
 		$("#bp").val(board_p_cd);
 		$("#searchSelect").val(option);
 		$("#searchHidden").val('${searchText}');
-		$("#searchSelect").disabled = true;
 	}
  
 	function bpSelect() {
@@ -52,13 +51,7 @@
 	</div>
 	
 	<div id="main">
-		<jsp:include page="boardAdminMenu.jsp"/>
-		<c:if test="${board_cd eq 'B1' }">
-			<h2>문의사항</h2>
-		</c:if>
-		<c:if test="${board_cd eq 'B2' }">
-			<h2>건의사항</h2>
-		</c:if>
+		<h2>신고처리</h2>
 		
 		<select id="bp" onchange="bpSelect()">
 			<option id="all" value="all">전체</option>
@@ -67,9 +60,14 @@
 			<option id="BP2" value="BP2">답변완료</option>
 		</select>
 		
-		<table>
+		<table class="table" border="1">
+
 			<tr>
-				<th>번호</th><th>제목</th><th>작성자</th><th>작성일</th><th>처리상태</th>
+				<th class="th">번호</th>
+				<th class="th">제목</th>
+				<th class="th">작성자</th>
+				<th class="th">작성일</th>
+				<th class="th">처리상태</th>
 			</tr>
 			<c:if test="${totCnt > 0 }">
 				<c:forEach var="board" items="${list }">
