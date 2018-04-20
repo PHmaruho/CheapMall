@@ -16,7 +16,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.cheapmall.dto.BoardDto;
-import com.cheapmall.dto.GoodsDto;
 import com.cheapmall.dto.ReviewDto;
 
 public class BoardDao{
@@ -539,7 +538,7 @@ public class BoardDao{
 					list.add(board);
 				}while(rs.next());
 				json.put("review", list);
-				json.put("totalStar", Math.round(totalStar/5));
+				json.put("totalStar", Math.round(totalStar/list.size()));
 			} else {
 				json.put("result", "no");
 			}
@@ -586,6 +585,42 @@ public class BoardDao{
 		}
 		
 		return result;
+	}
+	
+	public ReviewDto getReviewOne(String sq) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		ReviewDto reviewDto = new ReviewDto();
+		String sql = "SELECT * FROM review WHERE sq = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, sq);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				reviewDto.setSq(rs.getString(1));
+				reviewDto.setUser_id(rs.getString(2));
+				reviewDto.setWrite_dt(rs.getDate(3));
+				reviewDto.setContent(rs.getString(4));
+				reviewDto.setCnt(rs.getInt(5));
+				reviewDto.setUp(rs.getInt(6));
+				reviewDto.setDown(rs.getInt(7));
+				reviewDto.setStar(rs.getInt(8));
+				reviewDto.setGoods_cd(rs.getString(9));
+				reviewDto.setIp(rs.getString(10));
+				reviewDto.setPath(rs.getString(11));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		
+		return reviewDto;
 	}
 	
 	/*작성자	: 최우일

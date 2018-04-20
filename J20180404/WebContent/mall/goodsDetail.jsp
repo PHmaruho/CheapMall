@@ -34,11 +34,11 @@
 	.reviewDt{
 		width: 150px;
 	}
-	
 	#simpleReview #photoReview{
 		line-height: 200px;
 		vertical-align: middle;
 	}
+	
 </style>
 
 <script type="text/javascript">
@@ -68,7 +68,8 @@ window.onload = function(){
 				simple.html("");
 				
 				str += "<table class='table table-hover'>";
-				str += "<tr><td colspan='2'>간편리뷰</td><td colspan='2'>평균평점</td><td colspan='3'>" + list.totalStar + "/5</td></tr>";
+				str += "<tr class=''><td colspan='7' class='review' style='text-align:left;'>간편리뷰</td></tr>"
+				str += "<tr class=''><td colspan='7' class='review'>평균평점" + list.totalStar + "/5</td></tr>";
 					if(list.totCnt != 0){
 						$.each(list.review, function(){
 							// good or bad image
@@ -98,11 +99,14 @@ window.onload = function(){
 							}
 							
 							// userid // a href 추가 예정
-							str += "<td class='review reviewId'>" + this.user_id +"</td>";
+							str += "<td class='review reviewId'>"
+										+ this.user_id +
+										"<input type='button' value='신고' onclick='reportUser(\""+this.user_id+"\")'>"
+								   "</td>";
 							
 							// up/down button a href
-							str += "<td class='review reviewUp'><img src='../images/review/icon/up.png'>UP("+this.up+") / ";
-							str += "<td class='review reviewDown'><img src='../images/review/icon/down.png'>DOWN("+this.down+")";
+							str += "<td class='review reviewUp'><img src='../images/review/icon/up.png'>UP("+this.up+")</td>";
+							str += "<td class='review reviewDown'><img src='../images/review/icon/down.png'>DOWN("+this.down+")</td>";
 							
 							//write_dt
 							str += "<td class='review reviewDt'>"+this.write_dt+"</td>";
@@ -155,6 +159,8 @@ window.onload = function(){
 				simple.html("");
 				
 				str += "<table class='table table-hover center-block'>";
+				str += "<tr class=''><td colspan='7' class='review' style='text-align:left;'>포토리뷰</td></tr>"
+				str += "<tr class=''><td colspan='7' class='review'>평균평점" + list.totalStar + "/5</td></tr>";
 					if(list.totCnt != 0){
 						$.each(list.review, function(){
 							// good or bad image
@@ -171,22 +177,27 @@ window.onload = function(){
 									str += "1.png'>"
 								}
 							str += "</td>";
+							
 							// image
 							str += "<td class='review reviewImg'><img src='../images/review/thumb/sm_"+this.path+".png'></td>";
 							
+							
 							// content
 							if(this.content.length >= 30){
-								str += "<td class='review reviewContent'>" + this.content.substring(0, 30) + "</td>";
+								str += "<td class='review reviewContent'><a href='#' onclick='viewContent(\""+this.sq+"\")'>" + this.content.substring(0, 30) + "</a></td>";
 							} else {
-								str += "<td class='review reviewContent'>" + this.content + "</td>";
+								str += "<td class='review reviewContent'><a href='#' onclick='viewContent(\""+this.sq+"\")'>" + this.content + "</a></td>";
 							}
 							
 							// userid // a href 추가 예정
-							str += "<td class='review reviewId'>" + this.user_id +"</td>";
+							str += "<td class='review reviewId'>"
+										+ this.user_id +
+										"<input type='button' value='신고' onclick='reportUser(\""+this.user_id+"\")'>"
+								   "</td>";
 							
 							// up/down button a href
-							str += "<td class='review reviewUp'><img src='../images/review/icon/up.png'>UP("+this.up+") / ";
-							str += "<td class='review reviewDown'><img src='../images/review/icon/down.png'>DOWN("+this.down+")";
+							str += "<td class='review reviewUp'><img src='../images/review/icon/up.png'>UP("+this.up+")</td>";
+							str += "<td class='review reviewDown'><img src='../images/review/icon/down.png'>DOWN("+this.down+")</td>";
 							
 							//write_dt
 							str += "<td class='review reviewDt'>"+this.write_dt+"</td>";
@@ -218,6 +229,17 @@ window.onload = function(){
 		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		    }
 		});
+	}
+	
+	function viewContent(sq){
+		//var popup = window.open('ReviewPopUp.mall?sq='+sq,'popup', "width=500, height=500");
+		alert(sq);
+	}
+	
+	function reportUser(id){
+		// 여기부분은 알아서 수정하시오!
+		
+		alert(id);
 	}
 	
 	//CWI
