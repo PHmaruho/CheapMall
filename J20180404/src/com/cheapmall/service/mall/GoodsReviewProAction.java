@@ -1,19 +1,14 @@
 package com.cheapmall.service.mall;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
 import com.cheapmall.dao.BoardDao;
-import com.cheapmall.dto.ReviewDto;
-import com.cheapmall.dto.UsersDto;
 import com.cheapmall.service.CommandProcess;
 
 public class GoodsReviewProAction implements CommandProcess{
