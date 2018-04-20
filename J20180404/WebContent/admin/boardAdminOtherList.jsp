@@ -14,6 +14,7 @@
 		$("#bp").val(board_p_cd);
 		$("#searchSelect").val(option);
 		$("#searchHidden").val('${searchText}');
+		$("#searchSelect").disabled = true;
 	}
  
 	function bpSelect() {
