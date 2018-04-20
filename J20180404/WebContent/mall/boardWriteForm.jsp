@@ -81,7 +81,7 @@
 				alert("자기 자신을 신고할순 없습니다.")
 				return false;
 			}
-			if ($('#checkId').value !== 1) {
+			if ($('#checkId').val() != "1") {
 				alert("대상자 ID가 확인되지 않았습니다.")
 				return false;
 			}
