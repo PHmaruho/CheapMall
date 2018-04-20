@@ -20,16 +20,16 @@ td{
 	<div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
-
+<h1>코드 목록</h1>
 	<div id="main">
-		<table>
+		<table class="table" border="1">
 			<tr>
-				<th>번호</th>
-				<th>코드</th>
-				<th>카테고리</th>
-				<th>의미</th>
-				<th>사용여부</th>
-				<th></th>
+				<th class="th">번호</th>
+				<th class="th">코드</th>
+				<th class="th">카테고리</th>
+				<th class="th">의미</th>
+				<th class="th">사용여부</th>
+				<th class="th"></th>
 	
 			</tr>
 			<c:forEach var="board" items="${list }">
@@ -39,12 +39,12 @@ td{
 					<td>${board.category }</td>
 					<td>${board.meaning }</td>
 					<td>${board.used }</td>
-					<td><input type="button" value="수정" onclick="location.href='CodeChangeForm.admin?code=${board.cd}&pageNum=${pageNum }'"></td>
+					<td><input type="button" class="btn mini"  value="수정" onclick="location.href='CodeChangeForm.admin?code=${board.cd}&pageNum=${pageNum }'"></td>
 				</tr>
 				<c:set var="startNum" value="${startNum - 1 }" />
 			</c:forEach>
 			<tr>
-				<td colspan="6"><input type="button" value="등록" onclick="location.href='CodeInsertForm.admin?pageNum'"></td>
+				<td colspan="6"><input type="button" class="btn mini"  value="등록" onclick="location.href='CodeInsertForm.admin?pageNum'"></td>
 			</tr>
 		</table>
 		<div style="text-align: center;">

@@ -19,19 +19,19 @@
 	
 	<div id="main">
 	<form action="" method="post">
-		<input type="button" 
+		<input type="button"  class="btn mini" 
 		onclick="javascript:window.open('adminPopupAddForm.jsp','팝업등록','scrollbars=yes width=500 height=600')" 
 		value="추가" style="float:right;padding: 10 10 10 10px!important!">
 		<p><p>
 		<h5>Main</h5>
-		<table border="1">
+		<table class="table" border="1">
 				<tr>
-					<th>분류</th>
-					<th>ID</th>
-					<th>이름</th>
-					<th>시작일</th>
-					<th>종료일</th>
-					<th>게시상태</th>
+					<th class="th">분류</th>
+					<th class="th">ID</th>
+					<th class="th">이름</th>
+					<th class="th">시작일</th>
+					<th class="th">종료일</th>
+					<th class="th">게시상태</th>
 				</tr>
 				
 					<c:if test="${mainCount==0}">
@@ -69,14 +69,14 @@
 			</table>
 			
 			<h5>Sub</h5>
-			<table border="1">
+		<table class="table" border="1">
 				<tr>
-					<th>분류</th>
-					<th>ID</th>
-					<th>이름</th>
-					<th>시작일</th>
-					<th>종료일</th>
-					<th>게시상태</th>
+					<th class="th">분류</th>
+					<th class="th">ID</th>
+					<th class="th">이름</th>
+					<th class="th">시작일</th>
+					<th class="th">종료일</th>
+					<th class="th">게시상태</th>
 				</tr>
 				
 					<c:if test="${mainCount==0 && subCount==0 }">

@@ -33,60 +33,38 @@
 	<h2>상품수정</h2>
 	
 	<div id="main"> 
-<button onclick="location.href='GoodsAdminDisplayList.admin'">판매상품 리스트</button>
+<button  class="btn mini" onclick="location.href='GoodsAdminDisplayList.admin'">판매상품 리스트</button>
 		<c:set var="displayNumber" value="0" />
 		
-			<form action="goodsAdminUpdateList.admin?pageNum=${currentPage }&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}"
+			<form action="goodsAdminUpdateList.admin?pageNum=${currentPage }&category=${category }&search=${search}"
 				name="searchDetail">
 				<div style="float: right;padding: 10 10 10 10px !important!;">
-					<select name="gender">
-						<option value="All">성별</option>
-						<option value="M">-남성</option>
-						<option value="F">-여성</option>
-						<option value="U">-공용</option>
-					</select> 
-					<select name="top_category">
-						<option value="All">대분류</option>
-						<option value="O">-아우터</option>
-						<option value="I">-이너</option>
-						<option value="E">-기타</option>
-					</select> 
-					<select name="middle_category">
-						<option value="All">소분류</option>
-						<option value="JAC">-재킷</option>
-						<option value="CAR">-가디건</option>
-						<option value="TSH">-티셔츠</option>
-						<option value="SHI">-셔츠</option>
-						<option value="PAN">-바지</option>
-						<option value="WAT">-시계</option>
-						<option value="SHO">-신발</option>
-						<option value="HAT">-모자</option>
-						<option value="BAG">-가방</option>
-						<option value="SKI">-치마</option>
-						<option value="ONE">-원피스</option>
-						<option value="SCA">-스카프</option>
-					</select> 
-					 <input type="submit" value="검색"> 
-					 <input type="button" value="등록"> 
-					 <input type="button" value="활성/비활성" id="display">
+					<select name="category">
+						<option value="">항목 선택</option>
+						<option value="gender">성별</option>
+						<option value="top_category">대분류</option>
+						<option value="middle_category">소분류</option>
+					</select> <input type="text" name="search">
+					 <input type="submit"  class="btn mini" value="검색"> 
+					 <input type="button"  class="btn mini" value="등록"> 
+					 <input type="button"  class="btn mini" value="활성/비활성" id="display">
 				</div>
 			</form>
 
 
 			<form action="goodsAdminUpdateDisplayPro.admin">
-				<table border="1">
+		<table class="table" border="1">
 					<tr>
-						<th>상품Id</th>
-						<th>코드</th>
-						<th>이름</th>
-						<th>가격</th>
-						<th>성별</th>
-						<th>대분류</th>
-						<th>소분류</th>
-						<th>재고량</th>
-						<th>종료일</th>
-						<th>display 상태</th>
-						<th class="goodsShow" style="display: none;">상태</th>
+						<th class="th">상품Id</th>
+						<th class="th">코드</th>
+						<th class="th">이름</th>
+						<th class="th">가격</th>
+						<th class="th">성별</th>
+						<th class="th">대분류</th>
+						<th class="th">재고량</th>
+						<th class="th">종료일</th>
+						<th class="th">display 상태</th>
+						<th class="goodsShow th" style="display: none;">상태</th>
 					</tr>
 	
 					<c:if test="${list==null }">
@@ -106,7 +84,7 @@
 										${goods.sq }</a></td>
 								<td>${goods.cd }</td>
 								<td><img
-									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/thumbnail/${goods.path }.png">${goods.nm }</td>
+									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/origin/${goods.path }">${goods.nm }</td>
 								<td>${goods.price }원</td>
 								<td>
 									<c:if test="${goods.gender=='M' }">남자</c:if>
@@ -119,20 +97,6 @@
 									<c:if test="${goods.top_category =='O' }">아우터</c:if>
 									<c:if test="${goods.top_category =='I' }">이너</c:if>
 									<c:if test="${goods.top_category =='E' }">기타</c:if>
-								</td>
-								<td>
-									<c:if test="${goods.middle_category=='JAC' }">재킷</c:if>
-									<c:if test="${goods.middle_category=='CAR' }">가디건</c:if>
-									<c:if test="${goods.middle_category=='TSH' }">티셔츠</c:if>
-									<c:if test="${goods.middle_category=='SHI' }">셔츠</c:if>
-									<c:if test="${goods.middle_category=='PAN' }">바지</c:if>
-									<c:if test="${goods.middle_category=='WAT' }">시계</c:if>
-									<c:if test="${goods.middle_category=='SHO' }">신발</c:if>
-									<c:if test="${goods.middle_category=='HAT' }">모자</c:if>
-									<c:if test="${goods.middle_category=='BAG' }">가방</c:if>
-									<c:if test="${goods.middle_category=='SKI' }">치마</c:if>
-									<c:if test="${goods.middle_category=='ONE' }">원피스</c:if>
-									<c:if test="${goods.middle_category=='SCA' }">스카프</c:if>
 								</td>
 								<td>${goods.stock }</td>
 								<td>${goods.end_dt }</td>
@@ -159,25 +123,23 @@
 	
 					<c:if test="${ startPage > blockSize }">
 						<a
-							href='goodsAdminUpdateList.admin?pageNum=${startPage-blockSize }&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'>
+							href='goodsAdminUpdateList.admin?pageNum=${startPage-blockSize }&category=${category }&search=${search}'>
 							[이전] </a>
 					</c:if>
 	
-	
-	
 					<c:forEach var="i" begin="${startPage }" end="${endPage }">
-						<a href='goodsAdminUpdateList.admin?pageNum=${i}&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'> [${i }] </a>
+						<a href='goodsAdminUpdateList.admin?pageNum=${i}&category=${category }&search=${search}'> [${i }] </a>
 					</c:forEach>
 	
 					<c:if test="${endPage<totalPage }">
 						<a
-							href='goodsAdminUpdateList.admin?pageNum=${startPage+blockSize }&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'>
+							href='goodsAdminUpdateList.admin?pageNum=${startPage+blockSize }&category=${category }&search=${search}'>
 							[다음] </a>
 					</c:if>
 	
 	
-					<input type="submit" value="확인" class="goodsShow" id="cssStyle"
-						style="padding:10 10 10 10px!important!;float:right; display: none;">
+					<input type="submit" value="확인" class="btn mini goodsShow" id="cssStyle"
+						style="display: none;">
 				</div>
 
 		</form>
