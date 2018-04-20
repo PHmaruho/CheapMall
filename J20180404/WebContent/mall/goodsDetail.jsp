@@ -238,8 +238,7 @@ window.onload = function(){
 	
 	function reportUser(id){
 		// 여기부분은 알아서 수정하시오!
-		
-		alert(id);
+		window.open('boardWriteForm.mall?id=' + id + '&board_cd=B3', '상품찾기', 'width=500, height=500');
 	}
 	
 	//CWI
