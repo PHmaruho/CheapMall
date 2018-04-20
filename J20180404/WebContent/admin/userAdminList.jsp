@@ -40,7 +40,8 @@ function displayButton(){
 
 		<form action="userAdminList.admin" method="post">
 			<div style="float:right; padding: 10 10 10 10px! important;" >
-				<input type="text" name="search" value="${search }"> 
+				등급: 
+				<input type="text" name="search" > 
 				<input type="submit" value="검색"><p>
 			</div>
 		</form>
@@ -69,7 +70,15 @@ function displayButton(){
 						<td>${ user.birth}</td>
 						<td>${ user.tel}</td>
 						<td>${ user.email}</td>
-						<td>${ user.grade}</td>
+						<td>
+							<c:if test="${user.grade=='G0' }"> 브론즈</c:if>
+							<c:if test="${user.grade=='G1' }"> 실버</c:if>
+							<c:if test="${user.grade=='G2' }"> 골드</c:if>
+							<c:if test="${user.grade=='G3' }"> 플라티넘</c:if>
+							<c:if test="${user.grade=='G4' }"> 다이아</c:if>
+							<c:if test="${user.grade=='G5' }"> VIP</c:if>
+							<c:if test="${user.grade=='GG' }"> 탈퇴</c:if>
+						</td>
 						<td><input type="checkbox" name="del" id="del" value="${user.id }" onclick="displayButton()"></td>
 					</tr>
 				</c:forEach>

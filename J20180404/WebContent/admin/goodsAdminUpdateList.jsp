@@ -67,7 +67,7 @@
 						<option value="SCA">-스카프</option>
 					</select> 
 					 <input type="submit" value="검색"> 
-					 <input type="button" value="등록"> 
+					 <button onclick="window.open('GoodsAdminInsertForm.admin','상품등록', 'scrollbars=yes width=500 height=600')">등록</button>
 					 <input type="button" value="활성/비활성" id="display">
 				</div>
 			</form>
