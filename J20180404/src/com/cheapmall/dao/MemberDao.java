@@ -968,23 +968,21 @@ public class MemberDao {
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		
+		String sql="";
 		try {
 			conn=getConnection();
-	
-			String sql1 // grade X
-			="select * from (select rownum rn, users.* from (select * from users) users) where rn between ? and ?";
+			if (search.equals("All")){
+				sql="select * from (select rownum rn, users.* from (select * from users) users) where rn between ? and ?";
+			}else{
+				sql="select * from (select rownum rn, users.* from (select * from users where grade=?) users) where rn between ? and ?";
+			}
+			ps=conn.prepareStatement(sql);
 			
-			String sql2 // grade O
-			="select * from (select rownum rn, users.* from (select * from users where grade=?) users) where rn between ? and ?";
-			
-			if(search==null || search.length()==0){
-				ps=conn.prepareStatement(sql1);
+			if (search.equals("All")){
 				ps.setInt(1, startRow);
 				ps.setInt(2, endRow);
 			}
 			else {
-				ps=conn.prepareStatement(sql2);
 				ps.setString(1,search);
 				ps.setInt(2, startRow);
 				ps.setInt(3,endRow);
