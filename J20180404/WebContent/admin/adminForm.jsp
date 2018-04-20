@@ -28,26 +28,25 @@ td {
 
 <script type="text/javascript">
 
-	function selectCheck() {
-	if(!$('#checkRow > option:selected').val()) {
-	    alert("삭제할 항목을 하나이상 선택해주세요.");
-		}
-	}
-
 	function deleteCheck() {
+		var chk = $("#checkRow > option:selected").val();
 		var gubun;
-		gubun = confirm("정말로 삭제하시겠습니까?");
-		if(gubun) {
-			alert("삭제가 완료되었습니다.")
-			return true;
-		} 
-		else {
-			alert("취소하셨습니다.")
+		if(chk.value = 0) {
+		    alert("삭제할 항목을 하나이상 선택해주세요.");
 			return false;
-		}
-		return false;
+		} else {
+			gubun = confirm("정말로 삭제하시겠습니까?");
+			if(gubun) {
+				alert("삭제가 완료되었습니다.")
+				return true;
+			} 
+			else {
+				alert("취소하셨습니다.")
+				return false;
+			}
+			return false;
 	}
-
+	}
 </script>
 </head>
 <body>
@@ -58,39 +57,38 @@ td {
 	<form action="AdminFormSearch.admin?pageNum=${pageNum }" method="post">
 		<div style="float:right; padding: 10 10 10 10px! important;" >
 			<select name="how">
+			<option value="0">항목선택</option>
 			<option value="1">이름</option>
 			<option value="2">권한</option>
 			<option value="3">부서</option>
 			</select>&nbsp;
 				<input type="text" name="search" value="${search }"> 
-				<input type="submit" value="검색"><p>
+				<input type="submit" class="btn mini" value="검색"><p>
 		</div>
 	</form><br>
-	
 	<form action="AdminDeleteForm.admin?pageNum=${pageNum }" name="frm" onsubmit="return deleteCheck()" >
-		<table border="1" id="list">
-			<tr>
-				<th>
+		<table class="table" border="1">
+			<tr class="tr">
+				<th class="th">
 				삭제 여부
-					<!--  <input type="checkbox" id="checkAll" onclick="checkAll();" >-->
 				</th>
-				<th>관리자 ID</th>
-				<th>비밀번호</th>
-				<th>성 명</th>
-				<th>부 서</th>
-				<th>직 급</th>
-				<th>사 번</th>
-				<th>권 한</th>
-				<th>전화 번호</th>
-				<th>이메일</th>
-				<th>사진 경로</th>
+				<th class="th">관리자 ID</th>
+				<th class="th">비밀번호</th>
+				<th class="th">성 명</th>
+				<th class="th">부 서</th>
+				<th class="th">직 급</th>
+				<th class="th">사 번</th>
+				<th class="th">권 한</th>
+				<th class="th">전화 번호</th>
+				<th class="th">이메일</th>
+				<th class="th">사진 경로</th>
 			</tr>
 				
 		<c:if test="${count>0 }">
 		<c:forEach var="adminList" items="${adminList }">
 			<tr>
 				<td>
-					<select name="checkRow" required="required"  >
+					<select name="checkRow" id="checkRow" required="required"  >
 										<option value="0">유지  </option>
 										<option value="1">삭제  </option>
 					</select> 							       
@@ -135,9 +133,9 @@ td {
 		</div>
 
 		<div style="float: right; padding: 10 10 10 10px!important;"> 
-			<input type="submit" value="삭제"  onsubmit="return selectCheck() "> 
-			<button type="button" onclick="location.href='AdminInsertForm.admin'" >등록</button>
-			<input type="reset" value="유지버튼 초기화">
+			<input type="submit"  class="btn mini" value="삭제" > 
+			<button type="button" class="btn mini"  onclick="location.href='AdminInsertForm.admin'" >등록</button>
+			<input type="reset" class="btn mini"  value="유지버튼 초기화">
 		</div>
 	</form>	
 </body>

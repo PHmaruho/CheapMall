@@ -42,12 +42,13 @@
 	</div>
 
 	<div id="main">
-		<jsp:include page="boardAdminMenu.jsp"/>
 		<h2>공지사항</h2>
-		<a href="boardAdminNoticeWriteForm.admin">글쓰기</a>
-		<table>
+		<a href="boardAdminNoticeWriteForm.admin"  class="btn mini" >글쓰기</a>
+		<table class="table" border="1">
 			<tr>
-				<th>번호</th><th>제목</th><th>작성일</th>
+				<th class="th">번호</th>
+				<th class="th">제목</th>
+				<th class="th">작성일</th>
 			</tr>
 			<c:if test="${totCnt > 0 }">
 				<c:forEach var="board" items="${list }">
