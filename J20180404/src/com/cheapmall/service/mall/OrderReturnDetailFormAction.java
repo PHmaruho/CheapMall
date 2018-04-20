@@ -2,6 +2,7 @@ package com.cheapmall.service.mall;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.OrderDao;
-import com.cheapmall.dto.Order_detailDto;
 import com.cheapmall.service.CommandProcess;
 
 public class OrderReturnDetailFormAction implements CommandProcess {
@@ -32,7 +32,7 @@ public class OrderReturnDetailFormAction implements CommandProcess {
 			String order_sq=request.getParameter("order_sq");
 			OrderDao dao=OrderDao.getInstance();
 			
-			List<Order_detailDto> detailList=new ArrayList<Order_detailDto>();
+			List<HashMap> detailList=new ArrayList<HashMap>();
 			String pageNum=request.getParameter("pageNum");
 			if(pageNum==null || pageNum.equals("")){
 				pageNum="1";

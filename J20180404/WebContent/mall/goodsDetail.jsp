@@ -7,6 +7,40 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
 <script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="../js/bootstrap.min.css">
+<style type="text/css">
+	.review{
+		font-size: 20px;	
+	}
+	.reviewStar{
+		width: 100px;
+	}
+	.reviewContent{
+		width: 450px;
+	}
+	.reviewContents{
+		width: 670px;
+	}
+	.reviewId{
+		width: 150px;
+	}
+	.reviewImg{
+		width:200px;
+	}
+	.reviewUp .reviewDown{
+		width: 100px;
+	}
+	.reviewDt{
+		width: 150px;
+	}
+	#simpleReview #photoReview{
+		line-height: 200px;
+		vertical-align: middle;
+	}
+	
+</style>
+
 <script type="text/javascript">
 // HJM
 window.onload = function(){
@@ -15,7 +49,6 @@ window.onload = function(){
 	}
 	// simple review
 	function simpleReview(page){
-		// Hard Coding!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		var cd = '${cd}';
 		var pageNum = page;
 		
@@ -27,18 +60,20 @@ window.onload = function(){
 				   reviewType:'simple'},
 			success: function(data){
 				// json 파싱작업
-				var list = JSON.parse(data);
+				var list = jQuery.parseJSON(data);
 				var simple = $('#simpleReview');
 				
 				var str = "";
 				//alert(data);
 				simple.html("");
 				
-				str += "<table border='1'>";
+				str += "<table class='table table-hover'>";
+				str += "<tr class=''><td colspan='7' class='review' style='text-align:left;'>간편리뷰</td></tr>"
+				str += "<tr class=''><td colspan='7' class='review'>평균평점" + list.totalStar + "/5</td></tr>";
 					if(list.totCnt != 0){
 						$.each(list.review, function(){
 							// good or bad image
-							str += "<tr><td><img src='../images/review/icon/";
+							str += "<tr><td class='review reviewStar'><img src='../images/review/icon/";
 								if(this.star == '5'){
 									str += "5.png'>"
 								} else if(this.star == '4'){
@@ -54,25 +89,32 @@ window.onload = function(){
 							
 							// content
 							if(this.content.length >= 30){
-								str += "<td>" + this.content.substring(0, 30) + "</td>";
+								str += "<td class='review reviewContents'>" 
+										+ "<a href='#' onclick='open'"
+											+ this.content.substring(0, 30)
+										+ ""
+									+ "</td>";
 							} else {
-								str += "<td>" + this.content + "</td>";
+								str += "<td class='review reviewContents'>" + this.content + "</td>";
 							}
 							
 							// userid // a href 추가 예정
-							str += "<td>" + this.user_id +"</td>";
+							str += "<td class='review reviewId'>"
+										+ this.user_id +
+										"<input type='button' value='신고' onclick='reportUser(\""+this.user_id+"\")'>"
+								   "</td>";
 							
 							// up/down button a href
-							str += "<td><img src='../images/review/icon/up.png'>UP("+this.up+") / ";
-							str += "<td><img src='../images/review/icon/down.png'>DOWN("+this.down+")";
+							str += "<td class='review reviewUp'><img src='../images/review/icon/up.png'>UP("+this.up+")</td>";
+							str += "<td class='review reviewDown'><img src='../images/review/icon/down.png'>DOWN("+this.down+")</td>";
 							
 							//write_dt
-							str += "<td>"+this.write_dt+"</td>";
-							str += "<td>"+this.cnt+"</td>";
+							str += "<td class='review reviewDt'>"+this.write_dt+"</td>";
+							str += "<td class='review reviewDt'>"+this.cnt+"</td>";
 							str += "</tr>";
 						});
 					} else {
-						simple.append("<tr><td> 데이터가 없습니다.</td></tr>");
+						simple.append("<tr class='review reviewNot'><td> 데이터가 없습니다.</td></tr>");
 					}
 					str += "</table>";
 					simple.append(str);
@@ -98,9 +140,7 @@ window.onload = function(){
 		});
 	}
 	function photoReview(page){
-		// Hard Coding!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//var cd = '${cd}';
-		var cd = 'TSH0000001';
+		var cd = '${cd}';
 		var pageNum = page;
 		
 		$.ajax({
@@ -110,7 +150,7 @@ window.onload = function(){
 				   pageNum:pageNum,
 				   reviewType:'photo'},
 			success: function(data){
-				var list = JSON.parse(data);
+				var list = jQuery.parseJSON(data);
 				var simple = $('#photoReview');
 				
 				
@@ -118,11 +158,13 @@ window.onload = function(){
 				//alert(data);
 				simple.html("");
 				
-				str += "<table border='1'>";
+				str += "<table class='table table-hover center-block'>";
+				str += "<tr class=''><td colspan='7' class='review' style='text-align:left;'>포토리뷰</td></tr>"
+				str += "<tr class=''><td colspan='7' class='review'>평균평점" + list.totalStar + "/5</td></tr>";
 					if(list.totCnt != 0){
 						$.each(list.review, function(){
 							// good or bad image
-							str += "<tr><td><img src='../images/review/icon/";
+							str += "<tr><td class='review reviewStar'><img src='../images/review/icon/";
 								if(this.star == '5'){
 									str += "5.png'>"
 								} else if(this.star == '4'){
@@ -135,30 +177,35 @@ window.onload = function(){
 									str += "1.png'>"
 								}
 							str += "</td>";
+							
 							// image
-							str += "<td><img src='../images/review/thumb/sm_"+this.path+".png'></td>";
+							str += "<td class='review reviewImg'><img src='../images/review/thumb/sm_"+this.path+".png'></td>";
+							
 							
 							// content
 							if(this.content.length >= 30){
-								str += "<td>" + this.content.substring(0, 30) + "</td>";
+								str += "<td class='review reviewContent'><a href='#' onclick='viewContent(\""+this.sq+"\")'>" + this.content.substring(0, 30) + "</a></td>";
 							} else {
-								str += "<td>" + this.content + "</td>";
+								str += "<td class='review reviewContent'><a href='#' onclick='viewContent(\""+this.sq+"\")'>" + this.content + "</a></td>";
 							}
 							
 							// userid // a href 추가 예정
-							str += "<td>" + this.user_id +"</td>";
+							str += "<td class='review reviewId'>"
+										+ this.user_id +
+										"<input type='button' value='신고' onclick='reportUser(\""+this.user_id+"\")'>"
+								   "</td>";
 							
 							// up/down button a href
-							str += "<td><img src='../images/review/icon/up.png'>UP("+this.up+") / ";
-							str += "<td><img src='../images/review/icon/down.png'>DOWN("+this.down+")";
+							str += "<td class='review reviewUp'><img src='../images/review/icon/up.png'>UP("+this.up+")</td>";
+							str += "<td class='review reviewDown'><img src='../images/review/icon/down.png'>DOWN("+this.down+")</td>";
 							
 							//write_dt
-							str += "<td>"+this.write_dt+"</td>";
-							str += "<td>"+this.cnt+"</td>";
+							str += "<td class='review reviewDt'>"+this.write_dt+"</td>";
+							str += "<td class='review reviewDt'>"+this.cnt+"</td>";
 							str += "</tr>";
 						});
 					} else {
-						simple.append("<tr><td> 데이터가 없습니다.</td></tr>");
+						simple.append("<tr><td reviewNot> 데이터가 없습니다.</td></tr>");
 					}
 					str += "</table>";
 					simple.append(str);
@@ -182,6 +229,17 @@ window.onload = function(){
 		        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 		    }
 		});
+	}
+	
+	function viewContent(sq){
+		//var popup = window.open('ReviewPopUp.mall?sq='+sq,'popup', "width=500, height=500");
+		alert(sq);
+	}
+	
+	function reportUser(id){
+		// 여기부분은 알아서 수정하시오!
+		
+		alert(id);
 	}
 	
 	//CWI
