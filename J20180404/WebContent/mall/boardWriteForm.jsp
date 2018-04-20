@@ -16,6 +16,17 @@
 </style>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script>
+	window.onload = function(){
+		if ('${board_cd}' == 'B3') {
+			var report = document.getElementById(3);
+			var board_cd = '${board_cd}';
+			var report_id = '${report_id}';
+			$("#select").val(board_cd);
+			report.className += " show";
+			$("#reportText").val(report_id);
+		}
+	}
+	
 	function list() {
 		var index = document.getElementById("select").selectedIndex;
 		var suggest = document.getElementById(1);
@@ -124,9 +135,9 @@
 	<label>구분</label>
 	<select id="select" onchange="list()">
 		<option selected disabled="disabled">분류를 선택하세요.</option>
-		<option>문의</option>
-		<option>건의</option>
-		<option>신고</option>
+		<option value="B1">문의</option>
+		<option value="B2">건의</option>
+		<option value="B3">신고</option>
 	</select>
 	
 	<div id="1" class="none">
@@ -140,7 +151,7 @@
 	<div id="3" class="none">
 		<label>대상자 ID</label>
 		<input type="text" id="reportText" oninput="javascript : $('#checkId').val('0');" placeholder="ID를 입력하세요" autofocus>
-		<input type="button" onclick="winop()" style="background-color:#EDCE7A" value="아이디 중복확인">
+		<input type="button" onclick="winop()" style="background-color:#EDCE7A" value="아이디 확인" id="idBtn">
 		<input type="hidden" value="0" id="checkId">
 		<div id="idChk"></div>
 	</div><br>

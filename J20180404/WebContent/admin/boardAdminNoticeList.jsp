@@ -42,6 +42,7 @@
 	</div>
 
 	<div id="main">
+		<jsp:include page="boardAdminMenu.jsp"/>
 		<h2>공지사항</h2>
 		<a href="boardAdminNoticeWriteForm.admin">글쓰기</a>
 		<table>
