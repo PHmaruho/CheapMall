@@ -84,8 +84,8 @@
 			시작일: 	<input type="date" 	name="start_dt" 	value="${dto.start_dt }" readonly required="required"><br>
 			종료일: 	<input type="date" 	name="end_dt" 		value="${dto.end_dt }" 	readonly required="required"><br>
 			노출:	<select name="display">
-						<option value="Y" <c:if test="${dto.display=='Y'}">selected</c:if>>Y
-						<option value="N" <c:if test="${dto.display=='M'}">selected</c:if>>N
+						<option value="Y" <c:if test="${dto.display eq 'Y'}">selected</c:if>>Y
+						<option value="N" <c:if test="${dto.display eq 'N'}">selected</c:if>>N
 					</select><br> 	
 		</div>
 			<div style="float:right; padding: 10 10 10 10px!important!;">

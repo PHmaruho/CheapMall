@@ -87,6 +87,14 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 			request.setAttribute("top_category", top_category);
 			request.setAttribute("middle_category", middle_category);
 			
+			System.out.println("count: "+count);
+			System.out.println("currentPage: "+currentPage);
+			System.out.println("blockSize: "+blockSize);
+			System.out.println("startNum: "+startNum);
+			System.out.println("totalPage: "+totalPage);
+			System.out.println("startPage: "+startPage);
+			System.out.println("endPage: "+endPage);
+			System.out.println("pageNum: "+pageNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

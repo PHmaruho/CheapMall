@@ -31,7 +31,7 @@ public class OrderReturnDetailFormAction implements CommandProcess {
 			
 			String order_sq=request.getParameter("order_sq");
 			OrderDao dao=OrderDao.getInstance();
-			
+			System.out.println("order_sq: "+order_sq);
 			List<HashMap> detailList=new ArrayList<HashMap>();
 			String pageNum=request.getParameter("pageNum");
 			if(pageNum==null || pageNum.equals("")){
@@ -41,19 +41,15 @@ public class OrderReturnDetailFormAction implements CommandProcess {
 			int currentPage=Integer.parseInt(pageNum);
 			int pageSize=15, blockSize=10;
 			
-			int count=dao.detailOrder(id,order_sq).size();
-			detailList=dao.detailOrder(id,order_sq);
-			
-			int totalPage= (int) Math.ceil((double) count/pageSize); 
-			int startPage=(int) (currentPage - 1)/ blockSize * blockSize + 1;
-			int endPage= startPage+ blockSize-1;
-			if(endPage> totalPage) endPage=totalPage;
+			int count=dao.detailOrder(order_sq).size();
+			detailList=dao.detailOrder(order_sq);
+		
 			
 			request.setAttribute("id", id);
 			request.setAttribute("order_sq", order_sq);
 			request.setAttribute("detailList", detailList);
 			request.setAttribute("count", count);
-			
+			System.out.println("count: "+count);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

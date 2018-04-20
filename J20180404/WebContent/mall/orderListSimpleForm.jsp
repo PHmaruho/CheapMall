@@ -12,11 +12,11 @@
 
 	function getDetail(r){
 		var order_sq = $('#'+r).val();
-		alert(order_sq);
+		var id="<%=(String) session.getAttribute("id")%>"
 		$.ajax({ 
 			type:"post",
-			url:'orderReturnDetailForm.mall?order_sq='+order_sq, 
-			data:{order_sq:order_sq},
+			url:'goodsUserReturnForm.mall?id='+id+'&order_sq='+order_sq, 
+			data:{order_sq:order_sq,id:id},
 			success:function(detail){
 				$('#main2').html("");
 				$('#main2').html(detail);
@@ -26,8 +26,9 @@
 </script>
 </head>
 <body>
-<h3>주문 내역 간략보기 </h3>
 	<div id="main2">
+	<h3>주문 내역 간략보기 </h3>
+	<input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록">
 	<form action="orderReturnDetailForm.mall" method="post">
 	<table border="1" align="center" style="border-collapse:collapse; border:1px pink solid;">
 
@@ -68,7 +69,7 @@
 							</c:if>	
 						</td>
 					<td width="400" align="center" >
-						총 ${list.cnt * list.origin_price + delivery_fee } 원
+						총 ${list.origin_price+ delivery_fee-list.use_ } 원
 					</td>
 					<td width="10%" align="center" >
 						${list.order_cd }

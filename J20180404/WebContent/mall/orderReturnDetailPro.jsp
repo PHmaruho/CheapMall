@@ -12,14 +12,14 @@
 <c:if test="${result>0 }">
 	<script type="text/javascript">
 		alert("선택한 상품이 반품되었습니다.");
-		location.href="goodsUserReturnForm.mall?id=${id}"
+		location.href="OrderListSimpleForm.mall?id=${id}"
 	</script>
 </c:if>
 
 <c:if test="${result<=0 }">
 	<script type="text/javascript">
 		alert("다시 한번 확인해주세요");
-		location.href="goodsUserReturnForm.mall?id=${id}"
+		location.href="OrderListSimpleForm.mall?id=${id}"
 	</script>
 </c:if>
 

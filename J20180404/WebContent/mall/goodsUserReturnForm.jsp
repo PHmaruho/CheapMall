@@ -19,9 +19,8 @@ function checkReturnOrder(){
 	}
 }
 
-
-function getDetail(r){
-	var order_sq = $('#'+r).val();
+function getDetail(){
+	var order_sq = $('#order_sq').val();
 	$.ajax({ 
 		type:"post",
 		url:'orderReturnDetailForm.mall?order_sq='+order_sq, 
@@ -42,100 +41,82 @@ function getDetail(r){
 </head>
 <body>
 	
-	<h2>반품</h2>
 	<div id="main">
 		<form action="goodsUserReturnPro.mall" method="post" name="all">
+		<h2>주문상세</h2>
 			<table border="1">
+			<c:forEach var="order" items="${list }">
 				<tr>
+					<c:set var="checkCd" value="${order.meaning }"/>
 					<th>주문번호</th>
-					<th>상품</th>
-					<th>원가</th>
-					<th>결제수단</th>
-					<th>사용포인트</th>
-					<th>배송비</th>
-					<th>배송지</th>
-					<th>상세주소</th>
-					<th>주문상태</th>
-					<th>주문일</th>
-					<th>반품체크</th>
-					<th>리뷰작성</th>
+					<td>
+						<c:if test="${!fn:contains(checkCd,'반품')}">
+						     <a href="javascript:getDetail('order_sq');" id="selectDetail">
+						 	 <input type="hidden" id="order_sq" name="order_sq" value="${order.order_sq}">
+						     ${order.order_sq }</a>
+						</c:if>
+						<c:if test="${fn:contains(checkCd,'반품')}">
+						     ${order.order_sq }
+						</c:if>
+					</td>
 				</tr>
-				
-				<c:if test="${count>0 }">
-					<c:forEach var="order" items="${list }" varStatus="i">
-						<tr>
-							<td>
-								<c:set var="checkCd" value="${order.order_cd }"/>
-									
-									<c:if test="${!fn:contains(checkCd,'R')}">
-									     <a href="javascript:getDetail('order_sq${i.index }');" id="selectDetail">
-									 	 <input type="hidden" id="order_sq${i.index }" name="order_sq" value="${order.order_sq}">
-									     ${order.order_sq }</a>
-									</c:if>
-									<c:if test="${fn:contains(checkCd,'R')}">
-									     ${order.order_sq }
-									</c:if>
-						
-									<c:if test="${fn:contains(checkCd,'R') }">
-									</c:if>
-							</td> 
-							<td>
-							<img src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/thumbnail/${goods.path }.png">
-							${ goodsInfo.nm}
-							</td>
-							<td>${order.origin_price }</td>
-							<td>${order.pay_method }</td>
-							<td>${order.use_point }</td>
-							<td>${order.delivery_fee }</td>
-							<td>${order.addr }</td>
-							<td>${order.addr_detail }</td>
-							<td>
-								<c:if test="${order.order_cd =='R0'}">반품요청</c:if>
-								<c:if test="${order.order_cd =='R1'}">반품수령</c:if>
-								<c:if test="${order.order_cd =='R2'}">반품확인중</c:if>
-								<c:if test="${order.order_cd =='R3'}">반품완료</c:if>
-								<c:if test="${order.order_cd =='R4'}">재배송</c:if>
-								<c:if test="${order.order_cd =='R5'}">교환요청</c:if>
-								<c:if test="${order.order_cd =='O0'}">교환요청</c:if>
-								<c:if test="${order.order_cd =='O1'}">배송준비</c:if>
-								<c:if test="${order.order_cd =='O2'}">배송중</c:if>
-								<c:if test="${order.order_cd =='O3'}">배송완료</c:if>
-								<c:if test="${order.order_cd =='O4'}">수령확인</c:if>
-								<c:if test="${order.order_cd =='O5'}">주문취소</c:if>
-								<c:if test="${order.order_cd =='O6'}">반품요청</c:if>
-								<c:if test="${order.order_cd =='O7'}">교환요청</c:if>
+				<tr>
+					<th>상품</th>
+					<td><img src="../images/${order.gender }/${order.top_category}/${order.middle_category}/thumbnail/${order.path }.png"
+													height="50%" width="50%" >
+					${order.nm }</td>
+				</tr>
+				<tr>	
+					<th>원가</th>
+					<td>${order.origin_price }</td>
+				</tr>
+				<tr>
+					<th>결제수단</th>
+					<td>${order.pay_method }</td>
+				</tr>
+				<tr>
+					<th>사용포인트</th>
+					<td>${order.use_point }</td>
+				</tr>
+				<tr>
+					<th>배송비</th>
+					<td>${order.delivery_fee }</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td>${order.addr }</td>
+				</tr>
+				<tr>
+					<th>주소상세</th>
+					<td>${order.addr_detail }</td>
+				</tr>
+				<tr>
+					<th>주문상태</th>
+					<td>${order.meaning }</td>
+				</tr>
+				<tr>
+					<th>주문일</th>
+					<td>${order.order_dt }</td>
+				</tr>
+				<tr>
+					<th>반품체크</th>
+					<td>
+						<c:if test="${!fn:contains(checkCd,'반품')}">
+							<c:if test="${order.origin_price!=0}">
+								<input type="checkbox" name="returnOrder_sq" id="returnOrder_sq" value=${order.order_sq } onclick="checkReturnOrder()">
+							</c:if>
+					
+							<c:if test="${order.origin_price==0}">
+							</c:if>
+						</c:if>
 								
-							</td>
-							<td>${order.order_dt }</td>
-							<td>
-								<c:if test="${!fn:contains(checkCd,'R')}">
-									<c:if test="${order.origin_price!=0}">
-										<input type="checkbox" name="returnOrder_sq" id="returnOrder_sq" value=${order.order_sq } onclick="checkReturnOrder()">
-									</c:if>
-									
-									<c:if test="${order.origin_price==0}">
-									</c:if>
-								</c:if>
-								<c:if test="${fn:contains(checkCd,'R') }">
-								</c:if>
-							</td>
-							<td>
-								<c:if test="${order.order_cd =='O3'}">
-									<input type="button" value="리뷰작성" onclick="writeReview()">
-								</c:if>
-							</td>
-						</tr>
-						</c:forEach>
-				</c:if>
-				
-				<c:if test="${count==0 }">
-					<tr>
-						<td colspan="11">no data exists</td>
-					</tr>
-				</c:if>
-				
+						<c:if test="${fn:contains(checkCd,'반품') }">
+						</c:if>
+					</td>
+					</c:forEach>
+				</tr>
 			</table>
-			
+			<%-- 
 			<div style="text-align: center">
 	
 					<c:if test="${ currentPage>1 }">
@@ -151,12 +132,11 @@ function getDetail(r){
 						<a href='goodsUserReturnForm.mall?pageNum=${startPage+blockSize }&id=${id}'>
 							[다음] </a>
 					</c:if>
-			</div>
-				<span style="float: right; padding: 10 10 10 10px!important;">
+			</div> --%>
+				<div style="float: right; padding: 10 10 10 10px!important;">
 					<input type="submit" value="반품" id="submitButton" style="display:none;">
-					<input type="reset" value="취소">
-					<input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록">
-				</span>
+					<%-- <input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록"> --%>
+				</div>
 		</form>
 		<p>
 		<div id="detailOrder">

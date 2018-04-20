@@ -910,7 +910,6 @@ public class MemberDao {
 			}
 			System.out.println("result: "+result);
 			return result;
-			
 		}
 	// 회원 목록을 만들기 위해 회원 수를 가져오는 클래스 입니다.
 	public int countUser() throws SQLException {
