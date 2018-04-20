@@ -29,15 +29,14 @@ function checkReturnDetail(){
 
 	<div id="main">
 		<form action="orderReturnDetailPro.mall" method="post">
-		<h2>부분반품</h2>
+		<h2>상품상세</h2>
 			
 			<table border="1">
 				<tr>
-					<th>주문ID</th>
-					<th>주문상세ID</th>
-					<th>상품코드</th>
+					<th>주문번호</th>
+					<th>주문상세번호</th>
+					<th>상품</th>
 					<th>판매가</th>
-					<th>할인가</th>
 					<th>수량</th>
 					<th>반품체크</th>
 				</tr>
@@ -47,9 +46,10 @@ function checkReturnDetail(){
 						<tr>
 							<td><input type="hidden" name="order_sq" value="${order.order_sq }">${order.order_sq }</td>
 							<td>${order.detail_sq }</td>
-							<td>${order.goods_sq }</td>
+							<td><img src="../images/${order.gender }/${order.top_category}/${order.middle_category}/thumbnail/${order.path }.png"
+													height="50%" width="50%" >
+							${order.nm }</td>
 							<td>${order.origin_price }</td>
-							<td>${order.dc_price }</td>
 							<td>${order.cnt }</td>
 							<td>
 							<input type="checkbox" name="detail_sq" id="detail_sq" value=${order.detail_sq } onclick="checkReturnDetail()">

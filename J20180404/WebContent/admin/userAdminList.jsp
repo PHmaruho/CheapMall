@@ -17,7 +17,14 @@
 			});
 		})
 
-	</script>
+function displayButton(){
+			var checkIt=$("#del:checked").length;
+			if(checkIt==0){
+				$('#submitB').hide();				
+			}else $('#submitB').show(); 
+			
+		}
+</script>
 
 </head>
 
@@ -33,21 +40,21 @@
 
 		<form action="userAdminList.admin" method="post">
 			<div style="float:right; padding: 10 10 10 10px! important;" >
-				<input type="text"  name="search" value="${search }"> 
-				<input type="submit"  class="btn mini" value="검색"><p>
+				<input type="text" name="search" value="${search }"> 
+				<input type="submit" value="검색"><p>
 			</div>
 		</form>
 	
 	<form action="userAdminDeletePro.admin?pageNum=${pageNum }&search=${search}" method="post">
-		<table class="table" border="1" id="deleteMember">
+		<table border="1" id="deleteMember">
 			<tr>
-				<th class="th">회원ID</th>
-				<th class="th">성명</th>
-				<th class="th">생년월일</th>
-				<th class="th">연락처</th>
-				<th class="th">이메일</th>
-				<th class="th">등급</th>
-				<th class="th">삭제</th>
+				<th>회원ID</th>
+				<th>성명</th>
+				<th>생년월일</th>
+				<th>연락처</th>
+				<th>이메일</th>
+				<th>등급</th>
+				<th>삭제</th>
 			</tr>
 
 	       
@@ -63,7 +70,7 @@
 						<td>${ user.tel}</td>
 						<td>${ user.email}</td>
 						<td>${ user.grade}</td>
-						<td><input type="checkbox" name="del" value="${user.id }"></td>
+						<td><input type="checkbox" name="del" id="del" value="${user.id }" onclick="displayButton()"></td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -98,8 +105,8 @@
 		
 
 			<div style="float: right; padding: 10 10 10 10px!important;"> 
-				<input type="submit" class="btn mini"  value="삭제"> 
-				<input type="reset"  class="btn mini" value="취소">
+				<input type="submit" value="삭제" id="submitB" style="display:none;"> 
+				<input type="reset" value="취소">
 			</div>
 		</form>
 	</div>

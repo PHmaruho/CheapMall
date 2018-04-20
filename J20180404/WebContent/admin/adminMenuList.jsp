@@ -38,7 +38,7 @@ table {
 				<c:if test="${auth eq 'A0' || auth eq 'A3' }">
 				<li>|</li>
 					<li class="topMenuLi">
-					<a class="menuLink" href=" class="boardAdminNoticeList.admin"">게시판관리</a>
+					<a class="menuLink" href="boardAdminNoticeList.admin">게시판관리</a>
 						<ul class="submenu">
 							<li><a href="boardAdminNoticeList.admin" class="submenuLink longLink">공지사항</a></li>
 							<li><a href="boardAdminOtherList.admin?board_cd=B1" class="submenuLink longLink">문의사항</a></li> 

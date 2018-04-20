@@ -18,6 +18,7 @@ public class GoodsAdminDisplayListAction implements CommandProcess {
 	@Override
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("여기 들어옴");
 		HttpSession session = request.getSession();
 		String id = session.getAttribute("id").toString();
 /*		String category = request.getParameter("category");*/

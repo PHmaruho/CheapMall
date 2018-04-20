@@ -56,11 +56,11 @@
 									<td>${mainL.end_dt }</td>
 									
 										<c:if test="${mainL.end_dt>now }">
-											<td>N</td>
+											<td>Y</td>
 										</c:if>
 										
 										<c:if test="${mainL.end_dt<now }">
-											<td>Y</td>
+											<td>N</td>
 										</c:if>
 								</tr>							
 					</c:forEach>
@@ -98,11 +98,11 @@
 									<td>${subL.end_dt }</td>
 									
 										<c:if test="${subL.end_dt>now }">
-											<td>N</td>
+											<td>Y</td>
 										</c:if>
 										
 										<c:if test="${subL.end_dt<now }">
-											<td>Y</td>
+											<td>N</td>
 										</c:if>
 								</tr>							
 					</c:forEach>

@@ -362,7 +362,7 @@ public class OrderDao {
 
 	// JSY Part Start!
 	// 해당 회원에 해당하는 주문정보를 받아옵니다.
-public List<HashMap> selectOrders(String id, int startRow, int endRow) throws SQLException {
+public List<HashMap> selectOrders(String id, String order_sq) throws SQLException {
 		
 		Connection conn=null;
 		PreparedStatement ps=null;
@@ -375,52 +375,40 @@ public List<HashMap> selectOrders(String id, int startRow, int endRow) throws SQ
 		try {
 			conn=getConnection();
 			
-			if(startRow==0||endRow==0){
-				
-				sql=
-				"select a1.*, b1.cnt, b1.origin_price, b1.meaning, b1.order_dt "
-				+ "from(select order_sq, g.nm, g.gender, g.top_category, g.middle_category, g.path from "
-				+ "(select d.order_sq, min(d.goods_sq) sq from orders o, order_detail d where user_id=?"
-				+ " and o.order_sq = d.order_sq group by d.order_sq order by order_sq)"
-				+ " a, goods g where a.sq = g.sq) a1,(select d.order_sq, o.origin_price, c.meaning, o.order_dt, sum(d.cnt) cnt "
-				+ "from orders o, order_detail d, code c where user_id=?"
-				+ " and o.order_sq = d.order_sq and o.order_cd = c.cd group by d.order_sq, o.origin_price, c.meaning, o.order_dt)"
-				+ " b1 where a1.order_sq = b1.order_sq order by a1.order_sq desc";
-				ps=conn.prepareStatement(sql);
-				ps.setString(1, id);
-				
-			}else{
-				sql="select * from (select a1.*, b1.cnt, b1.origin_price, b1.meaning, b1.order_dt "
-								+ "from(select order_sq, g.nm, g.gender, g.top_category, g.middle_category, g.path from "
-								+ "(select d.order_sq, min(d.goods_sq) sq from orders o, order_detail d where user_id=?"
-								+ " and o.order_sq = d.order_sq group by d.order_sq order by order_sq)"
-								+ " a, goods g where a.sq = g.sq) a1,(select d.order_sq, o.origin_price, c.meaning, o.order_dt, sum(d.cnt) cnt "
-								+ "from orders o, order_detail d, code c where user_id=?"
-								+ " and o.order_sq = d.order_sq and o.order_cd = c.cd group by d.order_sq, o.origin_price, c.meaning, o.order_dt)"
-								+ " b1 where a1.order_sq = b1.order_sq order by a1.order_sq desc) where rn between ? and ?";
-				/*sql="select * from (select rownum rn, orders.* from (select * from orders where user_id=?) orders) where rn between ? and ?  order by order_sq desc";*/
-				
-				ps=conn.prepareStatement(sql);
-				ps.setString(1, id);
-				ps.setInt(2,startRow);
-				ps.setInt(3,endRow);
-				
-			}
+			sql="select a1.*, b1.cnt, b1.origin_price, b1.meaning, b1.order_dt,b1.pay_method"
+				+ ",b1.use_point,b1.delivery_fee,b1.addr,b1.addr_detail from"
+				+ " (select order_sq, g.nm, g.gender, g.top_category, g.middle_category, g.path from "
+				+ "(select d.order_sq, min(d.goods_sq) sq from orders o, order_detail d where user_id=?"// ?
+				+ "and d.order_sq=? group by d.order_sq order by order_sq)a, goods g where a.sq = g.sq) a1"//?
+				+ ",(select o.pay_method,o.use_point,o.delivery_fee,o.addr,o.addr_detail,d.order_sq, o.origin_price"
+				+ ", c.meaning, o.order_dt, sum(d.cnt) cnt from orders o, order_detail d, code c where user_id=?"//?
+				+ " and d.order_sq=? and o.order_cd = c.cd and o.order_sq=d.order_sq"
+				+ " group by o.pay_method,o.use_point,o.delivery_fee,o.addr"//?
+				+ ",o.addr_detail,d.order_sq, o.origin_price, c.meaning, o.order_dt) b1 where a1.order_sq = b1.order_sq"
+				+ " order by a1.order_sq desc";
+			ps=conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.setString(2, order_sq);
+			ps.setString(3, id);
+			ps.setString(4, order_sq);
 			rs=ps.executeQuery();
-			while(rs.next()){
-				HashMap map = new HashMap();
+			if(rs.next()){
+				HashMap map=new HashMap();
 				map.put("order_sq", rs.getString("order_sq"));
-				map.put("order_dt", rs.getString("order_dt"));
-				map.put("goods_sq", rs.getString("goods_sq"));
-				map.put("cnt", rs.getString("cnt"));
-				map.put("origin_price", rs.getString("origin_price"));
-				map.put("dc_price", rs.getString("dc_price"));
-				map.put("order_cd", rs.getString("order_cd"));
+				map.put("nm", rs.getString("nm"));
 				map.put("gender", rs.getString("gender"));
 				map.put("top_category", rs.getString("top_category"));
 				map.put("middle_category", rs.getString("middle_category"));
-				map.put("nm", rs.getString("nm"));
-				map.put("detail_sq", rs.getString("detail_sq"));
+				map.put("path", rs.getString("path"));
+				map.put("cnt", rs.getString("cnt"));
+				map.put("origin_price", rs.getString("origin_price"));
+				map.put("meaning", rs.getString("meaning"));
+				map.put("order_dt", rs.getString("order_dt"));
+				map.put("pay_method",rs.getString("pay_method"));
+				map.put("use_point",rs.getString("use_point"));
+				map.put("delivery_fee",rs.getString("delivery_fee"));
+				map.put("addr",rs.getString("addr"));
+				map.put("addr_detail",rs.getString("addr_detail"));
 				list.add(map);
 			}
 		} catch (SQLException e) {
@@ -431,25 +419,28 @@ public List<HashMap> selectOrders(String id, int startRow, int endRow) throws SQ
 		return list;
 	}
 	
-	// 해당 회원의 특정 주문에 대한 주문상세 정보를 받아옵니다.
-	public List<HashMap> detailOrder(String id, String order_sq) throws SQLException {
+	//해당 회원의 특정 주문에 대한 주문상세 정보를 받아옵니다.
+	public List<HashMap> detailOrder(String order_sq) throws SQLException {
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		List<HashMap> detailList=new ArrayList<HashMap>();
 		String sql="";
+		System.out.println("detailOrder ok");
 		try {
 			conn=getConnection();
 			
-				sql="select d.*, g.gender, g.top_category, g.middle_category, g.path from order_detail d, goods g"
+				sql="select d.*,g.nm, g.gender, g.top_category, g.middle_category, g.path from order_detail d, goods g"
 						+ " where order_sq=? and d.goods_sq = g.sq";
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, order_sq);
 				rs=ps.executeQuery();
-			
+				System.out.println("rs ok");
 			while(rs.next()){
+				System.out.println("rs next ok");
 				HashMap map=new HashMap();
 				map.put("detail_sq",rs.getString("detail_sq"));
+				map.put("nm",rs.getString("nm"));
 				map.put("order_sq",rs.getString("order_sq"));
 				map.put("goods_sq",rs.getString("goods_sq"));
 				map.put("origin_price",rs.getInt("origin_price"));
@@ -460,6 +451,7 @@ public List<HashMap> selectOrders(String id, int startRow, int endRow) throws SQ
 				map.put("middle_category",rs.getString("middle_category"));
 				map.put("path",rs.getString("path"));
 				detailList.add(map);
+				System.out.println("rs detail_sq: "+rs.getString("detail_sq"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -487,7 +479,7 @@ public List<HashMap> selectOrders(String id, int startRow, int endRow) throws SQ
 			cs.setString(1,id);
 			cs.setString(2,sq);
 			result=cs.executeUpdate();
-			
+			/*
 				if(result>0){
 					cs.close();
 					sql="{call returnorderall.updatePoint(?)}";
@@ -495,7 +487,7 @@ public List<HashMap> selectOrders(String id, int startRow, int endRow) throws SQ
 					cs.setString(1,id);
 					result=cs.executeUpdate();
 				}else result=0;
-			
+			*/
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -507,84 +499,96 @@ public List<HashMap> selectOrders(String id, int startRow, int endRow) throws SQ
 	
 	
 	// 회원의 반품 중 부분반품에 해당하는 부분입니다.
-	public int returnOrderPart(String id, String order_sq, String[] detail_sq) throws SQLException {
-		int result=0;
-		Connection conn=null;
-		CallableStatement cs=null;
-		PreparedStatement ps=null;
-		ResultSet rs=null;
-		/*String[] dsArr=null;*/
-		ArrayList<String> list=new ArrayList<>();
-		int sum=0;
-		int count=0;
-		
-		try {
-			conn=getConnection();
-			String sql="{call returnOrderPart.selectOrder(?,?)}";
-			cs=conn.prepareCall(sql);
-			cs.setString(1,id);
-			cs.setString(2,order_sq);
-			result=cs.executeUpdate();
-			
-			cs.close();
-			if(result>0){
-				sql="select dc_price, detail_sq from order_detail where detail_sq not in (?";
+		public int returnOrderPart(String id, String order_sq, String[] detail_sq) throws SQLException {
+			int result=0;
+			Connection conn=null;
+			CallableStatement cs=null;
+			PreparedStatement ps=null;
+			ResultSet rs=null;
+			ArrayList<String> list=new ArrayList<>();
+			int sumD=0;
+			int sumO=0;
+			int sumP=0;
+			int count=0;
+			System.out.println("id: "+id);
+			System.out.println("반품 order_sq: "+order_sq);
+			try {
+				conn=getConnection();
+				System.out.println("부분 1번째 프로시저 들어감");
+				String sql="{call returnOrderPart.selectOrder(?,?)}";
+				cs=conn.prepareCall(sql);
+				cs.setString(1,id);
+				cs.setString(2,order_sq);
+				result=cs.executeUpdate();
+				cs.close();
 				
-				for(int i=0;i<detail_sq.length-1;i++){
-					sql+=",?";
-				}
-				sql+=") and order_sq=?";
-				ps=conn.prepareStatement(sql);
-				
-				for(int i=0;i<detail_sq.length;i++){
-					ps.setString(i+1,detail_sq[i]);
-				}
-				ps.setString(detail_sq.length+1, order_sq);
-				rs=ps.executeQuery();
-			}
-			
-			while(rs.next()){
-				sum+=rs.getInt(1);
-				
-				/*dsArr[count]=Integer.toString(rs.getInt(2));*/
-				list.add(rs.getString(2));
-				count++;
-			}
-			
-					rs.close();
-					ps.close();
+				if(result>0){ // 1번째 프로시저
+					System.out.println("부분 1번째 sum: 들어감");
+					sql="select sum(origin_price*cnt),sum((origin_price-dc_price)*cnt), detail_sq "
+							+ "from order_detail where detail_sq not in (?";
 					
-					sql="{call returnOrderPart.insertOrder(?,?,?)}";
-					cs=conn.prepareCall(sql);
-					cs.setString(1,id);
-					cs.setString(2,order_sq);
-					cs.setInt(3, sum);
-					result=cs.executeUpdate();
+						for(int i=0;i<detail_sq.length-1;i++){
+							sql+=",?";
+						}
+					sql+=") and order_sq=? group by detail_sq";
+					ps=conn.prepareStatement(sql);
 					
-					
-					if(result>0){
+						for(int i=0;i<detail_sq.length;i++){
+							ps.setString(i+1,detail_sq[i]);
+						}
+					ps.setString(detail_sq.length+1, order_sq);
+					rs=ps.executeQuery();
+					while(rs.next()){
+						sumO+=rs.getInt(1);// 갯수*원가
+						sumP+=rs.getInt(2);// 갯수*할인가
+						/*dsArr[count]=Integer.toString(rs.getInt(2));*/
+						list.add(rs.getString(3));
+						count++;
+					}
+					System.out.println("sql: "+sql);
+					System.out.println("sumO: "+sumO);
+					System.out.println("sumP: "+sumP);
+					if (result>0){// 부분 1번째 sum
+						System.out.println("부분 2번째 프로시저 들어감");
+						if (rs!=null) rs.close();
+						if (ps!=null) ps.close();
 						
-						if(rs!=null) rs.close();
-						if(cs!=null) cs.close();
+						sql="{call returnOrderPart.insertOrder(?,?,?,?)}";
+						cs=conn.prepareCall(sql);
+						cs.setString(1,id);
+						cs.setString(2,order_sq);
+						cs.setInt(3, sumO);
+						cs.setInt(4, sumP);
+						result=cs.executeUpdate();
 						
-						for(int i=0;i< list.size();i++){
-							sql="{call returnOrderPart.updateOrderDetail(?,?)}";
-							cs=conn.prepareCall(sql);
-							cs.setString(1,id);
-							cs.setString(2, list.get(i) );
-							result=cs.executeUpdate();
+						if(result>0){// 부분 2번째 프로시저 값
+							
+							if(rs!=null) rs.close();
 							if(cs!=null) cs.close();
-						} // for 문
-					}else result=0; // 3번째 종료
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}finally{
-			DisConnection(conn, ps, rs);
-			if(cs!=null) cs.close();
+							for(int i=0;i< list.size();i++){
+								System.out.println("insert 할 list order_sq: "+list.get(i));
+							}
+							System.out.println("부분 3번째 프로시저 들어감");
+							for(int i=0;i< list.size();i++){
+								System.out.println("length: "+list.get(i));
+								sql="{call returnOrderPart.updateOrderDetail(?,?)}";
+								cs=conn.prepareCall(sql);
+								cs.setString(1,id);
+								cs.setString(2, list.get(i) );
+								result=cs.executeUpdate();
+								if(cs!=null) cs.close();
+							} // for 문
+						}else result=0; // // 부분 2번째 프로시저 값
+					}else result=0;// 부분 1번째 sum sql
+				}else result=0;// 부분 1번째 프로시저 값
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}finally{
+				DisConnection(conn, ps, rs);
+				if(cs!=null) cs.close();
+			}
+			return result;
 		}
-		return result;
-	}
 	
 	// 반품 목록을 가져옵니다.
 	public List<ReturnsDto> getReturnList(String id) throws SQLException {
