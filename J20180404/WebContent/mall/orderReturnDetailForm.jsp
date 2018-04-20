@@ -7,6 +7,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
+<script type="text/javascript">
+function checkReturnDetail(){
+	var returnOrder= $("#detail_sq:checked").length;
+	if (returnOrder!=0){
+		 $('#submitDetail').show();
+	}else{
+		 $('#submitDetail').hide();
+	}
+}
+
+</script>
 <style>
 	#main{
 		display:flex;
@@ -41,7 +52,7 @@
 							<td>${order.dc_price }</td>
 							<td>${order.cnt }</td>
 							<td>
-							<input type="checkbox" name="detail_sq" value=${order.detail_sq }>
+							<input type="checkbox" name="detail_sq" id="detail_sq" value=${order.detail_sq } onclick="checkReturnDetail()">
 							</td>
 						</tr>
 					</c:forEach>
@@ -56,7 +67,7 @@
 			</table>
 		<br>
 			<span style="float: right; padding: 10 10 10 10px!important;">
-				<input type="submit" value="반품">
+				<input type="submit" value="반품" id="submitDetail" style="display:none;">
 				<input type="reset" value="취소"></span>
 				
 		</form>

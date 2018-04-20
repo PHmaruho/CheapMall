@@ -17,7 +17,14 @@
 			});
 		})
 
-	</script>
+function displayButton(){
+			var checkIt=$("#del:checked").length;
+			if(checkIt==0){
+				$('#submitB').hide();				
+			}else $('#submitB').show(); 
+			
+		}
+</script>
 
 </head>
 
@@ -63,7 +70,7 @@
 						<td>${ user.tel}</td>
 						<td>${ user.email}</td>
 						<td>${ user.grade}</td>
-						<td><input type="checkbox" name="del" value="${user.id }"></td>
+						<td><input type="checkbox" name="del" id="del" value="${user.id }" onclick="displayButton()"></td>
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -98,7 +105,7 @@
 		
 
 			<div style="float: right; padding: 10 10 10 10px!important;"> 
-				<input type="submit" value="삭제"> 
+				<input type="submit" value="삭제" id="submitB" style="display:none;"> 
 				<input type="reset" value="취소">
 			</div>
 		</form>

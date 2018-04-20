@@ -2,6 +2,7 @@ package com.cheapmall.service.mall;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.OrderDao;
-import com.cheapmall.dto.OrdersDto;
 import com.cheapmall.service.CommandProcess;
 
 
@@ -45,7 +45,7 @@ public class GoodsUserReturnFormAction implements CommandProcess{
 			int endRow= startRow+pageSize-1;
 			int count=dao.selectOrders(id,0,0).size();
 			int startNum=count-startRow+1;
-			List<OrdersDto> list=new ArrayList<OrdersDto>();
+			List<HashMap> list=new ArrayList<HashMap>();
 			list=dao.selectOrders(id,startRow,endRow);
 			
 			int totalPage= (int) Math.ceil((double) count/pageSize); 
