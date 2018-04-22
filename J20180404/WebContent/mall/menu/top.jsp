@@ -143,7 +143,7 @@ li:hover {
 				<a onclick="searchFunc()" href="#">search</a>
 			</div>
 			<div class="none" id="searchInput" >
-				<input type="text" width="15" id="search" onkeypress="searchAction1(event)"><input type="button" value="검색하기" onclick="">
+				<input type="text" width="15" id="search" onkeypress="searchAction1(event)"><input type="button" value="검색하기" onclick="MsearchAction1(event)">
 				<!-- Ajax 출력 구간 -->
 				<div id="keywordResult" class="keywordResult none"></div>
 				

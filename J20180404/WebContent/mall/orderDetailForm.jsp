@@ -146,8 +146,8 @@
     	}
     	
     	if(frm.address[1].checked == true){
-    		if(frm.newZipcode.value == null || frm.newZipcode.value.length == 0 
-    				|| frm.newAddr_detail.value == null || frm.newAddr_detail.length == 0){
+    		if(frm.newZipcode.value == '' || frm.newZipcode.value.length == 0 
+    				|| frm.newAddr_detail.value == '' || frm.newAddr_detail.length == 0){
     			alert("새로운 주소를 입력해주세요.");
     			return false;
     		}

@@ -5,6 +5,8 @@
 <head>
 <title>Insert title here</title>
 <script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../js/jquery-ui.css">
 
 <style type="text/css">
 	.buttonPanel {
@@ -195,7 +197,6 @@
 					if(list.value == "0"){
 						$('#overlapCheck').val("1");
 					} else {
-						
 						$('#overlapCheck').val("0");
 					}
 					// 공동
@@ -215,6 +216,10 @@
 			keyword = $('#selectKeyword').val();
 		}
 		
+		if($('#overlapCheck').val() == 0){
+			alert("검색어 중복체크를 다시해주세요.");
+			return false;
+		}
 		$.ajax({
 			type: "POST",
 			url: "SearchManagerPro.admin",
@@ -281,7 +286,7 @@
 	// 등록 시, 중복 확인을 누르고 수정시, 다시 중복확인을 누르게 유도하는 기능
 	function reCheckOverlap(){
 		var chk = $('#overlapCheck').val();
-		if(chk == '1'){
+		if(chk == '1' || chk == '2'){
 			$('#overlapCheck').val("0");
 		}
 	}
@@ -329,7 +334,7 @@
 		$("input[name='selectDelete']:checked").each(function(i, data){
 			gets.push($(this).val());
 		});
-		if(gets == null){
+		if(gets == null || gets == ''){
 			alert("삭제할 데이터를 선택하세요.");
 			return false;
 		}
@@ -345,11 +350,11 @@
 				var list = JSON.parse(data);
 				if(list.result == 'yes'){
 					alert("삭제가 성공적으로 되었습니다.");
-					$('#deletelist').html("");
+					$('.deletelist').html("");
 					$('#keywordResultPanel3').html("");
 				} else {
 					alert("삭제중에 에러가 발생하였습니다.");
-					$('#deletelist').html("");
+					$('.deletelist').html("");
 					$('#keywordResultPanel3').html("");
 				}
 			}
@@ -413,7 +418,7 @@
 	</div>
 
 	<div id="main">
-		<h2>검색어 관리 Page</h2>
+		<h1>검색어 관리 Page</h1>
 		<div class="buttonPanel">
 			<div class="buttonDiv">
 				<input type="button" onclick="changeFuc('registContent')" value="등록" class="inputButton">

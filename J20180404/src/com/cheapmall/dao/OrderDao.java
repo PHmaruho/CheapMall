@@ -913,8 +913,7 @@ public List<HashMap> selectOrders(String id, String order_sq) throws SQLExceptio
 						ps.close();
 					}
 				}
-				// syso
-				System.out.println("###########################" + usedPoint);
+				
 				// 포인트 사용
 				if(result == 1 && usedPoint !=0) {
 					sql = "UPDATE users "
