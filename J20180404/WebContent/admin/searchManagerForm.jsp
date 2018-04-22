@@ -5,78 +5,93 @@
 <head>
 <title>Insert title here</title>
 <script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="../js/jquery-ui.css">
-
+<link rel="stylesheet" href="../js/bootstrap.min.css">
 <style type="text/css">
+	.mainPanel{
+		width: 100%;
+		margin: 0 auto 0 auto;
+	}
 	.buttonPanel {
-		width: 70%;
-		height: 60px;
+		width: 80%;
+		height: 70px;
 		border: solid black 4px;
-		float: left;
-		padding-top: 20px;
-		padding-right: 20px;
-		padding-left: 20px;
-		padding-bottom: 20px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		margin-left: auto;
+ 		margin-right: auto;
 	}
 	.buttonDiv{
-		width: 31%;
+		width: 30%;
 		height: 50px;
 		border: solid black 2px;
 		float: left;
 		margin-right: 10px;
+		margin-left: 10px;
 	}
 
 	.Content{
-		width: 70%;
+		width: 80%;
 		height: 400px;
 		border: solid black 4px;
-		float: left;
 		margin-top: 20px;
+		margin-left: auto;
+ 		margin-right: auto;
 		padding-top: 20px;
 		padding-right: 20px;
 		padding-left: 20px;
 		padding-bottom: 20px;
 	}
-	.registContent{
+	.contentDivs{
 		width: 100%;
 		height: 100%;
-		border: solid black 1px;
+		border: solid black 2px;
 	}
-	.modifyContent{
-		width: 100%;
-		height: 100%;
-		border: solid black 1px;
+	.keywordTitle{
+		width:20%;
+		float: left;
+		height: 50px;
+		padding-top: 10px;
+		padding-left: 20px;
 	}
-	.deleteContent{
-		width: 100%;
-		height: 100%;
-		border: solid black 1px;
+	.keywordSearchPanel{
+		width:75%;
+		float: right;
+		height: 50px;
+		padding-top: 15px;
 	}
 	.searchPanel{
 		width: 30%;
-		height: 100%;
+		height: 80%;
 		border: solid black 1px;
 		float: left;
+		margin-top: 10px;
+		margin-left: 10px;
 		margin-right: 20px;
+		padding: 5px;
 	}
 	.registPanel{
 		width: 65%;
-		height: 100%;
+		height: 80%;
 		border: solid black 1px;
 		float: left;
+		margin-top: 10px;
+		padding: 5px;
 	}
 	.modifyPanel{
 		width: 65%;
-		height: 100%;
+		height: 80%;
 		border: solid black 1px;
 		float: left;
+		margin-top: 10px;
+		padding: 5px;
 	}
 	.deletePanel{
 		width: 65%;
-		height: 100%;
+		height: 80%;
 		border: solid black 1px;
 		float: left;
+		margin-top: 10px;
+		padding: 5px;
 	}
 	.inputButton{
 		width: 100%;
@@ -101,11 +116,8 @@
 </style>
 
 <style type="text/css">
-	th{
-		width: 100px;
-	}
-	#td{
-		width: 250px;
+	.mainPanel > table{
+		width: 200px;
 	}
 </style>
 <script type="text/javascript">
@@ -143,19 +155,22 @@
 				var str = "";
 				if(list.overlap == 'search'){
 					if(list.result == 'yes'){
-						str += "<ul>";
+						str += "<ul style='padding-left:10px;'>";
 							$.each(list.keywords, function(index){
 								if(btn == "searchKeywordBtn3"){
-									str += "<li class='ajaxKeyword' id='selectDelete'>" + this + 
+									str += "<li class='ajaxKeyword' id='selectDelete'>" + 									
+											+ (index+1) + ". " + this + 
 											"<input type='checkbox' value=\""+this+"\" name='selectDelete' onclick='deleteAdd()'></li>";
 									$('#keywordResultPanel1').html("");
 									$('#keywordResultPanel2').html("");
 								} else if (btn == "searchKeywordBtn2"){
-									str += "<li class='ajaxKeyword' id='selectModify' ondblclick='selectDblKeyword(\""+this+"\")'>" + this + "</li>";
+									str += "<li class='ajaxKeyword' id='selectModify' ondblclick='selectDblKeyword(\""+this+"\")'>" + 
+									+ (index+1) + ". " + this + "</li>";
 									$('#keywordResultPanel1').html("");
 									$('#keywordResultPanel3').html("");
 								} else {
-									str += "<li class='ajaxKeyword'>" + this + "</li>";
+									str += "<li class='ajaxKeyword'>" + 
+									+ (index+1) + ". " + this + "</li>";
 									$('#keywordResultPanel2').html("");
 									$('#keywordResultPanel3').html("");
 								}
@@ -417,17 +432,17 @@
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
 
-	<div id="main">
-		<h1>검색어 관리 Page</h1>
+	<div id="main" class="mainPanel">
+		<h2>검색어 관리 Page</h2>
 		<div class="buttonPanel">
 			<div class="buttonDiv">
-				<input type="button" onclick="changeFuc('registContent')" value="등록" class="inputButton">
+				<input type="button" onclick="changeFuc('registContent')" value="등록" class="btn btn-primary btn-block">
 			</div>
 			<div class="buttonDiv">
-				<input type="button" onclick="changeFuc('modifyContent')" value="수정" class="inputButton">
+				<input type="button" onclick="changeFuc('modifyContent')" value="수정" class="btn btn-primary btn-block">
 			</div>
 			<div class="buttonDiv">
-				<input type="button" onclick="changeFuc('deleteContent')" value="삭제" class="inputButton">
+				<input type="button" onclick="changeFuc('deleteContent')" value="삭제" class="btn btn-primary btn-block">
 			</div>
 		</div>
 	
@@ -438,8 +453,13 @@
 	
 				<!-- 검색어 공동패널 -->
 				<div class="searchInput">
-					검색어 : <input type="text" width="30" id="searchKeyword1">
-					<input type="button" id="searchKeywordBtn1" onclick="keywordSearch('searchKeyword1', 'searchKeywordBtn1', 'keywordResultPanel1')" value="검색">
+					<div class="keywordTitle">
+						<h2 style="margin-top:0px; margin-bottom:0px;">검색어 등록</h2>
+					</div>
+					<div class="keywordSearchPanel">
+						검색어 : <input type="text" width="30" id="searchKeyword1">
+						<input type="button" id="searchKeywordBtn1" onclick="keywordSearch('searchKeyword1', 'searchKeywordBtn1', 'keywordResultPanel1')" value="검색">
+					</div>
 				</div>
 				<div class="searchPanel" id="keywordResultPanel1"></div>
 	
@@ -484,8 +504,13 @@
 	
 				<!-- 검색어 공동패널 -->
 				<div class="searchInput">
-					검색어 : <input type="text" width="30" id="searchKeyword2">
-					<input type="button" id="searchKeywordBtn2" onclick="keywordSearch('searchKeyword2', 'searchKeywordBtn2', 'keywordResultPanel2')" value="검색">
+					<div class="keywordTitle">
+						<h2 style="margin-top:0px; margin-bottom:0px;">검색어 수정</h2>
+					</div>
+					<div class="keywordSearchPanel">
+						검색어 : <input type="text" width="30" id="searchKeyword2">
+						<input type="button" id="searchKeywordBtn2" onclick="keywordSearch('searchKeyword2', 'searchKeywordBtn2', 'keywordResultPanel2')" value="검색">
+					</div>
 				</div>
 				<div class="searchPanel" id="keywordResultPanel2"></div>
 	
@@ -526,27 +551,29 @@
 	
 				<!-- 검색어 공동패널 -->
 				<div class="searchInput">
-					검색어 : <input type="text" width="30" id="searchKeyword3">
-					<input type="button" id="searchKeywordBtn3" onclick="keywordSearch('searchKeyword3', 'searchKeywordBtn3', 'keywordResultPanel3')" value="검색">
+					<div class="keywordTitle">
+						<h2 style="margin-top:0px; margin-bottom:0px;">검색어 삭제</h2>
+					</div>
+					<div class="keywordSearchPanel">
+						검색어 : <input type="text" width="30" id="searchKeyword3">
+						<input type="button" id="searchKeywordBtn3" onclick="keywordSearch('searchKeyword3', 'searchKeywordBtn3', 'keywordResultPanel3')" value="검색">
+					</div>
 				</div>
 				<div class="searchPanel" id="keywordResultPanel3"></div>
 	
 				<!-- 삭제 폼 -->
 				<div class="deletePanel">
-					<div class="deleteList">
+					<h4> 삭제 list </h4>
+					<div class="deleteList" style="width:100%; height: 100px; border:solid black 1px; padding:10px;">
 					
 					</div>
 					
 					<div>
-						<input type="button" onclick="deleteAction()" value="삭제하기">
+						<input type="button" onclick="deleteAction()" value="삭제하기" style="margin-top:10px;">
 					</div>
 				</div>
 			</div>
 		</div>
-		
-		<!-- 나중에 수정 할것 (JSON)도입되면.... -->
-		<div id="hiddenOuput" ></div>
-		<input type="hidden" value="" id="imsi">
 	</div>
 </body>
 </html>
