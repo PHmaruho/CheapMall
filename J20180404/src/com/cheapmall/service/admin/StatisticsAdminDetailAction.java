@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.cheapmall.service.CommandProcess;
 
-public class StatisticsAdminDeatilAction implements CommandProcess {
+public class StatisticsAdminDetailAction implements CommandProcess {
 
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,6 +23,6 @@ public class StatisticsAdminDeatilAction implements CommandProcess {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return "statisticsAdminDetail.jsp";
 	}
 }
