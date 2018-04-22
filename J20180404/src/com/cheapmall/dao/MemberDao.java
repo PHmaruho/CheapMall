@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.naming.Context;
@@ -37,6 +38,8 @@ public class MemberDao {
 		6. authGrade(String)
 		2018-04-18
 		7. checkPwDt(String)
+		2018-04-22
+		8.checkReport(String)
 		
 	*/
 	
@@ -576,7 +579,7 @@ public class MemberDao {
 		ResultSet rs = null;
 		
 		int result = 0;
-		String sql = "SELECT pw FROM users WHERE id=?";
+		String sql = "SELECT pw FROM users WHERE id=? and grade<>'GG'";	// 2018-04-22 최우일 : 탈퇴사용자 제외
 	
 		// 비밀번호가 일치하는 경우는 제외하는 이유!
 		// 보안상 비밀번호가 틀렸다고하면 해커 or 악의적인 사용자들이 계속해서 시도한다.!!
@@ -1066,6 +1069,32 @@ public class MemberDao {
 		} finally {
 			DisConnection(conn, pstmt, rs);
 		}
+		return result;
+	}
+	
+	public Date checkReport(String id) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select r.dt + r.days from users u, report r "
+				+ " where u.id=? and u.id = r.user_id and sysdate between r.dt and r.dt + r.days";
+		Date result = null;
+		
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getDate(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, pstmt, rs);
+		}
+		
 		return result;
 	}
 }

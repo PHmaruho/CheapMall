@@ -25,6 +25,11 @@
 			
 			location.href="Cheap.mall";
 		}
+		
+		 if ('${report}' != null) {
+			 alert('${report}' + " 까지 정지된 회원입니다.");
+			location.href="UserLoginForm.mall";
+		 }
 	})()
 </script>
 </body>

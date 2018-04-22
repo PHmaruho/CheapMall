@@ -151,9 +151,9 @@ public class StatisticsDao {
 				+ "and o.order_sq = d.order_sq group by d.goods_sq) "
 			+ "osal on g.sq = osal.goods_sq left join --판매액 " 
 			
-			+ "(select d.goods_sq, sum(d.cnt * d.origin_price) rsum from orders o, order_detail d " 
-				+ "where order_dt  between sysdate-30 and sysdate "
-				+ "and ((o.order_cd like 'R%' and o.order_cd <> 'R5' and o.order_sq = d.order_sq) or order_cd = 'O6') group by d.goods_sq) "
+			+ "(select d.goods_sq, sum(r.cnt * d.origin_price) rsum from orders o, returns r, order_detail d " 
+				+ "where o.order_dt between sysdate-30 and sysdate and o.order_sq = d.order_sq "
+				+ "and d.detail_sq = r.detail_sq group by d.goods_sq) "
 			+ "ortn on g.sq = ortn.goods_sq left join  --반품액 "
 			
 			
