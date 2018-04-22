@@ -50,7 +50,7 @@ table {
 				<c:if test="${auth eq 'A0' || auth eq 'A4' }">
 				<li>|</li>
 					<li class="topMenuLi">
-					<a class="menuLink" href="#">통계</a></li>
+					<a class="menuLink" href="statisticsAdminDetail.jsp">통계</a></li>
 				</c:if>
 				<c:if test="${auth eq 'A0' || auth eq 'A5' }">
 				<li>|</li>
