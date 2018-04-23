@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cheapmall.dao.BoardDao;
 import com.cheapmall.dao.GoodsDao;
 import com.cheapmall.dto.GoodsDto;
 import com.cheapmall.service.CommandProcess;
@@ -22,12 +23,21 @@ public class UserWriteReviewFormAction implements CommandProcess{
 			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
 			
 			if(id == null) {
-				request.setAttribute("warning", "notLogin");
-				return "cheapmall.jsp";
+				request.setAttribute("result", -1);
+				return "reviewNotPro.jsp";
 			}
 			// String id = request.getParameter("id");
 			String goods_sq = request.getParameter("goods_sq");
-			String ip = request.getParameter("ip");
+			String dSq = request.getParameter("dSq");
+			String ip = request.getRemoteAddr();
+			
+			BoardDao boardDao = BoardDao.getInstance();
+			int result = boardDao.checkReviewWrite(dSq);
+			
+			if(result == 1) {
+				request.setAttribute("result", 1);
+				return "reviewNotPro.jsp";
+			}
 			
 			GoodsDao goodsDao = GoodsDao.getInstance();
 			GoodsDto goodsDto = new GoodsDto();
@@ -35,7 +45,7 @@ public class UserWriteReviewFormAction implements CommandProcess{
 			
 			request.setAttribute("goodsDto", goodsDto);
 			request.setAttribute("goods_sq", goods_sq);
-			request.setAttribute("id", id);
+			request.setAttribute("dSq", dSq);
 			request.setAttribute("ip", ip);
 			
 		} catch (Exception e) {
@@ -44,7 +54,6 @@ public class UserWriteReviewFormAction implements CommandProcess{
 			System.out.println("UserWriteReviewFormAction Error");
 			e.printStackTrace();
 		}
-		request.setAttribute("pageSet", "/mall/userWriteReviewForm.jsp");
-		return "/mall/cheapmall.jsp";
+		return "/mall/userWriteReviewForm.jsp";
 	}
 }

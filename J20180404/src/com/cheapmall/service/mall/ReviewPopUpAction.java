@@ -20,17 +20,18 @@ public class ReviewPopUpAction implements CommandProcess{
 			HttpSession session = request.getSession();
 			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
 			
-			if(id == null) {
-				request.setAttribute("id", id);
+			if(id != null) {
+				String sq = request.getParameter("sq");
+				String dSq = request.getParameter("dSq");
+				
+				BoardDao boardDao = BoardDao.getInstance();
+				boardDao.upToReviewCnt(sq); // count ++
+				ReviewDto reviewDto = boardDao.getReviewOne(sq, dSq);
+				
+				request.setAttribute("reviewDto", reviewDto);
 			}
 			
-			String sq = request.getParameter("sq");
-					
-			BoardDao boardDao = BoardDao.getInstance();
-			boardDao.upToReviewCnt(sq); // count ++
-			ReviewDto reviewDto = boardDao.getReviewOne(sq);
 			
-			request.setAttribute("reviewDto", reviewDto);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
