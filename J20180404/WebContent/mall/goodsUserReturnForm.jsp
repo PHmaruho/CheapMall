@@ -9,6 +9,7 @@
 <title>Cheap Mall</title>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+<link rel="stylesheet" href="../js/bootstrap.min.css">
 
 function checkReturnOrder(){
 	var returnOrder= $("#returnOrder_sq:checked").length;
@@ -35,16 +36,88 @@ function getDetail(){
 </script>
 <style>
 	#main{
-		display:flex;
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		padding: 0;
 	}
+.h{
+	position: relative;
+	border-style: none;
+	left: 42%;
+}
+.goodsuserreturntb {
+	position: relative;
+	width: 60%;
+	left: 20%;
+	border-style: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+.goodsuserreturntb img{
+	width: 30px;
+	height: 30px;
+}
+.goodsuserreturntb tr td, th {
+	padding-top: 5px;
+}
+
+.goodsuserreturntb td {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #E5E1E1;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: #E5E1E1;
+	padding-left: 40px;
+}
+
+.goodsuserreturntb th {
+	background-color: #E5E1E1;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #979797;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+#selectDetail {
+ 	position : relative;
+	border-style: solid;
+	border-width: 1px;
+	border-color : gray;
+	background-color: rgba(255, 255, 255, 0);
+	color: black;
+	width: 100px;
+}
+
+#selectDetail:hover {
+	border-width: 2px;
+	padding: 5px 11px;
+}
+#returnformbtn2 {
+ 	position : relative;
+	border-style: solid;
+	border-width: 1px;
+	border-color : gray;
+	background-color: rgba(255, 255, 255, 0);
+	color: black;
+	width: 100px;
+}
+
+#returnformbtn2:hover {
+	border-width: 2px;
+	padding: 5px 11px;
+}
 </style>
 </head>
 <body>
 	
 	<div id="main">
 		<form action="goodsUserReturnPro.mall" method="post" name="all">
-		<h2>주문상세</h2>
-			<table border="1">
+		<div class="h"><h2>주문상세</h2></div>
+			<table class="goodsuserreturntb">
 			<c:forEach var="order" items="${list }">
 				<tr>
 					<c:set var="checkCd" value="${order.meaning }"/>
@@ -53,7 +126,7 @@ function getDetail(){
 						<c:if test="${!fn:contains(checkCd,'반품')}">
 						     ${order.order_sq }
 						 	 <input type="hidden" id="order_sq" name="order_sq" value="${order.order_sq}">
-						     <input type="button" onclick="javascript:getDetail('order_sq')" id="selectDetail" value="상품확인">
+						     <input type="button" onclick="javascript:getDetail('order_sq')" id="selectDetail" value="상품확인" class="btn">
 						</c:if>
 						<c:if test="${fn:contains(checkCd,'반품')}">
 						     ${order.order_sq }
@@ -135,7 +208,7 @@ function getDetail(){
 			</div> --%>
 				<div style="float: right; padding: 10 10 10 10px!important;">
 					<input type="submit" value="반품" id="submitButton" style="display:none;">
-					<input type="button" value="이전" onclick="window.location='OrderListSimpleForm.mall';">
+					<input type="button" value="이전" onclick="window.location='OrderListSimpleForm.mall';" class="btn btn-primary" id="returnformbtn2">
 					<%-- <input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록"> --%>
 				</div>
 		</form>

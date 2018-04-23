@@ -408,62 +408,62 @@ input[type=number]::-webkit-inner-spin-button {
 #payment1 {
 	position: absolute;
 	top: 35px;
-	left: 400px;
+	left: 45%;
 }
 
 .paymenttxt1-1 {
 	position: absolute;
 	top: 35px;
-	left: 420px;
+	left: 46%;
 }
 
 #payment2 {
 	position: absolute;
 	top: 35px;
-	left: 530px;
+	left: 53%;
 }
 
 .paymenttxt1-2 {
 	position: absolute;
 	top: 35px;
-	left: 550px;
+	left: 54%;
 }
 
 #payment3 {
 	position: absolute;
 	top: 35px;
-	left: 640px;
+	left: 60%;
 }
 
 .paymenttxt1-3 {
 	position: absolute;
 	top: 35px;
-	left: 660px;
+	left: 61%;
 }
 
 .kakaotxt {
 	position: absolute;
 	top: 65px;
-	left: 400px;
+	left: 45%;
 	font-weight: bolder;
 }
 
 .kakaotxtarea {
 	position: absolute;
 	top: 63px;
-	left: 470px;
+	left: 50%;
 }
 
 #creditcard {
 	position: absolute;
 	top: 65px;
-	left: 400px
+	left: 45%;
 }
 
 #bankbook {
 	position: absolute;
 	top: 65px;
-	left: 400px
+	left: 45%;
 }
 
 .paytable {
