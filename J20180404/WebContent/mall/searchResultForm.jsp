@@ -43,6 +43,7 @@
 <body>
 	<div class="container">
 		<ul class="searchresultul">
+		<c:if test="${totCnt > 0}">
 			<c:forEach var="goods" items="${list }">
 				<li><a
 					href="goodsDetail.mall?cd=${goods.cd}&gender=${goods.gender }&top_category=${goods.top_category}&middle_category=${goods.middle_category}">
@@ -53,7 +54,24 @@
 						</p>
 				</a></li>
 			</c:forEach>
+		</c:if>
+		<c:if test="${totCnt == 0}">
+			<li>
+				해당 조건에 맞는 상품이 없습니다.
+			</li>
+		</c:if>
 		</ul>
+		<div style="text-align: center;">
+			<c:if test="${startPage > blockSize }">
+				<a href='SearchResult.mall?pageNum=${startPage-blockSize}&keyword=${keyword }'>[이전]</a>
+			</c:if>
+			<c:forEach var="i" begin="${startPage}" end="${endPage}">
+				<a href='SearchResult.mall?pageNum=${i}&keyword=${keyword }'>[${i}]</a>
+			</c:forEach>
+			<c:if test="${endPage < pageCnt }">
+				<a href='SearchResult.mall?pageNum=${startPage+blockSize}&keyword=${keyword }'>[다음]</a>
+			</c:if>
+		</div>
 	</div>
 </body>
 </html>

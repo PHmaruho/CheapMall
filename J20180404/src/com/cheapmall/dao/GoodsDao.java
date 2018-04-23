@@ -461,6 +461,98 @@ public class GoodsDao {
 		}
 		return list;
 	}
+	// 검색한 제품의 전체 갯수를 구한다.
+	public int searchResultCnt(String keyword) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		int result = 0;
+		String sql = "SELECT COUNT(*) FROM goods WHERE nm LIKE '%' || ? || '%'";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, keyword);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("searchResultCnt Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		
+		return result;
+	}
+	
+	// 검색결과화면 정렬
+	public ArrayList<GoodsDto> searchResultBoard(String keyword, int startRow, int endRow) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		ArrayList<GoodsDto> list = new ArrayList<>();
+		String sql = "SELECT *" + 
+				"	FROM(" + 
+				"    SELECT rownum rn, a.*" + 
+				"    FROM(" + 
+				"        SELECT g1.*, path" + 
+				"        FROM (" + 
+				"            SELECT cd, nm, gender, top_category, middle_category, price, SUM(stock) stock" + 
+				"            FROM goods" + 
+				"            WHERE nm LIKE '%'|| ? ||'%'" + 
+				"              AND (SYSDATE BETWEEN start_dt AND end_dt)" + 
+				"              AND display = 'Y'" + 
+				"              AND path IS NOT NULL" + 
+				"            GROUP BY cd, nm, gender, top_category, middle_category, price) g1," + 
+				"            (" + 
+				"            SELECT cd, MIN(path) path" + 
+				"            FROM goods" + 
+				"            WHERE nm LIKE '%'|| ? ||'%'" + 
+				"              AND display = 'Y'" + 
+				"            GROUP BY cd) g2  " + 
+				"        WHERE g1.cd = g2.cd) a) " + 
+				"WHERE rn between ? and ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, keyword);
+			ps.setString(2, keyword);
+			ps.setInt(3, startRow);
+			ps.setInt(4, endRow);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				do {
+					GoodsDto goodsDto = new GoodsDto();
+					goodsDto.setCd(rs.getString(2));
+					goodsDto.setNm(rs.getString(3));
+					goodsDto.setGender(rs.getString(4));
+					goodsDto.setTop_category(rs.getString(5));
+					goodsDto.setMiddle_category(rs.getString(6));
+					goodsDto.setPrice(rs.getInt(7));
+					goodsDto.setStock(rs.getInt(8));
+					goodsDto.setPath(rs.getString(9));
+					list.add(goodsDto);
+				} while(rs.next());
+			} else {
+				new SQLException();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("searchResultList Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		return list;
+	}
 	
 	// JSY Part Start!
 	// 종료일이 지나면 노출[ display ]를 N으로 바꾸는 클래스입니다.

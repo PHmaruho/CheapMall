@@ -64,6 +64,7 @@ table {
 						<ul class="submenu">
 							<li><a href="GoodsAdminDisplayList.admin" class="submenuLink longLink">판매상품목록</a>
 							<li><a href="goodsAdminUpdateList.admin" class="submenuLink longLink">전체상품목록</a>
+							<li><a href="ExcelForm.admin" class="submenuLink longLink">택배사별운송목록</a>
 						</ul>
 					</li>
 				</c:if>

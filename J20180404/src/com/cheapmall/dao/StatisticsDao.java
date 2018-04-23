@@ -487,7 +487,6 @@ public class StatisticsDao {
 			} else {
 				object.put("result", "no");
 			}
-			System.out.println(object);
 		} catch (Exception e) {
 			// TODO: handle exception
 			// SYSO

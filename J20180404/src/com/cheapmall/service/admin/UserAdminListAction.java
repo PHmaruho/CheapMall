@@ -29,7 +29,6 @@ public class UserAdminListAction implements CommandProcess {
 			}
 			MemberDao dao=MemberDao.getInstance();
 			String search=request.getParameter("search")==null? "All":request.getParameter("search");
-			System.out.println("search: "+search);
 			int count=0;
 				if (search.equals("브론즈")) search="G0";
 				if (search.equals("실버")) search="G1";

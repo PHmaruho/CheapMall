@@ -159,6 +159,10 @@
 	      alert("검색어를 입력해주세요.");
 	      return false;
 	    }
+	    if(keyword.length < 2){
+	    	alert("최소 2글자 부터 검색이 가능합니다.");
+	    	return false;
+	    }
 	    location.href="SearchResult.mall?keyword="+keyword;
 	  }
 	}
@@ -168,6 +172,10 @@
 	    if(keyword == ''){
 	      alert("검색어를 입력해주세요.");
 	      return false;
+	    }
+	    if(keyword.length < 2){
+	    	alert("최소 2글자 부터 검색이 가능합니다.");
+	    	return false;
 	    }
 	    location.href="SearchResult.mall?keyword="+keyword;
 	  }
