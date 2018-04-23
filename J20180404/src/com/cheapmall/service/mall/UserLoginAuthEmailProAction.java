@@ -24,7 +24,7 @@ public class UserLoginAuthEmailProAction implements CommandProcess {
 			int result = memberDao.authGrade(id);
 			
 			request.setAttribute("pageSet", "/mall/userLoginPro.jsp");
-			request.setAttribute("result", "result");
+			request.setAttribute("result", result);
 			//request.setAttribute("pageSet", "/mall/userLoginAuthEmail.jsp");
 		} catch (Exception e) {
 			e.printStackTrace();

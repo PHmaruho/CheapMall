@@ -238,7 +238,7 @@ public class BoardDao{
 			pstmt.setString(1, boardDto.getUser_id());
 			pstmt.setString(2, boardDto.getSubject());
 			pstmt.setString(3, boardDto.getContent());
-			pstmt.setString(4, object);
+			pstmt.setString(4, boardDto.getObject());
 			pstmt.setString(5, boardDto.getBoard_cd());
 			pstmt.setString(6, boardDto.getBoard_p_cd());
 			pstmt.setString(7, boardDto.getIp());
