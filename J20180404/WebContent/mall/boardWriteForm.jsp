@@ -81,7 +81,7 @@
 				}
 			}
 			hidden.value = "B" + index;
-			object.value = suggestDiv.value;
+			object.value = document.getElementById("suggestText").value;
 		} else if (index == 3) {
 			if (reportText.value == "") {
 				alert("대상자 ID를 입력해주세요.")
