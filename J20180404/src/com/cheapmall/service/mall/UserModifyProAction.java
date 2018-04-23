@@ -20,7 +20,12 @@ public class UserModifyProAction implements CommandProcess{
 			// session 을 나중에 받아와서 해당 정보를 Dto에 저장하여서 Request로 넘겨줄 예정
 			// String id = session.getAttribute("id");
 			HttpSession session = request.getSession();
-			String id = session.getAttribute("id").toString();
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
+			if(id == null) {
+				request.setAttribute("warning", "notLogin");
+				return "cheapmall.jsp";
+			}
 			
 			String birth = request.getParameter("birth");
 			String[] tempBirth = birth.split("-");

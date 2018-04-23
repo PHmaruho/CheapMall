@@ -36,7 +36,6 @@ public class AdminInsertProAction implements CommandProcess {
 			int result = md.adminInsert(dto);
 			request.setAttribute("result", result);
 			request.setAttribute("pageNum", pageNum);
-			System.out.println("AdminInsertProAction result->"+result);
 			
 		} catch (Exception e) { System.out.println(e.getMessage()); }
 		

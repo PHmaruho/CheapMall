@@ -31,12 +31,10 @@ public class GoodsAdminInsertProAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// --------------------------------------------------------------------------------------------------------
-			System.out.println("request getContentType : "
-					+ request.getContentType());
 			String imagePath = request.getSession().getServletContext()
 					.getRealPath("/images");
 			System.out.println(imagePath);
-			int image_size = 2 * 1024 * 1024;
+			int image_size = 1024*1024*24;
 			String filename = "";
 			MultipartRequest multi = new MultipartRequest(request, imagePath,
 					image_size, "utf-8", new DefaultFileRenamePolicy());
@@ -84,10 +82,7 @@ public class GoodsAdminInsertProAction implements CommandProcess {
 					.getRealPath(
 							"/images/" + gender + "/" + top_category + "/"
 									+ middle_category + "/thumbnail");
-			System.out.println("original : " + imagePath_original);
-			System.out.println("thumbnail : " + imagePath_thumbnail);
 			String sq = gd.goodsAdminGetSq();
-			System.out.println("시퀀스 : " + sq);
 			Enumeration files = multi.getFileNames();
 			String file = (String) files.nextElement();
 			filename = multi.getFilesystemName(file);
@@ -96,13 +91,12 @@ public class GoodsAdminInsertProAction implements CommandProcess {
 			i = filename.lastIndexOf("."); // 파일 확장자 위치
 			String kind = filename.substring(i + 1, filename.length()); // 파일
 																		// 확장자
-			System.out.println("확장자 : " + kind); // [.???]
 			// -----------------------------------------------------
 			// --------------------파일이동(image -> original)-------
 			FileInputStream fis = new FileInputStream(imagePath + "/"
 					+ filename);
 			FileOutputStream fos = new FileOutputStream(imagePath_original
-					+ "/" + sq + "." + kind);
+					+ "/" + sq + "." + "png");
 
 			int data = 0;
 			while ((data = fis.read()) != -1) {
@@ -117,7 +111,7 @@ public class GoodsAdminInsertProAction implements CommandProcess {
 			// ---------------------------------------------------------------
 			// -----------썸네일 만들기--------------------------
 			ParameterBlock pb = new ParameterBlock();
-			pb.add(imagePath_original + "/" + sq + "." + kind);
+			pb.add(imagePath_original + "/" + sq + "." + "png");
 			RenderedOp rOp = JAI.create("fileload", pb);
 			BufferedImage bi = rOp.getAsBufferedImage();
 			BufferedImage thumb = new BufferedImage(100, 100,
@@ -125,10 +119,8 @@ public class GoodsAdminInsertProAction implements CommandProcess {
 			Graphics2D g = thumb.createGraphics();
 			g.drawImage(bi, 0, 0, 100, 100, null);
 			File thumb_file = new File(imagePath_thumbnail + "/sm_" + sq + "."
-					+ kind);
-			ImageIO.write(thumb, kind, thumb_file);
-			System.out.println("파일이름 : " + filename);
-			System.out.println("썸네일 파일 이름 : " + sq + kind);
+					+ "png");
+			ImageIO.write(thumb, "png", thumb_file);
 			// ----------------------------------------------------
 
 		} catch (Exception e) {

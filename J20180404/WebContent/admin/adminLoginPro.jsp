@@ -21,11 +21,6 @@ table {
 	String pw = request.getParameter("pw");
 	String auth = (String)request.getAttribute("auth");
 //	String result = request.getParameter("result");
-
-	System.out.println("adminLoginPro.jsp id->"+id);
-	System.out.println("adminLoginPro.jsp pw->"+pw);
-	System.out.println("adminLoginPro.jsp auth->"+auth);
-
 	
 	MemberDao md = MemberDao.getInstance();
 //	int result = (int)request.getAttribute("result");

@@ -18,11 +18,13 @@ public class BoardOtherListAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
-			String id = (String) session.getAttribute("id");
+			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+			
 			if(id == null) {
 				request.setAttribute("warning", "notLogin");
 				return "cheapmall.jsp";
 			}
+			
 			
 			BoardDao boardDao = BoardDao.getInstance();
 			int totCnt = boardDao.getBoardCount(null, "all", "all", "", id);

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +9,7 @@
 <title>Cheap Mall</title>
 <script src="../js/jquery.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<link rel="stylesheet" href="../js/bootstrap.min.css">
 <script>
     function findZipcode() {
         new daum.Postcode({
@@ -146,8 +147,8 @@
     	}
     	
     	if(frm.address[1].checked == true){
-    		if(frm.newZipcode.value == null || frm.newZipcode.value.length == 0 
-    				|| frm.newAddr_detail.value == null || frm.newAddr_detail.length == 0){
+    		if(frm.newZipcode.value == '' || frm.newZipcode.value.length == 0 
+    	            || frm.newAddr_detail.value == '' || frm.newAddr_detail.length == 0){
     			alert("새로운 주소를 입력해주세요.");
     			return false;
     		}
@@ -163,172 +164,532 @@
     }
 </script>
 <style type="text/css">
-	input[type=number]::-webkit-inner-spin-button {
-	    -webkit-appearance: none;
-	    margin: 0;
-	}
+input[type=number]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	border-style: none;
+	padding: 0px;
+}
+
+.orderdetailfr {
+	position: absolute;
+	width: 100%;
+}
+
+.orderDetailTable {
+	position: relative;
+	width: 100%;
+	height: 80px;
+	margin-top : 30px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+.addrInfo {
+	position: relative;
+	width: 100%;
+	height: 150px;
+	margin-top : 30px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #8B8B8B;
+}
+
+.payInfo {
+	position: relative;
+	width: 100%;
+	height: 400px;
+	margin-top : 30px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #8B8B8B;
+}
+
+.orderDetailTable img {
+	height: 100px;
+}
+
+.orderDetailTable tr td, th {
+	text-align: center;
+	border-top-style: none;
+}
+
+.orderDetailTable th {
+	background-color: #E5E1E1;
+	border-bottom-style: none;
+}
+
+.ordercheckK1 {
+	position: relative;
+	font-size: 15px;
+	font-weight: bold;
+	left: 44.8%;
+	margin-top: 30px;
+	display: block;
+}
+
+.ordercheckE1 {
+	position: relative;
+	font-size: 10px;
+	color: #8B8B8B;
+	left: 44%;
+	/* top: 23px; */
+	margin-top: 30px;
+}
+
+.ordercheckK2 {
+	position: relative;
+	font-size: 15px;
+	font-weight: bold;
+	left: 45%;
+	/* top: 250px; */
+	margin-top: 30px;
+	display: block;
+}
+
+.ordercheckE2 {
+	position: relative;
+	font-size: 10px;
+	color: #8B8B8B;
+	left: 42.8%;
+	/* top: 273px; */
+	margin-top: 30px;
+}
+
+.ordercheckK3 {
+	position: relative;
+	font-size: 15px;
+	font-weight: bold;
+	left: 46.7%;
+	/* top: 570px; */
+	margin-top: 30px;
+	display: block;
+}
+
+.ordercheckE3 {
+	position: relative;
+	font-size: 10px;
+	color: #8B8B8B;
+	left: 44%;
+	/* top: 593px; */
+	margin-top: 30px;
+}
+
+.addrtxt1 {
+	position: absolute;
+	left: 30%;
+	font-weight: bold;
+}
+
+#defaultAddr {
+	position: absolute;
+	left: 62%;
+}
+
+#newAddress {
+	position: absolute;
+	left: 53%;
+}
+
+.addrtxt1-1 {
+	position: absolute;
+	left: 55%;
+}
+
+.addrtxt1-2 {
+	position: absolute;
+	left: 45%;
+}
+
+.addrtxt2-1 {
+	position: absolute;
+	left: 30%;
+	top: 50px;
+	font-weight: bold;
+}
+
+.addrtxt2-2 {
+	position: absolute;
+	left: 45%;
+	top: 50px;
+}
+
+.addrtxt2-3 {
+	position: absolute;
+	left: 30%;
+	top: 80px;
+	font-weight: bold;
+}
+
+.addrtxt2-4 {
+	position: absolute;
+	left: 45%;
+	top: 80px;
+}
+
+.addrtxt3-1 {
+	position: absolute;
+	left: 30%;
+	top: 50px;
+	font-weight: bold;
+}
+
+#newZipcode {
+	position: absolute;
+	left: 45%;
+	top: 50px;
+}
+
+#addrbtn3-1 {
+	position: absolute;
+	left: 60%;
+	top: 50px;
+}
+
+#newAddr {
+	position: absolute;
+	left: 45%;
+	top: 80px;
+}
+
+.addrtxt3-2 {
+	position: absolute;
+	left: 30%;
+	top: 110px;
+	font-weight: bold;
+}
+
+#newAddr_detail {
+	position: absolute;
+	left: 45%;
+	top: 110px;
+}
+
+.paytxt1-1 {
+	position: absolute;
+	left: 30%;
+	top: 5px;
+	font-weight: bolder;
+}
+
+#inputPoint {
+	position: absolute;
+	top: 5px;
+	left: 45%;
+}
+
+#paybtn1-1 {
+	position: absolute;
+	top: 5px;
+	left: 59%;
+}
+
+.paytxt1-2 {
+	position: absolute;
+	left: 67%;
+	top: 7px;
+}
+
+.paymenttxt1 {
+	position: absolute;
+	top: 35px;
+	left: 30%;
+	font-weight: bolder;
+}
+
+#payment1 {
+	position: absolute;
+	top: 35px;
+	left: 400px;
+}
+
+.paymenttxt1-1 {
+	position: absolute;
+	top: 35px;
+	left: 420px;
+}
+
+#payment2 {
+	position: absolute;
+	top: 35px;
+	left: 530px;
+}
+
+.paymenttxt1-2 {
+	position: absolute;
+	top: 35px;
+	left: 550px;
+}
+
+#payment3 {
+	position: absolute;
+	top: 35px;
+	left: 640px;
+}
+
+.paymenttxt1-3 {
+	position: absolute;
+	top: 35px;
+	left: 660px;
+}
+
+.kakaotxt {
+	position: absolute;
+	top: 65px;
+	left: 400px;
+	font-weight: bolder;
+}
+
+.kakaotxtarea {
+	position: absolute;
+	top: 63px;
+	left: 470px;
+}
+
+#creditcard {
+	position: absolute;
+	top: 65px;
+	left: 400px
+}
+
+#bankbook {
+	position: absolute;
+	top: 65px;
+	left: 400px
+}
+
+.paytable {
+	position: absolute;
+	top: 125px;
+	left: 20%;
+	width: 60%;
+	border-style: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+.paytable tr td, th {
+	text-align: center;
+	border-top-style: none;
+}
+
+.paytable th {
+	background-color: #E5E1E1;
+	border-bottom-style: none;
+}
+
+#paybtn {
+	position: absolute;
+	top: 225px;
+	left: 40%;
+	width: 20%;
+	background-color: rgba(255, 255, 255, 0);
+	color: black;
+}
+
+#paybtn:hover {
+	border-width: 2px;
+}
+
+#totalPrice {
+	color: red;
+}
 </style>
 </head>
 <body>
-<h2> 주문 상세 Page</h2>
-<!-- test varStatus는 index의 뜻입니다.-->
-<c:forEach var="test" items="${orderBag.orders }" varStatus="totalRow">
-	<c:set var="lastRow" value="${totalRow.count }"></c:set>
-</c:forEach>
-
-<form action="OrderDetailPro.mall" method="post" name="frm" onsubmit="return chk()">
-
-	<!-- hidden -->
-	<input type="hidden" value="${orderBag.delivery_fee }" name="delivery_fee">
-	<input type="hidden" value="${orderBag.total }" name="total">
-	<input type="hidden" value="${orderBag.zipcode }" name="zipcode">
-	<input type="hidden" value="${orderBag.addr }" name="addr">
-	<input type="hidden" value="${orderBag.addr_detail }" name="addr_detail">
-	<input type="hidden" value="${orderBag.point }" name="point" id="point">
-	<input type="hidden" value="0" name="usedPoint" id="usedPoint">
-	<!-- array로 보내주기 위한 작업 -->
-	<c:forEach var="goods" items="${orderBag.orders }">
-		<input type="hidden" name="goods_sq" value="${goods.goods_sq }">
-		<input type="hidden" name="origin_price" value="${goods.origin_price }">
-		<input type="hidden" name="dc_price" value="${goods.dc_price }">
-		<input type="hidden" name="cnt" value="${goods.cnt }">
-	</c:forEach>
-	<c:forEach var="carts" items="${cart_sq }">
-		<input type="hidden" name="cart_sq" value="${carts }">
-	</c:forEach>
-	
-	<table border="1">
-		<tr>
-			<th colspan="2">상품정보</th>
-			<th>브랜드</th>
-			<th>배송비</th>
-			<th>수량</th>
-			<th>단가</th>
-			<th>할인금액</th>
-			<th>주문금액</th>
-		</tr>
-		<c:forEach var="goods" items="${orderBag.orders }" varStatus="test">
-			<tr>
-				<td><img src="../images/${goods.gender }/${goods.top_category}/${goods.middle_category}/thumbnail/${goods.path}.png"></td>
-				<td>
-					${goods.nm } <br>
-					옵션 : ${goods.color } / size: ${goods.size_meaning }
-				</td>
-				<td>침몰</td>
-				<!-- test -->
-				<c:if test="${test.first }">
-					<td rowspan="${lastRow }">
-						<c:if test="${orderBag.delivery_fee == 0 }">
-							0원
-						</c:if>
-						<c:if test="${orderBag.delivery_fee != 0 }">
-							${goods.delivery_fee}원
-						</c:if>
-					</td>
-				</c:if>
-				<td>${goods.cnt }개</td>
-				<td>${goods.origin_price }원</td>
-				<td>${goods.dc_price*goods.cnt }원</td>
-				<td>
-					<p style="text-decoration:line-through; color: gray;">
-						${(goods.origin_price*goods.cnt)} - ${(goods.dc_price*goods.cnt)}원
-					</p> <br>
-					${(goods.origin_price*goods.cnt) - (goods.dc_price*goods.cnt) }원
-				</td>
-			</tr>
+	<div class="container">
+		<span class="ordercheckK1">주문상품 확인</span> <span class="ordercheckE1">[CONFIRM
+			CHECKOUT]</span>
+		<!-- test varStatus는 index의 뜻입니다.-->
+		<c:forEach var="test" items="${orderBag.orders }" varStatus="totalRow">
+			<c:set var="lastRow" value="${totalRow.count }"></c:set>
 		</c:forEach>
-	</table>
-	<h2> 배송지 정보</h2>
-	배송지 선택 : 
-		<input type="radio" name="address" id="defaultAddr" checked="checked" value="defaultAddr" onclick="switchAddr('defaultAddr')">기본 배송지 
-		<input type="radio" name="address" id="newAddress" value="newAddr" onclick="switchAddr('newAddress')"> 새로운 배송지
-		
-	<p>
-		<div id="normalAddr" style="display:block;">
-			<%-- 받는분 성함 : ${orderBag.id }	<br /> --%>
-			주소 : ${orderBag.zipcode } <br />
-			상세주소 : ${orderBag.addr } ${orderBag.addr_detail }<br />
-			<!-- 전화번호 : ${orderBag.tel }  --><br />
-		</div>
-	<p>
-	<div id="inputAddr" style="display:none;">
-		<!-- <p> 받는분 성함 : <input type="text" name="nm" id="nm"> -->
-		<p> 주소 : <input type="text" max="6" name="newZipcode" id="newZipcode" readonly="readonly">
-				  <input type="button" value="우편번호찾기" onclick="findZipcode()"> </p>
-		<p>		  <input type="text" width="30" id="newAddr" name="newAddr" readonly="readonly">
-		<p> 상세주소 : <input type="text" width="30" id="newAddr_detail" name="newAddr_detail">	  
-		<!-- <p> 전화번호 : <select name="tel">
+
+		<form action="OrderDetailPro.mall" method="post" name="frm"
+			onsubmit="return chk()" class="orderdetailfr">
+
+			<!-- hidden -->
+			<input type="hidden" value="${orderBag.delivery_fee }"
+				name="delivery_fee"> <input type="hidden"
+				value="${orderBag.total }" name="total"> <input
+				type="hidden" value="${orderBag.zipcode }" name="zipcode"> <input
+				type="hidden" value="${orderBag.addr }" name="addr"> <input
+				type="hidden" value="${orderBag.addr_detail }" name="addr_detail">
+			<input type="hidden" value="${orderBag.point }" name="point"
+				id="point"> <input type="hidden" value="0" name="usedPoint"
+				id="usedPoint">
+			<!-- array로 보내주기 위한 작업 -->
+			<c:forEach var="goods" items="${orderBag.orders }">
+				<input type="hidden" name="goods_sq" value="${goods.goods_sq }">
+				<input type="hidden" name="origin_price"
+					value="${goods.origin_price }">
+				<input type="hidden" name="dc_price" value="${goods.dc_price }">
+				<input type="hidden" name="cnt" value="${goods.cnt }">
+			</c:forEach>
+			<c:forEach var="carts" items="${cart_sq }">
+				<input type="hidden" name="cart_sq" value="${carts }">
+			</c:forEach>
+
+			<table border="0" class="orderDetailTable">
+				<tr>
+					<th colspan="2">상품정보</th>
+					<th>브랜드</th>
+					<th>배송비</th>
+					<th>수량</th>
+					<th>단가</th>
+					<th>할인금액</th>
+					<th>주문금액</th>
+				</tr>
+				<c:forEach var="goods" items="${orderBag.orders }" varStatus="test">
+					<tr>
+						<td><img
+							src="../images/${goods.gender }/${goods.top_category}/${goods.middle_category}/thumbnail/${goods.path}.png"></td>
+						<td>${goods.nm }<br> 옵션 : ${goods.color } / size:
+							${goods.size_meaning }
+						</td>
+						<td>침몰</td>
+						<!-- test -->
+						<c:if test="${test.first }">
+							<td rowspan="${lastRow }"><c:if
+									test="${orderBag.delivery_fee == 0 }">
+							0원
+						</c:if> <c:if test="${orderBag.delivery_fee != 0 }">
+							${goods.delivery_fee}원
+						</c:if></td>
+						</c:if>
+						<td>${goods.cnt }개</td>
+						<td>${goods.origin_price }원</td>
+						<td>${goods.dc_price*goods.cnt }원</td>
+						<td>
+							<p style="text-decoration: line-through; color: gray;">
+								${(goods.origin_price*goods.cnt)} -
+								${(goods.dc_price*goods.cnt)}원</p> <br>
+							${(goods.origin_price*goods.cnt) - (goods.dc_price*goods.cnt) }원
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<span class="ordercheckK2">배송지정보 입력</span> <span class="ordercheckE2">[ENTER
+				SHIPPING INFORMATION]</span>
+			<div class="addrInfo">
+				<span class="addrtxt1">배송지 선택</span><input type="radio"
+					name="address" id="defaultAddr" checked="checked"
+					value="defaultAddr" onclick="switchAddr('defaultAddr')"><span
+					class="addrtxt1-1">기본 배송지</span> <input type="radio" name="address"
+					id="newAddress" value="newAddr" onclick="switchAddr('newAddress')">
+				<span class="addrtxt1-2">새로운 배송지</span>
+
+				<p>
+				<div id="normalAddr" style="display: block;">
+					<%-- 받는분 성함 : ${orderBag.id }	<br /> --%>
+					<span class="addrtxt2-1">주소</span><span class="addrtxt2-2">${orderBag.zipcode }</span>
+					<br /> <span class="addrtxt2-3">상세주소</span> <span
+						class="addrtxt2-4">${orderBag.addr } ${orderBag.addr_detail }</span><br />
+					<!-- 전화번호 : ${orderBag.tel }  -->
+					<br />
+				</div>
+				<p>
+				<div id="inputAddr" style="display: none;">
+					<!-- <p> 받는분 성함 : <input type="text" name="nm" id="nm"> -->
+					<p>
+						<span class="addrtxt3-1">주소</span><input type="text" max="6"
+							name="newZipcode" id="newZipcode" readonly="readonly"> <input
+							type="button" value="우편번호찾기" onclick="findZipcode()"
+							id="addrbtn3-1">
+					</p>
+					<p>
+						<input type="text" width="30" id="newAddr" name="newAddr"
+							readonly="readonly">
+					<p>
+						<span class="addrtxt3-2">상세주소</span><input type="text" width="30"
+							id="newAddr_detail" name="newAddr_detail">
+						<!-- <p> 전화번호 : <select name="tel">
 						<option value="010" selected="selected">010</option>
 						<option value="016">016</option>
 						<option value="017">017</option>
 					</select> - 
 					<input type="text" max="4" id="tel1" name="tel1"> - 
 					<input type="text" max="4" id="tel2" name="tel2"> </p> -->
+				</div>
+			</div>
+			<span class="ordercheckK3">결재정보</span> <span class="ordercheckE3">[PAYMENT
+				INFORMATION]</span>
+			<div class="payInfo">
+				<p>
+					<span class="paytxt1-1">쇼핑몰 포인트</span><input type="number"
+						value="0" id="inputPoint" pattern="[0-9]"> <input
+						type="button" value="포인트 사용" onclick="usePoint()" id="paybtn1-1">
+					<span class="paytxt1-2">[사용가능포인트 : ${orderBag.point }]</span>
+				</p>
+				<p>
+					<span class="paymenttxt1">결재수단</span> <input type="radio"
+						name="payment" id="payment1" value="kakaopay"
+						onclick="switchShow('payment1')" checked="checked"><span
+						class="paymenttxt1-1">카카오 페이</span> <input type="radio"
+						name="payment" id="payment2" value="creditcard"
+						onclick="switchShow('payment2')"><span
+						class="paymenttxt1-2">신용카드</span><input type="radio"
+						name="payment" id="payment3" value="bankbook"
+						onclick="switchShow('payment3')"><span
+						class="paymenttxt1-3">실시간 통장</span>
+				<div id="kakaopay" style="display: none;">
+					<span class="kakaotxt">kakaoID</span> <input type="text"
+						placeholder="kakaoID" name="kakaopay" class="kakaotxtarea">
+				</div>
+
+				<div id="creditcard" style="display: none;">
+					신용카드 선택 : <select name="creditcard">
+						<option value="신한카드" selected="selected">신한카드</option>
+						<option value="우일카드">우일카드</option>
+						<option value="엄마카드">엄마카드</option>
+						<option value="아빠카드">아빠카드</option>
+						<option value="내카드">내카드</option>
+					</select>
+				</div>
+				<div id="bankbook" style="display: none;">
+					은행 선택 : <select name="bankbook">
+						<option value="신한은행" selected="selected">신한은행</option>
+						<option value="우일은행">우일은행</option>
+						<option value="JM은행">JM은행</option>
+						<option value="카카오뱅크">카카오뱅크</option>
+						<option value="마이너스은행">마이너스은행</option>
+					</select>
+				</div>
+
+				<!-- total -->
+				<div>
+					<table border="0" class="paytable">
+						<tr>
+							<th>총 주문금액</th>
+							<th>배송비</th>
+							<th>포인트 사용</th>
+							<th>최종 주문 금액</th>
+						</tr>
+						<tr>
+							<td>${orderBag.total}원</td>
+							<td>${orderBag.delivery_fee}원</td>
+							<td id="usePoint">0원</td>
+							<td id="totalPrice">${orderBag.total + orderBag.delivery_fee}</td>
+						</tr>
+					</table>
+
+				</div>
+				<div>
+					<input type="submit" value="주문하기" class="btn btn-success"
+						id="paybtn">
+				</div>
+			</div>
+		</form>
 	</div>
-	
-	<h2> 포인트 사용</h2>
-	<p>
-		쇼핑몰 포인트 : <input type="number" value="0" id="inputPoint" pattern="[0-9]">
-					<input type="button" value="포인트 사용" onclick="usePoint()">
-					[사용가능포인트 : ${orderBag.point }]
-		</p>
-	<p>
-	
-	<h2> 결재 정보 </h2>
-	<input type="radio" name="payment" id="payment1" value="kakaopay" onclick="switchShow('payment1')" checked="checked">카카오 페이 
-	<input type="radio" name="payment" id="payment2" value="creditcard" onclick="switchShow('payment2')">신용카드 
-	<input type="radio" name="payment" id="payment3" value="bankbook" onclick="switchShow('payment3')">실시간 통장
-	<div id="kakaopay" style="display:block;">
-		kakaoID : 
-		<input type="text" placeholder="kakaoID" name="kakaopay">
-	</div>
-	<div id="creditcard" style="display:none;">
-		신용카드 선택 : 
-		<select name="creditcard">
-			<option value="신한카드" selected="selected">신한카드</option>
-			<option value="우일카드">우일카드</option>
-			<option value="엄마카드">엄마카드</option>
-			<option value="아빠카드">아빠카드</option>
-			<option value="내카드">내카드</option>
-		</select>
-	</div>
-	<div id="bankbook" style="display:none;">
-		은행 선택 : 
-		<select name="bankbook">
-			<option value="신한은행" selected="selected">신한은행</option>
-			<option value="우일은행">우일은행</option>
-			<option value="JM은행">JM은행</option>
-			<option value="카카오뱅크">카카오뱅크</option>
-			<option value="마이너스은행">마이너스은행</option>
-		</select>
-	</div>
-	
-	<!-- total -->
-	<div>
-		<table border="1">
-			<tr>
-				<th>총 주문금액</th>
-				<td>${orderBag.total} 원</td>
-			</tr>
-			<tr>
-				<th>배송비</th>
-				<td>${orderBag.delivery_fee} 원</td>
-			</tr>
-			<tr>
-				<th>포인트 사용</th>
-				<td id="usePoint">0원</td>
-			</tr>
-			<tr>
-				<th>최종 주문 금액</th>
-				<td id="totalPrice">${orderBag.total + orderBag.delivery_fee}</td>
-			</tr>
-		</table>
-	 
-	</div>
-	<div>
-		<input type="submit" value="주문하기">
-	</div>
-	
-</form>
 </body>
 </html>

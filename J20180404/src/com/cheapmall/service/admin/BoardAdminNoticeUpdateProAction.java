@@ -28,7 +28,6 @@ public class BoardAdminNoticeUpdateProAction implements CommandProcess {
 			request.setAttribute("board_sq", boardDto.getBoard_sq());
 			request.setAttribute("result", result);
 			request.setAttribute("pageNum", pageNum);
-			System.out.println(result);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

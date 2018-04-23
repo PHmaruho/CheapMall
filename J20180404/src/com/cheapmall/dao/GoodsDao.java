@@ -484,7 +484,6 @@ public class GoodsDao {
 	}
 	// 상품sq에 해당하는 정보를 가져오는 클래스입니다.
 	public GoodsDto selectGoods(String sq) throws SQLException {
-		System.out.println("selectGoods Dao ok");
 		GoodsDto dto = new GoodsDto();
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -513,7 +512,6 @@ public class GoodsDao {
 					dto.setPath(rs.getString("path"));
 					dto.setStock(rs.getInt("stock"));
 					dto.setDisplay(rs.getString("display"));
-					System.out.println(rs.getString("sq"));
 				}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -545,7 +543,6 @@ public class GoodsDao {
 					if(dis.equals("Y")) result=0;
 					else result=1;
 				}
-				System.out.println("result: "+result);
 			if(result!=0){
 				rs.close();
 				ps.close();
@@ -588,7 +585,6 @@ public class GoodsDao {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		String sql="";
-		System.out.println("updateGoods dao ok");
 		
 		sql="update goods set display=?,start_dt=sysdate,end_dt=add_months(sysdate,1) where sq=?";
 		try {
@@ -607,36 +603,54 @@ public class GoodsDao {
 		
 		}
 	// 상품을 검색 조건과 검색값에 대한 결과 상품항목들을 가져오는 클래스입니다.
-	public List<GoodsDto> searchGoods(String category,String search, int startRow, int endRow) throws SQLException {
+	public List<GoodsDto> searchGoods(String gender,String top_category, String middle_category, int startRow, int endRow) throws SQLException {
 		List<GoodsDto> list=new ArrayList<GoodsDto>();
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		String sql="";
-		String cat=category;
-		
+		List<String> sList=new ArrayList<String>();
 		
 		try {
 			conn=getConnection();
 			
-		
-			if(startRow==0||endRow==0){
-				
-				sql="select * from (select rownum rn, goods.* from (select * from goods where "+cat+"=?) goods)";
-				System.out.println("sql: "+sql);
-				ps=conn.prepareStatement(sql);
-				ps.setString(1, search);
-				rs=ps.executeQuery();
-			}else{
-				sql="select * from (select rownum rn, goods.* from (select * from goods where "+cat+"=?) goods) where rn between ? and ?";
-				System.out.println("sql: "+sql);
-				ps=conn.prepareStatement(sql);
-				ps.setString(1, search);
-				ps.setInt(2,startRow);
-				ps.setInt(3,endRow);
-				rs=ps.executeQuery();
-				
+			sql="select * from (select rownum rn, goods.* from (select * from goods where";
+			
+			if (!gender.equals("All")){
+				sql+=" gender=?";
+				sList.add(gender);
 			}
+
+			if (!top_category.equals("All")){
+				if(sList.size()!=0) sql+=" and";
+				sql+=" top_category=?";
+				sList.add(top_category);
+			}
+			
+			if (!middle_category.equals("All")){
+				if(sList.size()!=0) sql+=" and";
+				sql+=" middle_category=?";
+				sList.add(middle_category);
+			}
+			sql+=") goods)";
+			if(startRow==0||endRow==0){
+				sql+="";
+			}else sql+=" where rn between ? and ?";
+
+			
+				System.out.println("sql: "+sql);
+				ps=conn.prepareStatement(sql);
+				for(int i=0;i<sList.size();i++){
+					ps.setString(i+1,sList.get(i));
+				}
+				
+				if(startRow==0||endRow==0){}
+				else{
+					ps.setInt(sList.size()+1,startRow);
+					ps.setInt(sList.size()+2,endRow);
+				}
+				rs=ps.executeQuery();
+				
 			
 			while(rs.next()){
 				GoodsDto dto = new GoodsDto();
@@ -654,7 +668,6 @@ public class GoodsDao {
 				dto.setPath(rs.getString("path"));
 				dto.setStock(rs.getInt("stock"));
 				dto.setDisplay(rs.getString("display"));
-				System.out.println("dto: "+rs.getString("sq"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -834,7 +847,6 @@ public class GoodsDao {
 		Connection conn = null;
 		String sql = "update code set category=?,meaning=?,used=? where cd=?";
 		int result = 0;
-		System.out.println("체인지코드 codeDto.getCd() : " + codeDto.getCategory() + "  " + codeDto.getMeaning());
 		conn = getConnection();
 	
 		try {
@@ -853,11 +865,9 @@ public class GoodsDao {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("result : " + result);
 		return result;
 	}
 	public int checkCode(String code) {
-		System.out.println("코드길이는 : " + code.length());
 		int result = 0;
 		if (code.length() == 0) {
 			result = 1;
@@ -923,14 +933,14 @@ public class GoodsDao {
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		Connection conn = null;
-		String sql = "select count(*) from goods where gender=? and top_category=? and middle_category=?";
+		String sql = "select count(*) from goods where middle_category=?";
 		String sql2 = "select LPAD(?,7,0) from dual";
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, gender);
-			ps.setString(2, top_category);
-			ps.setString(3, middle_category);
+/*			ps.setString(1, gender);
+			ps.setString(2, top_category);*/
+			ps.setString(1, middle_category);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				num = rs.getInt(1) + 1;
@@ -973,13 +983,90 @@ public class GoodsDao {
 		return result;
 	}
 	
-	public List<GoodsDto> selectDisplayGoods(int startRow,int endRow) throws SQLException {
+	public List<GoodsDto> selectDisplayGoods(String gender,String top_category, String middle_category, int startRow, int endRow) throws SQLException {
+		/*Connection conn=null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		String sql="";
+		List<GoodsDto> list=new ArrayList<GoodsDto>();*/
+		
+		List<GoodsDto> list=new ArrayList<GoodsDto>();
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		String sql="";
-		List<GoodsDto> list=new ArrayList<GoodsDto>();
+		List<String> sList=new ArrayList<String>();
+		
 		try {
+			conn=getConnection();
+			
+			sql="select * from (select rownum rn, goods.* from (select * from goods where display='Y' ";
+			
+			if (!gender.equals("All")){
+				sql+=" and gender=?";
+				sList.add(gender);
+			}
+
+			if (!top_category.equals("All")){
+				sql+=" and top_category=?";
+				sList.add(top_category);
+			}
+			
+			if (!middle_category.equals("All")){
+				sql+=" and middle_category=?";
+				sList.add(middle_category);
+			}
+			sql+=") goods)";
+			if(startRow==0||endRow==0){
+				sql+="";
+			}else sql+=" where rn between ? and ?";
+
+			
+				System.out.println("sql: "+sql);
+				System.out.println("gender: "+gender);
+				System.out.println("top: "+top_category);
+				System.out.println("middle: "+middle_category);
+				System.out.println("start: "+startRow);
+				System.out.println("end: "+endRow);
+				ps=conn.prepareStatement(sql);
+				for(int i=0;i<sList.size();i++){
+					ps.setString(i+1,sList.get(i));
+				}
+				
+				if(startRow==0||endRow==0){}
+				else{
+					ps.setInt(sList.size()+1,startRow);
+					ps.setInt(sList.size()+2,endRow);
+				}
+				rs=ps.executeQuery();
+				
+			
+			while(rs.next()){
+				GoodsDto dto = new GoodsDto();
+				dto.setSq(rs.getString("sq"));
+				dto.setCd(rs.getString("cd"));
+				dto.setNm(rs.getString("nm"));
+				dto.setStart_dt(rs.getDate("start_dt"));
+				dto.setEnd_dt(rs.getDate("end_dt"));
+				dto.setPrice(rs.getInt("price"));
+				dto.setGender(rs.getString("gender"));
+				dto.setTop_category(rs.getString("top_category"));
+				dto.setMiddle_category(rs.getString("middle_category"));
+				dto.setColor(rs.getString("color"));
+				dto.setGoods_size(rs.getString("goods_size"));
+				dto.setPath(rs.getString("path"));
+				dto.setStock(rs.getInt("stock"));
+				dto.setDisplay(rs.getString("display"));
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			DisConnection(conn, ps, rs);
+		}
+		
+		return list;
+		/*try {
 			conn=getConnection();
 			
 			
@@ -1020,6 +1107,6 @@ public class GoodsDao {
 		}
 		DisConnection(conn, ps, rs);
 		System.out.println("size: "+list.size());
-		return list;
+		return list;*/
 	}
 }

@@ -16,7 +16,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.cheapmall.dto.BoardDto;
-import com.cheapmall.dto.GoodsDto;
 import com.cheapmall.dto.ReviewDto;
 
 public class BoardDao{
@@ -239,7 +238,7 @@ public class BoardDao{
 			pstmt.setString(1, boardDto.getUser_id());
 			pstmt.setString(2, boardDto.getSubject());
 			pstmt.setString(3, boardDto.getContent());
-			pstmt.setString(4, object);
+			pstmt.setString(4, boardDto.getObject());
 			pstmt.setString(5, boardDto.getBoard_cd());
 			pstmt.setString(6, boardDto.getBoard_p_cd());
 			pstmt.setString(7, boardDto.getIp());
@@ -346,14 +345,12 @@ public class BoardDao{
 				pstmt.setString(1, board_cd);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, endRow);
-				System.out.println("sql1 : " + sql1);
 			} else {
 				pstmt = conn.prepareStatement(sql2);
 				pstmt.setString(1, board_cd);
 				pstmt.setInt(2, startRow);
 				pstmt.setInt(3, endRow);
 				pstmt.setString(4, bp);
-				System.out.println("sql2 : " + sql2);
 			}
 			rs = pstmt.executeQuery();
 			
@@ -494,6 +491,7 @@ public class BoardDao{
 		
 		JSONObject json = new JSONObject();
 		JSONArray list = new JSONArray();
+		double totalStar = 0;
 		
 		String sql = " select * "
 				+ "	from "
@@ -502,23 +500,23 @@ public class BoardDao{
 				+ "			from "
 				+ " 			("
 				+ "				select * "
-				+ "				from review "
-				+ "				order by sq desc) a ) "
-				+ " where rn between ? and ? "
-				+ " AND goods_cd LIKE ? ";
-		
+				+ "				from review ";
 		if(reviewType.equals("photo")) {
-			sql += " AND path IS NOT NULL";
+			sql += " WHERE path IS NOT NULL";
 		} else if(reviewType.equals("simple")) {
-			sql += " AND path IS NULL";
+			sql += " WHERE path IS NULL";
 		}
+		
+			sql	+= " AND goods_cd = ? "
+				+  " order by sq desc) a ) "
+				+  " where rn between ? and ? ";
 		
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, startRow);
-			ps.setInt(2, endRow);
-			ps.setString(3, goods_cd);
+			ps.setString(1, goods_cd);
+			ps.setInt(2, startRow);
+			ps.setInt(3, endRow);
 			rs = ps.executeQuery();
 			if(rs.next()) {
 				do {
@@ -531,6 +529,7 @@ public class BoardDao{
 					board.put("up", rs.getInt(7));
 					board.put("down", rs.getInt(8));
 					board.put("star", rs.getInt(9));
+					totalStar += rs.getInt(9);
 					board.put("goods_cd", rs.getString(10));
 					//board.put("ip", rs.getString(11));
 					if(reviewType.equals("photo")) {
@@ -539,6 +538,7 @@ public class BoardDao{
 					list.add(board);
 				}while(rs.next());
 				json.put("review", list);
+				json.put("totalStar", Math.round(totalStar/list.size()));
 			} else {
 				json.put("result", "no");
 			}
@@ -579,6 +579,87 @@ public class BoardDao{
 			// TODO: handle exception
 			// SYSO
 			System.out.println("writeReview error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, null);
+		}
+		
+		return result;
+	}
+	
+	public void upToReviewCnt(String sq) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		String sql = "UPDATE review SET cnt = cnt + 1 WHERE sq = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, sq);
+			ps.executeQuery();
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("upToReviewCnt Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, null);
+		}
+	}
+
+	public ReviewDto getReviewOne(String sq) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		ReviewDto reviewDto = new ReviewDto();
+		String sql = "SELECT * FROM review WHERE sq = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, sq);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				reviewDto.setSq(rs.getString(1));
+				reviewDto.setUser_id(rs.getString(2));
+				reviewDto.setWrite_dt(rs.getDate(3));
+				reviewDto.setContent(rs.getString(4));
+				reviewDto.setCnt(rs.getInt(5));
+				reviewDto.setUp(rs.getInt(6));
+				reviewDto.setDown(rs.getInt(7));
+				reviewDto.setStar(rs.getInt(8));
+				reviewDto.setGoods_cd(rs.getString(9));
+				reviewDto.setIp(rs.getString(10));
+				reviewDto.setPath(rs.getString(11));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		
+		return reviewDto;
+	}
+	
+	public int deleteReview(String sq) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		int result = 0;
+		String sql = "DELETE FROM review WHERE sq = ?";
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, sq);
+			result = ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("deleteReview Error");
 			e.printStackTrace();
 		} finally {
 			DisConnection(conn, ps, null);

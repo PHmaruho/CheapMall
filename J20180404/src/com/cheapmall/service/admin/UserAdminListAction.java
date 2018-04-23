@@ -24,11 +24,18 @@ public class UserAdminListAction implements CommandProcess {
 			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 			
 			MemberDao dao=MemberDao.getInstance();
-			String search=request.getParameter("search");
+			String search=request.getParameter("search")==null? "All":request.getParameter("search");
 			System.out.println("search: "+search);
-			
 			int count=0;
-			if(search==null|| search.length()==0){
+				if (search.equals("브론즈")) search="G0";
+				if (search.equals("실버")) search="G1";
+				if (search.equals("골드")) search="G2";
+				if (search.equals("플라티넘")) search="G3";
+				if (search.equals("다이아")) search="G4";
+				if (search.equals("VIP")) search="G5";
+				if (search.equals("탈퇴")) search="GG";
+			if(search==null|| search.length()==0||search.equals("All")){
+				
 				count=dao.countUser();
 			}else{
 				count=dao.searchUserCount(search);
@@ -52,6 +59,7 @@ public class UserAdminListAction implements CommandProcess {
 			int endPage= startPage+ blockSize-1;
 			if(endPage> totalPage) endPage=totalPage;
 			
+			System.out.println("dto.size: "+dto.size());
 			request.setAttribute("dto", dto);
 			request.setAttribute("count", count);
 			request.setAttribute("currentPage", currentPage);
@@ -63,14 +71,6 @@ public class UserAdminListAction implements CommandProcess {
 			request.setAttribute("pageNum", pageNum);
 			request.setAttribute("search", search);
 			
-			System.out.println("count: "+count);
-			System.out.println("currentPage: "+currentPage);
-			System.out.println("blockSize: "+blockSize);
-			System.out.println("startNum: "+startNum);
-			System.out.println("totalPage: "+totalPage);
-			System.out.println("startPage: "+startPage);
-			System.out.println("endPage: "+endPage);
-			System.out.println("pageNum: "+pageNum);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

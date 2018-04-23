@@ -1,27 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="../js/bootstrap.min.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
 <style type="text/css">
-	.none {
-		display: none
-	}
-	.show {
-		display: block
-	}
+/* .container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+} */
+
+.none {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
 </style>
+<script type="text/javascript" src="../js/jquery.js"></script>
 <script>
+	window.onload = function(){
+		if ('${board_cd}' == 'B3') {
+			var report = document.getElementById(3);
+			var board_cd = '${board_cd}';
+			var report_id = '${report_id}';
+			$("#select").val(board_cd);
+			report.className += " show";
+			$("#reportText").val(report_id);
+		}
+	}
+	
 	function list() {
 		var index = document.getElementById("select").selectedIndex;
 		var suggest = document.getElementById(1);
 		var report = document.getElementById(3);
 		
 		if (index == 3) {
-			document.getElementById("suggestText").value="";
+			document.getElementById("suggestDiv").value="";
 			report.className = report.className.replace(" show", "");
 			suggest.className = suggest.className.replace(" show", "");
 			report.className += " show";
@@ -34,33 +56,32 @@
 	}
 	
 	function radio(check) {
-		var suggestText = document.getElementById("suggestText");
+		var suggestDiv = document.getElementById("suggestDiv");
 
 		if (check == 1) {
-			suggestText.disabled = false;
+			suggestDiv.className += " show";
 		} else {
-			suggestText.disabled = true;
-			suggestText.value="";
+			suggestDiv.className = suggestDiv.className.replace(" show", "");
 		}
 	}
 	
 	function check() {
 		var index = document.getElementById("select").selectedIndex;
-		var suggestText = document.getElementById("suggestText");
+		var suggestDiv = document.getElementById("suggestDiv");
 		var reportText = document.getElementById("reportText");
 		var hidden = document.getElementById("hidden");
 		var object = document.getElementById("object");
 		var board_cd = "B" + index;
 		
 		if (index == 1 || index == 2) {
-			if (!suggestText.disabled) {
-				if (suggestText.value == "") {
+			if (!suggestDiv.disabled) {
+				if (suggestDiv.value == "") {
 					alert("대상 상품을 입력해주세요.")
 					return false;
 				}
 			}
 			hidden.value = "B" + index;
-			object.value = suggestText.value;
+			object.value = suggestDiv.value;
 		} else if (index == 3) {
 			if (reportText.value == "") {
 				alert("대상자 ID를 입력해주세요.")
@@ -70,7 +91,7 @@
 				alert("자기 자신을 신고할순 없습니다.")
 				return false;
 			}
-			if ($('#checkId').value !== 1) {
+			if ($('#checkId').val() != "1") {
 				alert("대상자 ID가 확인되지 않았습니다.")
 				return false;
 			}
@@ -114,26 +135,33 @@
 			}
 		});
 	}
+	
+	function popUp() {
+		window.open('boardWriteFormPopup.mall', '상품찾기', 'width=500, height=500');
+	}
 </script>
 </head>
 <body>
 	<label>구분</label>
 	<select id="select" onchange="list()">
 		<option selected disabled="disabled">분류를 선택하세요.</option>
-		<option>문의</option>
-		<option>건의</option>
-		<option>신고</option>
+		<option value="B1">문의</option>
+		<option value="B2">건의</option>
+		<option value="B3">신고</option>
 	</select>
 	
 	<div id="1" class="none">
 		<label>일반</label><input type="radio" name="radio" onclick="radio(0)" checked="checked">
 		<label>상품</label><input type="radio" name="radio" onclick="radio(1)">
-		<input type="text" id="suggestText" disabled="disabled">
+		<div id="suggestDiv" class="none">
+			<input type="text" disabled="disabled" id="suggestText" name="suggestText">
+			<input type="button" value="상품찾기" onclick="popUp()">
+		</div>
 	</div>
 	<div id="3" class="none">
 		<label>대상자 ID</label>
 		<input type="text" id="reportText" oninput="javascript : $('#checkId').val('0');" placeholder="ID를 입력하세요" autofocus>
-		<input type="button" onclick="winop()" style="background-color:#EDCE7A" value="아이디 중복확인">
+		<input type="button" onclick="winop()" style="background-color:#EDCE7A" value="아이디 확인" id="idBtn">
 		<input type="hidden" value="0" id="checkId">
 		<div id="idChk"></div>
 	</div><br>

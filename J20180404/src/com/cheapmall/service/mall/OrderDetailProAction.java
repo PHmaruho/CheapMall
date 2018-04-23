@@ -21,6 +21,7 @@ public class OrderDetailProAction implements CommandProcess{
 			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
 			
 			if(id == null) {
+				request.setAttribute("warning", "notLogin");
 				return "cheapmall.jsp";
 			}
 			
@@ -29,7 +30,6 @@ public class OrderDetailProAction implements CommandProcess{
 			String[] s_origin_price = request.getParameterValues("origin_price");
 			String[] s_dc_price = request.getParameterValues("dc_price");
 			String[] s_cnt = request.getParameterValues("cnt");
-	
 			
 			int delivery_fee = request.getParameter("delivery_fee") == null ? 0 :Integer.parseInt(request.getParameter("delivery_fee"));
 			int total = Integer.parseInt(request.getParameter("total"));

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.naming.Context;
@@ -37,6 +38,8 @@ public class MemberDao {
 		6. authGrade(String)
 		2018-04-18
 		7. checkPwDt(String)
+		2018-04-22
+		8.checkReport(String)
 		
 	*/
 	
@@ -576,7 +579,7 @@ public class MemberDao {
 		ResultSet rs = null;
 		
 		int result = 0;
-		String sql = "SELECT pw FROM users WHERE id=?";
+		String sql = "SELECT pw FROM users WHERE id=? and nvl(grade,0)<>'GG'";	// 2018-04-22 최우일 : 탈퇴사용자 제외
 	
 		// 비밀번호가 일치하는 경우는 제외하는 이유!
 		// 보안상 비밀번호가 틀렸다고하면 해커 or 악의적인 사용자들이 계속해서 시도한다.!!
@@ -769,8 +772,6 @@ public class MemberDao {
 					dto.setId(rs.getString("id"));
 					dto.setPw(rs.getString("pw"));
 					dto.setNm(rs.getString("nm"));
-					System.out.println("searchAdmin nm->"+rs.getString("nm"));				
-					System.out.println("searchAdmin dept->"+rs.getString("dept"));
 					
 					dto.setDept(rs.getString("dept"));
 					dto.setPosition(rs.getString("position"));
@@ -875,44 +876,44 @@ public class MemberDao {
 	
 	// JSY Part Start!
 	// 회원의 id와 pw를 받아와 입력받은 pw와 대조하여 결과값을 return 합니다.
-	public int removeUser(String id, String pw) throws SQLException {
-		Connection conn=null;
-		PreparedStatement ps=null;
-		int result=0;
-		ResultSet rs=null;
-		String sql="";
-		
-		try {
-			conn=getConnection();
+		public int removeUser(String id, String pw) throws SQLException {
+			Connection conn=null;
+			PreparedStatement ps=null;
+			int result=0;
+			ResultSet rs=null;
+			String sql="";
 			
-			sql="select pw from users where id=?";
-			ps=conn.prepareStatement(sql);
-			ps.setString(1,id);
-			
-			rs=ps.executeQuery();
-			
-			if(rs.next()){
-				String dbPw=rs.getString(1);
-				ps.close();
+			try {
+				conn=getConnection();
 				
-				if(dbPw.equals(pw)){
-					sql="delete from users where pw=?";
-					ps=conn.prepareStatement(sql);
-					ps.setString(1,pw);
-					result=ps.executeUpdate();
-				}else result=0;
+				sql="select pw from users where id=?";
+				ps=conn.prepareStatement(sql);
+				ps.setString(1,id);
 				
+				rs=ps.executeQuery();
 				
-			}else result=-1;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			DisConnection(conn, ps, rs);
+				if(rs.next()){
+					String dbPw=rs.getString(1);
+					ps.close();
+					
+					if(dbPw.equals(pw)){
+						sql="update users set grade='GG', PW_DT=sysdate where id=? and pw=?";
+						ps=conn.prepareStatement(sql);
+						ps.setString(1,id);
+						ps.setString(2,pw);
+						result=ps.executeUpdate();
+					}else result=0;
+					
+					
+				}else result=-1;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}finally{
+				DisConnection(conn, ps, rs);
+			}
+			System.out.println("result: "+result);
+			return result;
 		}
-		System.out.println("result: "+result);
-		return result;
-		
-	}
 	// 회원 목록을 만들기 위해 회원 수를 가져오는 클래스 입니다.
 	public int countUser() throws SQLException {
 		int count=0;
@@ -948,7 +949,8 @@ public class MemberDao {
 		int result=0;
 		
 		
-		String sql="delete from users where id=?";
+		/*String sql="delete from users where id=?";*/
+		String sql="update users set grade='GG', PW_DT=sysdate where id=?";
 		
 		try {
 			conn=getConnection();
@@ -969,23 +971,21 @@ public class MemberDao {
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		
+		String sql="";
 		try {
 			conn=getConnection();
-	
-			String sql1 // grade X
-			="select * from (select rownum rn, users.* from (select * from users) users) where rn between ? and ?";
+			if (search.equals("All")){
+				sql="select * from (select rownum rn, users.* from (select * from users) users) where rn between ? and ?";
+			}else{
+				sql="select * from (select rownum rn, users.* from (select * from users where grade=?) users) where rn between ? and ?";
+			}
+			ps=conn.prepareStatement(sql);
 			
-			String sql2 // grade O
-			="select * from (select rownum rn, users.* from (select * from users where grade=?) users) where rn between ? and ?";
-			
-			if(search==null || search.length()==0){
-				ps=conn.prepareStatement(sql1);
+			if (search.equals("All")){
 				ps.setInt(1, startRow);
 				ps.setInt(2, endRow);
 			}
 			else {
-				ps=conn.prepareStatement(sql2);
 				ps.setString(1,search);
 				ps.setInt(2, startRow);
 				ps.setInt(3,endRow);
@@ -1067,6 +1067,32 @@ public class MemberDao {
 		} finally {
 			DisConnection(conn, pstmt, rs);
 		}
+		return result;
+	}
+	
+	public Date checkReport(String id) throws SQLException {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select r.dt + r.days from users u, report r "
+				+ " where u.id=? and u.id = r.user_id and sysdate between r.dt and r.dt + r.days";
+		Date result = null;
+		
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getDate(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, pstmt, rs);
+		}
+		
 		return result;
 	}
 }

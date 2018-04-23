@@ -38,8 +38,6 @@ public class CodeInsertProAction implements CommandProcess {
 		}
 		request.setAttribute("pageNum", pageNum);
 		request.setAttribute("result", result);
-		System.out.println(pageNum + "  " + code + "  " + category + "  "+ meaning + "  " + used);
-		System.out.println("인서트 반환값 : " + result);
 
 		return "codeInsertPro.jsp";
 	}

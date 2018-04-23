@@ -28,27 +28,18 @@ public class AdminPopupModifyProAction implements CommandProcess {
 			
 			MultipartRequest mr=null;
 			
-			System.out.println("경로: "+path);
 			
 			mr=new MultipartRequest(request, path, size, "utf-8", new DefaultFileRenamePolicy());
 			
 			String origin=mr.getOriginalFileName("url");
 			String fileName=mr.getFilesystemName("url");
 			
-			String[] fileN= fileName.split("\\.");
 			
-			if(fileName==null||fileName.length()==0){
-				System.out.println("fail");
-			}else
-				System.out.println("ok!");
-			
-			String url=fileN[0];
 			
 			String sq= mr.getParameter("sq");
 			String nm=mr.getParameter("nm");
-			String startDt=mr.getParameter("start_dt");
-			String endDt=mr.getParameter("end_dt");
-			System.out.println("startDt: "+startDt);
+			String startD=mr.getParameter("start_dt");
+			String endD=mr.getParameter("end_dt");
 			
 			
 			
@@ -60,16 +51,47 @@ public class AdminPopupModifyProAction implements CommandProcess {
 			
 			dto.setSq(sq);
 			dto.setNm(nm);
-			dto.setUrl(url);
 			Date start_dt= new Date();
 			Date end_dt=new Date();
 			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-			start_dt=sdf.parse(startDt);
-			end_dt=sdf.parse(endDt);
-			
+			start_dt=sdf.parse(startD);
+			end_dt=sdf.parse(endD);
 			dto.setStart_dt(start_dt);
 			dto.setEnd_dt(end_dt);
-			result=dao.modifyPopup(dto);
+			
+			String[] sArr=startD.split("-");
+			String[] eArr=endD.split("-");
+			
+			String start_dt1="";
+			String end_dt1="";
+			for(String s:sArr) start_dt1+=s;
+			for(String s:eArr) end_dt1+=s;
+			
+			int sD=Integer.parseInt(start_dt1);
+			int eD=Integer.parseInt(end_dt1);
+			System.out.println("sD: "+sD);
+			System.out.println("eD: "+eD);
+			
+			String currentD="";
+			Date d=new Date();
+			currentD=sdf.format(d);
+			String arr[]=currentD.split("-");
+			currentD="";
+			for(String s:arr){
+				currentD+=s;
+			}
+			int cD=Integer.parseInt(currentD);
+			System.out.println("cD: "+cD);
+			if (sD>eD) result=-1;
+			else if((cD>sD) || (cD<eD)){
+				result=-2;
+				if((cD<=sD)&&(cD<=eD)&&(sD<eD)) result=dao.modifyPopup(dto);
+			}
+			else{
+				result=dao.modifyPopup(dto);
+			}
+			
+			
 			request.setAttribute("result", result);
 			
 			

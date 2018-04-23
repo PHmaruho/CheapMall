@@ -22,6 +22,7 @@ public class UserChangePwDtProAction implements CommandProcess {
 				request.setAttribute("warning", "notLogin");
 				return "cheapmall.jsp";
 			}
+			
 			String pw = request.getParameter("pw");
 			
 			MemberDao memberDao = MemberDao.getInstance();

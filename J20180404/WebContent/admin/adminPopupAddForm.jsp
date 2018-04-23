@@ -27,10 +27,10 @@
 					<option value="sub">sub</option>
 				</select>
 			<p>
-				이름: <input type="text" name="nm"> <p>
-				경로: <input type="file" name="url"> <p>
-				시작일: <input type="date" name="start_dt"> <p>
-				종료일: <input type="date" name="end_dt"><p> 
+				이름: <input type="text" name="nm" required> <p>
+				경로: <input type="file" name="url" required> <p>
+				시작일: <input type="date" name="start_dt" required> <p>
+				종료일: <input type="date" name="end_dt" required><p> 
 					
 					<div id="but">
 						<input type="submit" value="등록"> 

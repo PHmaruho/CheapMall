@@ -10,6 +10,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.OrderDao;
 import com.cheapmall.dto.OrdersDto;
@@ -20,15 +21,20 @@ public class OrderUserCancleProAction implements CommandProcess {
 	@Override
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String sessionId = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
+		
+		if(sessionId == null) {
+			request.setAttribute("warning", "notLogin");
+			return "cheapmall.jsp";
+		}
+		
 		String[] detail_sq = request.getParameterValues("check");
 		int result = 0;
 		int result2 = 0;
 		int return_all_use_point = 0;
 		List<HashMap>[] list = null;
 		OrderDao od = OrderDao.getInstance();
-		for (int i = 0; i < detail_sq.length; i++) {
-			System.out.println(detail_sq[i]);
-		}
 		try {
 			result = od.khOrderCancle(detail_sq);
 			HashSet<String> set = od.khGetOrder_Sq(detail_sq);
@@ -36,16 +42,12 @@ public class OrderUserCancleProAction implements CommandProcess {
 			Object[] valueList = set.toArray();
 			for (int i = 0; i < valueList.length; i++) {
 				list[i] = od.khReMakeOrderList(valueList[i].toString());
-				System.out.println("list 목록 : " + list[i]);
 			}
 
 			for (int i = 0; i < list.length; i++) {
 				int control = 0;
 				int size = list[i].size();
 				for (int j = 0; j < size; j++) {
-
-					System.out.println("list[" + i + "].size() : "
-							+ list[i].size());
 					HashMap testMap = new HashMap();
 					testMap = list[i].get(j - control);
 					for (int k = 0; k < detail_sq.length; k++) {
@@ -63,7 +65,6 @@ public class OrderUserCancleProAction implements CommandProcess {
 						}
 					}
 				}
-				System.out.println(list[i]);
 			}
 			// -------------------------------주문 재등록--------------
 			for (int i = 0; i < list.length; i++) {
@@ -106,10 +107,6 @@ public class OrderUserCancleProAction implements CommandProcess {
 						orderDto.setAddr_detail(addr_detail);
 						orderDto.setOrder_cd("O1");
 						orderDto.setOrder_dt(order_dt);
-						System.out.println("오리지널 : "
-								+ orderDto.getOrigin_price());
-						System.out.println("배송비 : "
-								+ orderDto.getDelivery_fee());
 					}
 					int totalPrice = orderDto.getOrigin_price()
 							- orderDto.getDc_price()
@@ -124,7 +121,6 @@ public class OrderUserCancleProAction implements CommandProcess {
 			}
 
 			request.setAttribute("result", 1);
-			System.out.println("rer" + result);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

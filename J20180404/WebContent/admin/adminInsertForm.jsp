@@ -52,30 +52,30 @@ function SetEmailTail(emailValue) {
      </c:if>
 </div>
 
-<div id="main">
+	<div id="main" class="main">
 <h3>관리자 등록</h3>
 <form action="AdminInsertPro.admin?pageNum=${pageNum }" name="frm" onsubmit="return chk()" >
 <input type="hidden" name="pageNum" value="${pageNum }">
 
-<table border="1" >
-<tr>
-	<td>ID</td>
+		<table class="table" border="1" >
+			<tr class="tr">
+	<th class="th">ID</th>
 	<td><input type="text" name="id" required="required">
 	<a href="#" class="a" onclick="winop()"></a></td>
 	</tr>
 	<tr>
-	<td>PASSWORD</td>
+	<th class="th">PASSWORD</th>
 	<td><input type="password" name="pw" required="required"></td>
 	</tr>
 	<tr>
-	<td>PASSWD CHECK</td>
+	<th class="th">PASSWD CHECK</tj>
 	<td><input type="password" name="pw2" required="required"></td>
 	<tr>
-	<td>성명</td>
+	<th class="th">성명</th>
 	<td><input type="text" name="nm" required="required"></td>
 	</tr>
 	<tr>
-	<td>부서</td>
+	<th class="th">부서</th>
 	<td><select name="dept">
 	<option value="인사">인사</option>
 	<option value="회계">회계</option>
@@ -86,7 +86,7 @@ function SetEmailTail(emailValue) {
 	</td>
 	</tr>
 	<tr>
-	<td>직급</td>
+	<th class="th">직급</th>
 	<td><select name="position">
 	<option value="사장">사장</option>
 	<option value="이사">이사</option>
@@ -96,10 +96,10 @@ function SetEmailTail(emailValue) {
 	<option value="사원">사원</option>
 	</select>
 	</tr>
-	<tr><td>사번</td>
+	<tr><th class="th">사번</th>
 	<td><input type="text" name="emp_no" required="required"></td>
 	</tr>
-	<tr><td>권한</td>
+	<tr><th class="th">권한</th>
 	<td><select name="auth">
 	<option value="A0">관리자 관리(최종)</option>
 	<option value="A1">회원 관리</option>
@@ -111,12 +111,12 @@ function SetEmailTail(emailValue) {
 	</td>
 	</tr>
 	
-	<tr><td>Tel</td>
+	<tr><th class="th">Tel</th>
 	<td><input type="tel" name="tel" required="required">
 
 	</tr>
 	
-	<tr><td>Email</td>
+	<tr><th class="th">Email</th>
 		<td><input type="text" name="email1" value="" /> @
 	<input type="text" name="email2" value="" ReadOnly="true"/>
 	<select name="emailCheck" 
@@ -139,24 +139,15 @@ function SetEmailTail(emailValue) {
     <option value="paran.com">paran.com</option>    
     <option value="gmail.com">gmail.com</option>
    </select>
-
 	   </td>
    </tr>
-   
-   <tr><td>사진 경로</td>
-   	<td><input type="text" name="path" required="required"></td>
-   </tr>
-
-
-      
-  	<tr>
-		<td colspan="2">
-			<input type="button" onclick="location.href='AdminForm.admin'" value="뒤로가기">
-		  	<input type="reset" value="초기화" >
-			<input type="submit" value="등록하기" >
-		</td>
-	</tr>
-	</table>
+   	</table>
+  	<br>
+  	 <div class="mainF" >
+			<input type="button" class="btn mini" onclick="location.href='AdminForm.admin'" value="뒤로가기">
+		  	<input type="reset" class="btn mini" value="초기화" >
+			<input type="submit"  class="btn mini" value="등록하기" >
+	</div>
 </form>
 </div> 
 		

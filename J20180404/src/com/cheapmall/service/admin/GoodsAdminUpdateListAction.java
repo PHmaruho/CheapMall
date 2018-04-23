@@ -23,8 +23,10 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 		HttpSession session=request.getSession();
 		String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
 		
-		String category=request.getParameter("category");
-		String search=request.getParameter("search");
+		String gender=request.getParameter("gender");
+		String top_category=request.getParameter("top_category");
+		String middle_category=request.getParameter("middle_category");
+		
 		try {
 			
 			GoodsDao dao=GoodsDao.getInstance();
@@ -48,19 +50,21 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 			
 			if(result>=0){
 				
-				if(search==null|| search.length()==0){ 
+				if(gender==null&& top_category==null&& middle_category==null||gender.equals("All")&&top_category.equals("All")&&middle_category.equals("All")
+						){ 
 					list=dao.selectGoods(0,0);
 					count=list.size();
 					list=dao.selectGoods(startRow,endRow);
 				}else{
-					list=dao.searchGoods(category,search,0,0);
+					list=dao.searchGoods(gender,top_category,middle_category,0,0);
 					count=list.size();
-					list=dao.searchGoods(category,search,startRow,endRow);
+					list=dao.searchGoods(gender,top_category,middle_category,startRow,endRow);
 				}
-				
-				
 			}else list=null;
 			
+			if (gender==null) gender="All";
+			if (top_category==null) top_category="All";
+			if (middle_category==null) middle_category="All";
 			
 			int startNum=count-startRow+1;
 			
@@ -79,8 +83,9 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 			request.setAttribute("endPage", endPage);
 			request.setAttribute("pageNum", pageNum);
 			request.setAttribute("list",list);
-			request.setAttribute("search", search);
-			request.setAttribute("category", category);
+			request.setAttribute("gender", gender);
+			request.setAttribute("top_category", top_category);
+			request.setAttribute("middle_category", middle_category);
 			
 			System.out.println("count: "+count);
 			System.out.println("currentPage: "+currentPage);
