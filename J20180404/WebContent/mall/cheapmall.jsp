@@ -123,6 +123,32 @@
 			});
 		}
 	});
+	
+	$('#searchTextIn').autocomplete({
+		  focus: function(event, ui){
+		    return false;
+		  },
+		  matchContains: false,
+		  selectFirst: false,
+		  autoFocus: false,
+		  source: function(request, response) {
+		    var flag = true;
+		    $.ajax({
+		      type: "POST",
+		      url: "SearchPro.mall",
+		      data: {keyword:request.term},
+		      success: function(data) {
+		        var list = JSON.parse(data);
+		        response($.map(list.keywords, function(item){
+		          return {
+		            label: item,
+		            value: item
+		          }
+		        }));
+		      }
+		    });
+		  }
+		});
 
 	function searchAction1(event) {
 		if (event.keyCode == 13) {
@@ -131,6 +157,27 @@
 			location.href = "SearchResult.mall?keyword=" + keyword;
 		}
 
+	}
+	
+	function searchAction1(event){
+	  if(event.keyCode == 13){
+	    var keyword = $('#search').val();
+	    if(keyword == ''){
+	      alert("검색어를 입력해주세요.");
+	      return false;
+	    }
+	    location.href="SearchResult.mall?keyword="+keyword;
+	  }
+	}
+	function MsearchAction1(event){
+	  if(event.which == 1){
+	    var keyword = $('#searchTextIn').val();
+	    if(keyword == ''){
+	      alert("검색어를 입력해주세요.");
+	      return false;
+	    }
+	    location.href="SearchResult.mall?keyword="+keyword;
+	  }
 	}
 </script>
 </html>
