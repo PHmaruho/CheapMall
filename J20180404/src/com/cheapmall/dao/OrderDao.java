@@ -664,7 +664,7 @@ public List<HashMap> selectOrders(String id, String order_sq) throws SQLExceptio
 		String sql = "select a.*,goods.* from goods inner join (select o.ORDER_SQ, o.ORDER_DT, o.ORDER_CD, "
 				+ " d.CNT, d.ORIGIN_PRICE, d.DC_PRICE, d.GOODS_SQ, d.detail_sq "
 				+ " from orders o inner join order_detail d on o.order_sq = d.ORDER_SQ where user_id=? and "
-				+ " (o.order_cd = 'O0' or o.order_cd = 'O1')) a on goods.sq = a.goods_sq order by a.ORDER_SQ";
+				+ " (o.order_cd = 'O0' or o.order_cd = 'O1')) a on goods.sq = a.goods_sq order by a.ORDER_SQ  desc";
 		conn = getConnection();
 		try {
 			ps = conn.prepareStatement(sql);

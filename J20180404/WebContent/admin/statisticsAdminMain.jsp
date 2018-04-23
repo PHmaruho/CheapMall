@@ -223,7 +223,7 @@
 	<div class="statisDiv statistics1">
 		<canvas id="statistics1" style="float:left; height:0px; width:1px;"></canvas>
 		<div style="float:right;">
-			<input type="button" onclick="" value="Excel 추출">
+			<input type="button" onclick="location.href='ExcelForm.admin'" value="Excel 추출">
 		</div>
 	</div>
 	<div class="statisDiv subStatisDiv statistics2">

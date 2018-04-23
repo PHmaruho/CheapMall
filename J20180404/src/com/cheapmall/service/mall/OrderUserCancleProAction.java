@@ -120,7 +120,8 @@ public class OrderUserCancleProAction implements CommandProcess {
 				}
 			}
 
-			request.setAttribute("result", 1);
+			request.setAttribute("result2", result2);
+			request.setAttribute("result", result);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
