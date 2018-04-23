@@ -133,11 +133,33 @@
 
 		for (var i = 0; i < v_id.value.length; i++) {
 			if (v_id.value.charAt(i) == v_id.value.charAt(i).toUpperCase()) {
-				alert("대문자가 포함되면 안됩니다.");
-				v_id.focus();
-				return false;
+				if(parseInt(v_id.value.charAt(i)) > 0 && parseInt(v_id.value.charAt(i)) < 9){
+					continue;
+				} else {
+					alert("대문자가 포함되면 안됩니다.");
+					v_id.focus();
+					return false;
+				}
+				
 			}
 		}
+		
+		/* // 문자가 최소 3개 이상 들어가게 한다.
+		checkPwUpper = 0;
+		for (var i = 0; i < v_id.value.length; i++) {
+			var asciiset = v_id.value.charCodeAt(i);
+			if ((asciiset >= 65 && asciiset <= 90)
+					|| (asciiset >= 97 && asciiset <= 122)) {
+				checkPwUppder += 1;
+			}
+		}
+		if (checkPwUpper < 3) {
+			alert("아이디 형식에 맞지않습니다.");
+			v_id.value = "";
+			v_id.focus();
+			return false;
+		} */
+
 
 		// ajax
 		$.ajax({
