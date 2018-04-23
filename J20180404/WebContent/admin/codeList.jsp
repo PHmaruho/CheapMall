@@ -20,9 +20,10 @@ td{
 	<div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
-<h1>코드 목록</h1>
-	<div id="main">
+	<div id="main" class="main">
 		<table class="table" border="1">
+		<h1>코드 목록</h1>
+		
 			<tr>
 				<th class="th">번호</th>
 				<th class="th">코드</th>
@@ -43,21 +44,23 @@ td{
 				</tr>
 				<c:set var="startNum" value="${startNum - 1 }" />
 			</c:forEach>
-			<tr>
-				<td colspan="6"><input type="button" class="btn mini"  value="등록" onclick="location.href='CodeInsertForm.admin?pageNum'"></td>
-			</tr>
+			
 		</table>
-		<div style="text-align: center;">
+		<br>
+ 		<div class="pagination" >
 			<c:if test="${startPage > blockSize }">
-				<a href='CodeList.admin?pageNum=${startPage-blockSize}'>[이전]</a>
+				<a class="a " href='CodeList.admin?pageNum=${startPage-blockSize}'>« Prev</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage}" end="${endPage}">
-				<a href='CodeList.admin?pageNum=${i}'>[${i}]</a>
+				<a class="a " href='CodeList.admin?pageNum=${i}'> ${i}</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
-				<a href='CodeList.admin?pageNum=${startPage+blockSize}'>[다음]</a>
+				<a class="a " href='CodeList.admin?pageNum=${startPage+blockSize}'>Next »</a>
 			</c:if>
 		</div>
+		<div class="mainF">
+		<input type="button" class="btn mini"  value="등록" onclick="location.href='CodeInsertForm.admin?pageNum'"></td>
+	</div>
 	</div>
 </body>
 </html>

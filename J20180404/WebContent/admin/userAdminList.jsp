@@ -34,18 +34,16 @@ function displayButton(){
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
 
-	<div id="main">
-	
-	<h2>회원삭제</h2>
-
+	<div id="main" class="main">
+	<h1>회원 목록</h1>
 		<form action="userAdminList.admin" method="post">
-			<div style="float:right; padding: 10 10 10 10px! important;" >
-				등급: 
-				<input type="text" name="search" > 
-				<input type="submit" value="검색"><p>
+ 		<div class="mainH" >
+				<input type="text" name="search" value="${search }"> 
+				<input type="submit" class="btn mini" value="검색">
 			</div>
 		</form>
-	
+			<br>
+			<br>
 	<form action="userAdminDeletePro.admin?pageNum=${pageNum }&search=${search}" method="post">
 		<table border="1" id="deleteMember">
 			<tr>
@@ -92,30 +90,23 @@ function displayButton(){
 			
 			
 			</table>
-			
-			<div style="text-align: center">
+			<br>
 
-				<c:if test="${ startPage > blockSize }">
-					<a href='userAdminList.admin?pageNum=${startPage-blockSize }&search=${search}'>
-						[이전] </a>
-				</c:if>
+ 		<div class="pagination" >
+			<c:if test="${startPage > blockSize }">
+				<a class="a" href='userAdminList.admin?pageNum=${startPage-blockSize }&search=${search}'>« Prev</a>
+			</c:if>
+			<c:forEach var="i" begin="${startPage}" end="${endPage}">
+				<a class="a active" href='userAdminList.admin?pageNum=${i}&search=${search}'> ${i}</a>
+			</c:forEach>
+			<c:if test="${endPage < pageCnt }">
+				<a class="a" href='userAdminList.admin?pageNum=${startPage+blockSize }&search=${search}'>Next »</a>
+			</c:if>
+ 		</div>
 	
-				<c:forEach var="i" begin="${startPage }" end="${endPage }">
-					<a href='userAdminList.admin?pageNum=${i}&search=${search}'> [${i }] </a>
-				</c:forEach>
-	
-				<c:if test="${endPage<totalPage }">
-					<a href='userAdminList.admin?pageNum=${startPage+blockSize }&search=${search}'>
-						[다음] </a>
-				</c:if>
-
-			</div>
-		
-		
-
-			<div style="float: right; padding: 10 10 10 10px!important;"> 
-				<input type="submit" value="삭제" id="submitB" style="display:none;"> 
-				<input type="reset" value="취소">
+ 		<div class="mainF" >
+				<input type="submit" class="btn mini" value="삭제" id="submitB" style="display:none;"> 
+				<input type="reset"  class="btn mini" value="취소">
 			</div>
 		</form>
 	</div>

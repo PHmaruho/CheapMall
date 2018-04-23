@@ -29,16 +29,15 @@
 	 <div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
-
-	<h2>상품수정</h2>
 	
-	<div id="main"> 
-<button onclick="location.href='goodsAdminUpdateList.admin'">전체상품 리스트</button>
+	<div id="main" class="main">
+		<h2>상품수정</h2>
+<button class="btn mini"  onclick="location.href='goodsAdminUpdateList.admin'">전체상품 리스트</button>
 		<c:set var="displayNumber" value="0" />
 		
 			<form action="GoodsAdminDisplayList.admin?pageNum=${currentPage }&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}"
 				name="searchDetail">
-				<div style="float: right;padding: 10 10 10 10px !important!;">
+ 		<div class="mainH" >
 					<select name="gender">
 						<option value="All">성별</option>
 						<option value="M">-남성</option>
@@ -66,14 +65,14 @@
 						<option value="ONE">-원피스</option>
 						<option value="SCA">-스카프</option>
 					</select> 
-					 <input type="submit" value="검색"> 
-<!-- 					 <input type="button" value="등록" onclick="window.open('goodsAdminInsertForm.admin');"> --> 
-						<button onclick="window.open('GoodsAdminInsertForm.admin','상품등록', 'scrollbars=yes width=500 height=600')">등록</button>
-					 <input type="button" value="활성/비활성" id="display">
+					 <input type="submit" class="btn mini"  value="검색"> 
+					 <input type="button" class="btn mini" value="등록"> 
+					 <input type="button" class="btn mini" value="활성/비활성" id="display">
 				</div>
 			</form>
 
-
+			<br>
+			<br>
 			<form action="goodsAdminUpdateDisplayPro.admin">
 				<table border="1">
 					<tr>
@@ -87,7 +86,7 @@
 						<th>재고량</th>
 						<th>종료일</th>
 						<th>display 상태</th>
-						<th class="goodsShow" style="display: none;">상태</th>
+						<th class="goodsShow th" style="display: none;">상태</th>
 					</tr>
 	
 					<c:if test="${list==null }">
@@ -156,8 +155,8 @@
 					</c:if>
 				</table>
 	
-				<div style="text-align: center">
-	
+ 			<div class="mainC" >
+
 					<c:if test="${ startPage > blockSize }">
 						<a
 							href='GoodsAdminDisplayList.admin?pageNum=${startPage-blockSize }&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'>
@@ -176,9 +175,9 @@
 							[다음] </a>
 					</c:if>
 	
-	
-					<input type="submit" value="확인" class="goodsShow" id="cssStyle"
-						style="padding:10 10 10 10px!important!;float:right; display: none;">
+				<div class="mainF">
+					<input type="submit"value="확인"  class="btn mini goodsShow" id="cssStyle"
+						 display: none;">
 				</div>
 
 		</form>
