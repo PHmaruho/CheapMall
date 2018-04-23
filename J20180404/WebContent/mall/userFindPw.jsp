@@ -5,6 +5,45 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
+<style type="text/css">
+.h {
+	border-style: none;
+	position: absolute;
+	width: 35%;
+	height: 20%;
+	left: 40%;
+	top: 5%;
+}
+
+.innerLeft {
+	float: left;
+	width: 15%;
+}
+
+.innerCenter {
+	float: left;
+	width: 40%;
+}
+
+.innerRight {
+	float: left;
+	width: 20%;
+}
+
+.innerLabel {
+	margin-bottom: 8px;
+}
+
+.timer {
+	float: left;
+	width: 15%;
+	display: inline-block;
+}
+
+.innerRight input {
+	margin-bottom: 20px;
+}
+</style>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
 	var setTime;
@@ -76,14 +115,27 @@
 </script>
 </head>
 <body>
-	<a href="userFindId.mall">아이디 찾으러 가기</a><br>
-	<h1>비밀번호 찾기</h1><br>
-	<label>아이디</label><input type="text" id="id"><br>
-	<label>이메일</label><input type="text" id="email">
-	<input type="button" value="인증번호 요청" onclick="okBtn()"><br>
-	<label>인증번호</label><input type="text" id="userKey" disabled="disabled"><div id="timer"></div><br>
-	<input type="button" value="확인" id="checkKey" onclick="checkKey()"><br>
-	<div id ="test"></div>
-	<div id ="test2"></div>
+	<div class="h">
+		<h1>비밀번호 찾기</h1><br>
+		<div class="innerLeft">
+			<label class="innerLabel">아이디</label><br><br>
+			<label class="innerLabel">이메일</label><br><br>
+			<label class="innerLabel">인증번호</label>
+		</div>
+		<div class="innerCenter">
+			<input type="text" id="nm" class="inncerText"><br><br>
+			<input type="text" id="email" class="inncerText"><br><br>
+			<input type="text" id="userKey" disabled="disabled" class="inncerText">
+		</div>
+		<div class="innerRight">
+			<br><br>
+			<input type="button" value="인증번호 요청" onclick="okBtn()" class="btn btn-sm"><br>
+			<input type="button" value="확인" id="checkKey" onclick="checkKey()" class="btn btn-sm"><br><br>
+		</div>
+		<div id="timer" class="timer"></div>
+		<div id ="test"></div>
+		<div id ="test2"></div>
+		<div style="float:left;"><a href="userFindId.mall">아이디 찾으러 가기 &nbsp; &nbsp;</a></div>
+	</div>
 </body>
 </html>
