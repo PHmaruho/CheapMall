@@ -8,8 +8,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
 <script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript">
 <link rel="stylesheet" href="../js/bootstrap.min.css">
+<script type="text/javascript">
+
 
 function checkReturnOrder(){
 	var returnOrder= $("#returnOrder_sq:checked").length;
@@ -37,9 +38,11 @@ function getDetail(){
 <style>
 	#main{
 		position: absolute;
-		width: 100%;
-		height: 100%;
+		width: 1024px;
+		height: 50%;
 		padding: 0;
+	}
+	#detailOrder{
 	}
 .h{
 	position: relative;
@@ -212,11 +215,12 @@ function getDetail(){
 					<%-- <input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록"> --%>
 				</div>
 		</form>
-		<p>
+		<br>
 		<div id="detailOrder">
-		
+	
 		</div>
 	</div>
+	
 </body>
 
 </html>
