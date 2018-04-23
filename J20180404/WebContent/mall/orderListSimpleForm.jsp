@@ -24,13 +24,85 @@
 		});
 	}
 </script>
+<link rel="stylesheet" href="../js/bootstrap.min.css">
+<style type="text/css">
+	#main2{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+	}
+	.h {
+	position: relative;
+	border-style: none;
+	left: 42%;
+}
+.orderlistsimpletb {
+	position: relative;
+	width : 100%;
+	border-style: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+.orderlistsimpletb img{
+	width: 30px;
+	height: 30px;
+}
+
+.orderlistsimpletb tr td, th {
+	text-align: center;
+	border-top-style: none;
+}
+
+.orderlistsimpletb td {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #E5E1E1;
+}
+
+.orderlistsimpletb th {
+	background-color: #E5E1E1;
+	border-bottom-style: none;
+}
+#simpleformbtn {
+ 	position : relative;
+	border-style: solid;
+	border-width: 1px;
+	margin-bottom : 10px;
+	background-color: rgba(255, 255, 255, 0);
+	color: black;
+	width: 100px;
+}
+
+#simpleformbtn:hover {
+	border-width: 2px;
+	padding: 5px 11px;
+}
+#simpleformbtn2 {
+ 	position : relative;
+	border-style: solid;
+	border-width: 1px;
+	border-color : gray;
+	background-color: rgba(255, 255, 255, 0);
+	color: black;
+	width: 100px;
+}
+
+#simpleformbtn2:hover {
+	border-width: 2px;
+	padding: 5px 11px;
+}
+</style>
 </head>
 <body>
 	<div id="main2">
-	<h3>주문 내역 간략보기 </h3>
-	<input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록">
+	<div class="h"><h2>주문 내역 간략보기 </h2></div>
+	<input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록" class="btn btn-warning" id="simpleformbtn">
 	<form action="orderReturnDetailForm.mall" method="post">
-	<table border="1" align="center" style="border-collapse:collapse; border:1px pink solid;">
+	<table align="center" class="orderlistsimpletb">
 
 			<tr>
 				<th>주문일자</th>
@@ -38,6 +110,7 @@
 				<p> 상품명</th>
 				<th>총 결제금액</th>
 				<th>주문상태</th>
+				<th></th>
 			</tr>
 		
 			<c:forEach var="list" items="${list }" varStatus="status">
@@ -75,7 +148,7 @@
 						${list.order_cd }
 					</td>
 					<td width="10%" align="center">
-					<input type="button" value="상세보기" onclick="getDetail('order_sq${i.index }');">
+					<input type="button" value="상세보기" onclick="getDetail('order_sq${i.index }');" class="btn" id="simpleformbtn2">
 					</td>
 				</tr>
 			</c:forEach>

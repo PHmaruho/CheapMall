@@ -18,12 +18,17 @@
 .carttb {
 	position: relative;
 	width: 100%;
-	height: 10%;
+	/* height: 10%; */
 	border-style: none;
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
 	border-top-style: solid;
 	border-top-width: 1px;
+}
+.h {
+	position: relative;
+	border-style: none;
+	left: 45%;
 }
 
 .carttb tr td, th {
@@ -87,6 +92,7 @@
 </head>
 <body>
 	<div class="container">
+	<div class="h"><h2>장바구니</h2></div>
 		<table class="carttb">
 			<tr>
 				<th>상품</th>

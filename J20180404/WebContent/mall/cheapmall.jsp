@@ -41,13 +41,15 @@
 	left: 10%;
 	top: 25%;
 	border-style: none;
+	overflow: auto;
+	overflow-x: hidden;
 }
 
 .footerLayout {
 	position: absolute;
 	width: 80%;
 	height: 20%;
-	top: 1600px;
+	top: 1700px;
 	background: #cc;
 	left: 10%;
 	border-style: none;

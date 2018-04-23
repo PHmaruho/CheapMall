@@ -1109,4 +1109,32 @@ public class GoodsDao {
 		System.out.println("size: "+list.size());
 		return list;*/
 	}
+//------------------------20180423김기한 엑셀관련 메소드------------------
+	public ArrayList<HashMap<String, String>> khExcelList() throws SQLException {
+		ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+		ResultSet rs = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		String sql = "select b.*,u.nm user_nm,u.tel,u.addr,u.addr_detail from users u inner join (select g.nm,a.* from goods g inner join (select o.order_sq,o.user_id,d.goods_sq from orders o inner join order_detail d on o.order_sq = d.order_sq where o.order_cd = 'O1') a on a.goods_sq = g.sq) b on u.id = b.user_id order by b.order_sq";
+		conn = getConnection();
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("addr", rs.getString("addr"));
+				map.put("addr_detail", rs.getString("addr_detail"));
+				map.put("user_nm", rs.getString("user_nm"));
+				map.put("tel", rs.getString("tel"));
+				map.put("goods_nm", rs.getString("nm"));
+				list.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		return list;
+	}
+
 }
