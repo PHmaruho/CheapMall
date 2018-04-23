@@ -18,7 +18,6 @@ table {
 		<nav id="topMenu">
 			<ul>
 				<c:if test="${auth eq 'A0' }">
-				<li>|</li>
 					<li class="topMenuLi">
 					<a class="menuLink" href="AdminForm.admin">관리자관리</a></li>
 					<li>|</li>
@@ -38,7 +37,7 @@ table {
 				<c:if test="${auth eq 'A0' || auth eq 'A3' }">
 				<li>|</li>
 					<li class="topMenuLi">
-					<a class="menuLink" href=" class="boardAdminNoticeList.admin"">게시판관리</a>
+					<a class="menuLink" href=" boardAdminNoticeList.admin">게시판관리</a>
 						<ul class="submenu">
 							<li><a href="boardAdminNoticeList.admin" class="submenuLink longLink">공지사항</a></li>
 							<li><a href="boardAdminOtherList.admin?board_cd=B1" class="submenuLink longLink">문의사항</a></li> 
@@ -50,7 +49,13 @@ table {
 				<c:if test="${auth eq 'A0' || auth eq 'A4' }">
 				<li>|</li>
 					<li class="topMenuLi">
-					<a class="menuLink" href="#">통계</a></li>
+					<a class="menuLink" href="#">통계</a>
+						<ul class="submenu">
+							<li><a href="#" class="submenuLink longLink">통계1111</a></li>
+							<li><a href="#" class="submenuLink longLink">통계2</a></li>
+							<li><a href="#" class="submenuLink longLink">통계3</a></li>
+						</ul>
+					</li>
 				</c:if>
 				<c:if test="${auth eq 'A0' || auth eq 'A5' }">
 				<li>|</li>
@@ -63,14 +68,15 @@ table {
 					</li>
 				</c:if>
 				<c:if test="${auth eq 'A0' || auth eq 'A5' }">
-				<li>|</li>
+													<li>|</li>
+				
 					<li class="topMenuLi">
 					<a class="menuLink" href="adminPopupList.admin">팝업관리</a></li>
+					
 				</c:if>
-				<li>|</li>
+									<li>|</li>
 				<li class="topMenuLi">
 				<a class="menuLink" href="AdminLogout.admin">로그아웃</a></li>
-				<li>|</li>
 			</ul>
 		</nav>
 	</div>
