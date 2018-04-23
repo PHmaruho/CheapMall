@@ -7,21 +7,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
-
+<script type="text/javascript">
+	
+</script>
 </head>
 <body>
 
 	<div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 	</div> 
+
+	<h2>팝업</h2>
 	
 	<div id="main">
-		<h2>팝업</h2>
-	
 	<form action="" method="post">
 		<input type="button"  class="btn mini" 
 		onclick="javascript:window.open('adminPopupAddForm.jsp','팝업등록','scrollbars=yes width=500 height=600')" 
-		value="추가">
+		value="추가" style="float:right;padding: 10 10 10 10px!important!">
 		<p><p>
 		<h5>Main</h5>
 		<table class="table" border="1">
