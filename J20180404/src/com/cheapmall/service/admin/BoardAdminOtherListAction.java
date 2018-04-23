@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.BoardDao;
 import com.cheapmall.dto.BoardDto;
@@ -19,6 +20,13 @@ public class BoardAdminOtherListAction implements CommandProcess {
 		String board_cd = request.getParameter("board_cd");
 		
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			String pageNum = request.getParameter("pageNum");
 			String bp = request.getParameter("bp") == null ? "all" : request.getParameter("bp");
 			String option = request.getParameter("option") == null ? "all" : request.getParameter("option");

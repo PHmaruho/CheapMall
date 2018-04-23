@@ -19,17 +19,9 @@ public class AdminInsertFormAction implements CommandProcess {
 			throws ServletException, IOException {
 			
 			try {
-				HttpSession session = request.getSession();
-				String id = session.getAttribute("id").toString();
-				String auth =session.getAttribute("auth").toString();
-				
 				String pageNum = request.getParameter("pageNum");
 				if(pageNum == null) pageNum = "1";
 				
-				if(request.getParameter("num") != null) { 
-					MemberDao md = MemberDao.getInstance();
-					AdminDto dto = md.select(id);
-				}
 				request.setAttribute("pageNum", pageNum);
 			}catch(Exception e) {
 				System.out.println(e.getMessage());

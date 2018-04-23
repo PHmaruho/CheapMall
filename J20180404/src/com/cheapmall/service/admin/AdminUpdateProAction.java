@@ -18,6 +18,13 @@ public class AdminUpdateProAction implements CommandProcess {
 			throws ServletException, IOException {
 		
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 		//	String pageNum = request.getParameter("pageNum");
 
 			AdminDto adminDto = new AdminDto();

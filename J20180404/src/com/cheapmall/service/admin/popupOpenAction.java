@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.EtcDao;
 import com.cheapmall.service.CommandProcess;
@@ -19,6 +20,13 @@ public class popupOpenAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			EtcDao dao=EtcDao.getInstance();
 			String c=request.getParameter("sub")==null? "main":request.getParameter("sub");
 			List<String> urlL=new ArrayList<>();

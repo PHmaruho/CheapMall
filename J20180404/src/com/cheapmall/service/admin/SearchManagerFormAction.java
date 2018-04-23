@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.service.CommandProcess;
 
@@ -15,7 +16,13 @@ public class SearchManagerFormAction implements CommandProcess{
 		// TODO Auto-generated method stub
 		try {
 			// HttpSession session = request.getSession(); // 가져올것
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
 			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception

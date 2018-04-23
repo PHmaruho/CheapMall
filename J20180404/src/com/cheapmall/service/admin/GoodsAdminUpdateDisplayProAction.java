@@ -17,8 +17,13 @@ public class GoodsAdminUpdateDisplayProAction implements CommandProcess{
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			HttpSession session=request.getSession();
-			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			String[] displayNumber 
 			= {request.getParameter("0"), request.getParameter("1"), request.getParameter("2")
 			   , request.getParameter("3"), request.getParameter("4"), request.getParameter("5")

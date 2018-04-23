@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.EtcDao;
 import com.cheapmall.dto.PopupDto;
@@ -22,6 +23,14 @@ public class AdminPopupAddFormProAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
+			
 			String path=request.getSession().getServletContext().getRealPath("/images/popup");
 			/*String path="C:/jsp/Sources1/J20180404/WebContent/images/popup";*/
 			int size= 2*1024*1024;

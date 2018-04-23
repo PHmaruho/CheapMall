@@ -105,7 +105,7 @@ td {
 		    		
 				</td>
 				<td class="td tdh">
-					<a href="#" 
+					<a class="tdh" href="#" 
 						onclick="javascript:window.open('AdminUpdateForm.admin?id=${adminList.id}&pageNum=${pageNum}&popup','관리자 수정', 'width=500, height=500')">
 					${adminList.id } </a>
 				</td>

@@ -18,10 +18,11 @@ public class StatisticsAdminDetailAjaxAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
-			String auth = session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
-					
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
 			if(auth == null) {
-				return "adminLoginForm.jsp";
+				session.invalidate();
+				return "Admin.jsp";
 			}
 			
 			String type = request.getParameter("type");

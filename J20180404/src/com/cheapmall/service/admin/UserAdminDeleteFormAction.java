@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.MemberDao;
 import com.cheapmall.dto.UsersDto;
@@ -19,7 +20,13 @@ public class UserAdminDeleteFormAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
 			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			MemberDao dao=MemberDao.getInstance();
 			String search=request.getParameter("search");
 			

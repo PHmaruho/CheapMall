@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.BoardDao;
 import com.cheapmall.dto.BoardDto;
@@ -17,6 +18,13 @@ public class BoardAdminOtherReplyAction implements CommandProcess {
 		// b4 bp2 관리자 [답변]제목
 		
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			String pageNum = request.getParameter("pageNum");
 			String board_cd = request.getParameter("board_cd");
 			BoardDto boardDto = new BoardDto();

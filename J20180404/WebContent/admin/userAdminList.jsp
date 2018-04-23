@@ -38,22 +38,23 @@ function displayButton(){
 	<h1>회원 목록</h1>
 		<form action="userAdminList.admin" method="post">
  		<div class="mainH" >
-				<input type="text" name="search" value="${search }"> 
+ 				등급: 
+				<input type="text" name="search"> 
 				<input type="submit" class="btn mini" value="검색">
 			</div>
 		</form>
 			<br>
 			<br>
 	<form action="userAdminDeletePro.admin?pageNum=${pageNum }&search=${search}" method="post">
-		<table border="1" id="deleteMember">
+		<table class="table" border="1" id="deleteMember">
 			<tr>
-				<th>회원ID</th>
-				<th>성명</th>
-				<th>생년월일</th>
-				<th>연락처</th>
-				<th>이메일</th>
-				<th>등급</th>
-				<th>삭제</th>
+				<th class="th">회원ID</th>
+				<th class="th">성명</th>
+				<th class="th">생년월일</th>
+				<th class="th">연락처</th>
+				<th class="th">이메일</th>
+				<th class="th">등급</th>
+				<th class="th">삭제</th>
 			</tr>
 
 	       

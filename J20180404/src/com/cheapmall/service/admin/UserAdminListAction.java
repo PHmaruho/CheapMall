@@ -20,9 +20,13 @@ public class UserAdminListAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		try {
-			HttpSession session=request.getSession();
-			String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
 			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			MemberDao dao=MemberDao.getInstance();
 			String search=request.getParameter("search")==null? "All":request.getParameter("search");
 			System.out.println("search: "+search);

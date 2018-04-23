@@ -76,16 +76,16 @@
 			<form action="goodsAdminUpdateDisplayPro.admin">
 				<table class="table" border="1">
 					<tr>
-						<th>상품Id</th>
-						<th>코드</th>
-						<th>이름</th>
-						<th>가격</th>
-						<th>성별</th>
-						<th>대분류</th>
-						<th>소분류</th>
-						<th>재고량</th>
-						<th>종료일</th>
-						<th>display 상태</th>
+						<th class="th">상품Id</th>
+						<th class="th">코드</th>
+						<th class="th">이름</th>
+						<th class="th">가격</th>
+						<th class="th">성별</th>
+						<th class="th">대분류</th>
+						<th class="th">소분류</th>
+						<th class="th">재고량</th>
+						<th class="th">종료일</th>
+						<th class="th">display 상태</th>
 						<th class="goodsShow th" style="display: none;">상태</th>
 					</tr>
 	
@@ -159,7 +159,7 @@
  		<div class="pagination" >
 
 					<c:if test="${ startPage > blockSize }">
-						<a
+						<a class="a" 
 							href='GoodsAdminDisplayList.admin?pageNum=${startPage-blockSize }&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'>
 							« Prev</a>
 					</c:if>
@@ -167,19 +167,21 @@
 	
 	
 					<c:forEach var="i" begin="${startPage }" end="${endPage }">
-						<a href='GoodsAdminDisplayList.admin?pageNum=${i}&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'> ${i}</a>
+						<a class="a"  href='GoodsAdminDisplayList.admin?pageNum=${i}&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'> ${i}</a>
 					</c:forEach>
 	
 					<c:if test="${endPage<totalPage }">
-						<a
+						<a class="a" 
 							href='GoodsAdminDisplayList.admin?pageNum=${startPage+blockSize }&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'>
 							Next »</a>
 					</c:if>
 				</div>
 				<div class="mainF">
 					<input type="submit"value="확인"  class="btn mini goodsShow" id="cssStyle"
-						 display: none;">
+					style="padding:10 10 10 10px!important!;float:left; 	 display: none;">
 				</div>
+<br>
+<br>
 
 		</form>
 	</div>

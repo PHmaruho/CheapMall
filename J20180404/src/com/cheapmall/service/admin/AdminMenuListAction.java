@@ -16,8 +16,12 @@ public class AdminMenuListAction implements CommandProcess {
 			throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession();
-			String id = session.getAttribute("id").toString();
-			String auth =session.getAttribute("auth").toString();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			
 		} catch (Exception e) {
 			// TODO: handle exception

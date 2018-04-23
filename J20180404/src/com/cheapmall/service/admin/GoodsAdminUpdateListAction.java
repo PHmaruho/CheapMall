@@ -20,9 +20,13 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 	
-		HttpSession session=request.getSession();
-		String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
+		HttpSession session = request.getSession();
+		String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
 		
+		if(auth == null) {
+			session.invalidate();
+			return "Admin.jsp";
+		}
 		String gender=request.getParameter("gender");
 		String top_category=request.getParameter("top_category");
 		String middle_category=request.getParameter("middle_category");

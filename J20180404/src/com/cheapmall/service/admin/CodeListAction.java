@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.GoodsDao;
 import com.cheapmall.dto.CodeDto;
@@ -19,6 +19,13 @@ public class CodeListAction implements CommandProcess {
 			HttpServletResponse response) throws ServletException, IOException {
 		GoodsDao gd = GoodsDao.getInstance();
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			int totCnt = gd.getCodeTotalCnt();
 			String pageNum = request.getParameter("pageNum");
 			if (pageNum == null || pageNum.equals("")) {

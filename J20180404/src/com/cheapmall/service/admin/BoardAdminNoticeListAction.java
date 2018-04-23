@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.BoardDao;
 import com.cheapmall.dto.BoardDto;
@@ -17,6 +18,13 @@ public class BoardAdminNoticeListAction implements CommandProcess {
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			BoardDao boardDao = BoardDao.getInstance();
 			String pageNum = request.getParameter("pageNum");
 			String option = request.getParameter("option") == null ? "all" : request.getParameter("option");

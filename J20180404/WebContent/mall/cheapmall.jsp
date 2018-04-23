@@ -151,15 +151,6 @@
 		    });
 		  }
 		});
-
-	function searchAction1(event) {
-		if (event.keyCode == 13) {
-			var keyword = $('#search').val();
-			alert($('#search').val());
-			location.href = "SearchResult.mall?keyword=" + keyword;
-		}
-
-	}
 	
 	function searchAction1(event){
 	  if(event.keyCode == 13){
@@ -173,7 +164,7 @@
 	}
 	function MsearchAction1(event){
 	  if(event.which == 1){
-	    var keyword = $('#searchTextIn').val();
+	    var keyword = $('#search').val();
 	    if(keyword == ''){
 	      alert("검색어를 입력해주세요.");
 	      return false;

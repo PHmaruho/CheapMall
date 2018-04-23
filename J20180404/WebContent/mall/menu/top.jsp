@@ -159,7 +159,7 @@
 			<div class="none" id="searchInput">
 				<input type="text" width="15" id="search"
 					onkeypress="searchAction1(event)"><input type="button"
-					value="검색하기" onclick="" class="btn" id="searchbtn">
+					value="검색하기" onclick="MsearchAction1(event)" class="btn" id="searchbtn">
 				<!-- Ajax 출력 구간 -->
 				<div id="keywordResult" class="keywordResult none"></div>
 

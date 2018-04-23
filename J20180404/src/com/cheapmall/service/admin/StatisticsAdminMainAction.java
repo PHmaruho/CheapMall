@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
@@ -17,6 +18,13 @@ public class StatisticsAdminMainAction implements CommandProcess{
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			String type = request.getParameter("type") == null ? "" : request.getParameter("type");
 			
 			JSONObject jsonobject = new JSONObject();

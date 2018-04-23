@@ -17,13 +17,16 @@
 		<jsp:include page="adminMenuList.jsp" />
 	</div> 
 
-	<h2>팝업</h2>
 	
-	<div id="main">
+	<div id="main" class="main">
+	<h1>팝업</h1>
 	<form action="" method="post">
+	 		<div class="mainH" >
+	
 		<input type="button"  class="btn mini" 
 		onclick="javascript:window.open('adminPopupAddForm.jsp','팝업등록','scrollbars=yes width=500 height=600')" 
-		value="추가" style="float:right;padding: 10 10 10 10px!important!">
+		value="추가" >
+		 </div>
 		<p><p>
 		<h5>Main</h5>
 		<table class="table" border="1">

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.MemberDao;
 import com.cheapmall.dto.AdminDto;
@@ -21,6 +22,14 @@ public class AdminFormSearchAction implements CommandProcess {
 			int count = 0;
 		
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
+			
 			String how=request.getParameter("how");
 			String search=request.getParameter("search");
 	

@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.GoodsDao;
 import com.cheapmall.service.CommandProcess;
@@ -16,6 +17,13 @@ public class GoodsAdminUpdateDisplayAction implements CommandProcess{
 			HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
+			HttpSession session = request.getSession();
+			String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
+			
+			if(auth == null) {
+				session.invalidate();
+				return "Admin.jsp";
+			}
 			String[] displayNumber 
 			= {request.getParameter("0"), request.getParameter("1"), request.getParameter("0")};
 			String[] sq=request.getParameterValues("sq");

@@ -18,9 +18,13 @@ public class GoodsAdminUpdateFormAction implements CommandProcess{
 	public String requestPro(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		HttpSession session=request.getSession();
-		String id = session.getAttribute("id") == null ? null: session.getAttribute("id").toString();
+		HttpSession session = request.getSession();
+		String auth =session.getAttribute("auth") == null ? null : session.getAttribute("auth").toString();
 		
+		if(auth == null) {
+			session.invalidate();
+			return "Admin.jsp";
+		}
 		GoodsDto dto=new GoodsDto();
 		GoodsDao dao=GoodsDao.getInstance();
 		String sq=request.getParameter("sq");
