@@ -133,7 +133,7 @@
 
 		for (var i = 0; i < v_id.value.length; i++) {
 			if (v_id.value.charAt(i) == v_id.value.charAt(i).toUpperCase()) {
-				if(parseInt(v_id.value.charAt(i)) > 0 && parseInt(v_id.value.charAt(i)) < 9){
+				if(parseInt(v_id.value.charAt(i)) > -1 && parseInt(v_id.value.charAt(i)) < 10){
 					continue;
 				} else {
 					alert("대문자가 포함되면 안됩니다.");

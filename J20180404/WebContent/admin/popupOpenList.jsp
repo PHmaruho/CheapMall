@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,16 @@ img {
 	width: 400px;
 }
 </style>
+
 </head>
-    <img src='/J20180404/images/popup/${url }.jpg'>
+<body>
+
+	<c:if test="${result>0 }">
+		<img src='/J20180404/images/popup/${url }.jpg'>
+	</c:if>
+	
+	<c:if test="${result==0 }">
+		<img src='/J20180404/images/popup/noPopup.jpg'>
+	</c:if>
 </body>
 </html>
