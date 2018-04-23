@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,9 +48,9 @@
 			</c:forEach>
 			<c:forEach var="rt" items="${resultType }">
 				<c:choose>
-					<c:when test="${rt eq 'rCnt' }"><td>${list.cnt }</td></c:when>
-					<c:when test="${rt eq 'rSsum' }"><td>${list.ssum }</td></c:when>
-					<c:otherwise><td>${list.rsum }</td></c:otherwise>
+					<c:when test="${rt eq 'rCnt' }"><td><fmt:formatNumber value="${list.cnt }" pattern="#,###" /></td></c:when>
+					<c:when test="${rt eq 'rSsum' }"><td><fmt:formatNumber value="${list.ssum }" pattern="#,###" /></td></c:when>
+					<c:otherwise><td><fmt:formatNumber value="${list.rsum }" pattern="#,###" /></td></c:otherwise>
 				</c:choose>
 			</c:forEach>
 			</tr>
