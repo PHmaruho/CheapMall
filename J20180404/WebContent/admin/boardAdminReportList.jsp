@@ -19,7 +19,7 @@
 		var selected = select.options[select.selectedIndex].value;
 		var board_cd = '${board_cd}'
 		
-		location.href = "boardAdminReportList.admin?board_cd=" + board_cd + "&bp=" + selected;
+		location.href = "boardAdminOtherList.admin?board_cd=" + board_cd + "&bp=" + selected;
 	}
 </script>
 </head>
@@ -63,13 +63,13 @@
 		
 		<div style="text-align:center;">
 			<c:if test="${startPage > blockSize }">
-				<a href="boardAdminReportList.admin?pageNum=${startPage - blockSize }">[이전]</a>
+				<a href="boardAdminOtherList.admin?pageNum=${startPage - blockSize }&board_cd=${board_cd}&bp=${bp }">[이전]</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage }" end="${endPage }">
-				<a href="boardAdminReportList.admin?pageNum=${i }">[${i }]</a>
+				<a href="boardAdminOtherList.admin?pageNum=${i }&board_cd=${board_cd}&bp=${bp }">[${i }]</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
-				<a href="boardAdminReportList.admin?pageNum=${startPage + blockSize }">[다음]</a>
+				<a href="boardAdminOtherList.admin?pageNum=${startPage + blockSize }&board_cd=${board_cd}&bp=${bp }">[다음]</a>
 			</c:if>
 		</div>
 	</div>

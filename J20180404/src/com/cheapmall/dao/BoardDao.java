@@ -170,6 +170,7 @@ public class BoardDao{
 				boardDto.setSubject(rs.getString(2));
 				boardDto.setUser_id(rs.getString(3));
 				boardDto.setWrite_dt(rs.getDate(4));
+				System.out.println(rs.getString(1));
 				list.add(boardDto);
 			}
 		} catch (Exception e) {
