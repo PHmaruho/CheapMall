@@ -41,9 +41,10 @@
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
 
-	<div id="main">
-		<h2>공지사항</h2>
+	<div id="main" class="main">
+		<h1>공지사항</h1>		
 		<a href="boardAdminNoticeWriteForm.admin"  class="btn mini" >글쓰기</a>
+	<p>
 		<table class="table" border="1">
 			<tr>
 				<th class="th">번호</th>
@@ -64,21 +65,22 @@
 				</c:forEach>
 			</c:if>
 		</table>
-		
-		<div style="text-align:center;">
+			<br>
+ 		<div class="pagination" >
 			<c:if test="${startPage > blockSize }">
-				<a href="boardAdminNoticeList.admin?pageNum=${startPage - blockSize }
-						&option=${option}&searchText=${searchText}">[이전]</a>
+				<a class="a"  href="boardAdminNoticeList.admin?pageNum=${startPage - blockSize }
+						&option=${option}&searchText=${searchText}">« Prev</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage }" end="${endPage }">
-				<a href="boardAdminNoticeList.admin?pageNum=${i }
-						&option=${option}&searchText=${searchText}">[${i }]</a>
+				<a class="a"  href="boardAdminNoticeList.admin?pageNum=${i }
+						&option=${option}&searchText=${searchText}"> ${i}</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
-				<a href="boardAdminNoticeList.admin?pageNum=${startPage + blockSize }
-						&option=${option}&searchText=${searchText}">[다음]</a>
+				<a class="a"  href="boardAdminNoticeList.admin?pageNum=${startPage + blockSize }
+						&option=${option}&searchText=${searchText}">Next »</a>
 			</c:if>
 		</div>
+		 		<div class="mainF" >
 		
 		<select id="searchSelect">
 			<option id="all" value="all">전체</option>
@@ -89,6 +91,8 @@
 		<input type="text" id="searchText" value="${searchText }">
 		<input type="button" value="검색" onclick="searchSelect()">
 		<input type="hidden" id="searchHidden">
+				</div> 
+		
 	</div>
 </body>
 </html>
