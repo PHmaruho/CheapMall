@@ -80,7 +80,7 @@
 		
 	function timer() {
 		var m = Math.floor(setTime / 60) + "분 " + (setTime % 60) + "초";
-		var msg = "<font color='red'>" + m + "</font>";
+		var msg = "<br><br><font color='red'>" + m + "</font>";
 		document.all.timer.innerHTML = msg;
 		setTime--;
 
@@ -123,7 +123,7 @@
 			<label class="innerLabel">인증번호</label>
 		</div>
 		<div class="innerCenter">
-			<input type="text" id="nm" class="inncerText"><br><br>
+			<input type="text" id="id" class="inncerText"><br><br>
 			<input type="text" id="email" class="inncerText"><br><br>
 			<input type="text" id="userKey" disabled="disabled" class="inncerText">
 		</div>
