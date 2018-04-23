@@ -51,7 +51,7 @@ public class UserAdminListAction implements CommandProcess {
 			}
 			
 			int currentPage=Integer.parseInt(pageNum);
-			int pageSize=15, blockSize=10;
+			int pageSize=10, blockSize=10;
 			int startRow= ((currentPage-1)* pageSize)+1;
 			int endRow= startRow+pageSize-1;
 			int startNum=count-startRow+1;

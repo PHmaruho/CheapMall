@@ -21,11 +21,6 @@ function openReview(dSq, goods_sq){
 	var popup = window.open("UserWriteReviewForm.mall?dSq="+dSq+"&goods_sq="+goods_sq,'popup', "width=500, height=500");
 }
 </script>
-<style>
-	#main{
-		display:flex;
-	}
-</style>
 </head>
 <body>
 	
@@ -51,7 +46,7 @@ function openReview(dSq, goods_sq){
 						<tr>
 							<td><input type="hidden" name="order_sq" value="${order.order_sq }">${order.order_sq }</td>
 							<td>${order.detail_sq }</td>
-							<td><img src="../images/${order.gender }/${order.top_category}/${order.middle_category}/thumbnail/${order.path }.png"
+							<td><img src="../images/${order.gender }/${order.top_category}/${order.middle_category}/thumbnail/sm_${order.path }.png"
 													height="50%" width="50%" >
 							${order.nm }</td>
 							<td>${order.origin_price }</td>

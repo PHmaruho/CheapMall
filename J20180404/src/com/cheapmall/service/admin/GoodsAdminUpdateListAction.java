@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import com.cheapmall.dao.GoodsDao;
 import com.cheapmall.dto.GoodsDto;
-import com.cheapmall.dto.UsersDto;
 import com.cheapmall.service.CommandProcess;
 
 public class GoodsAdminUpdateListAction implements CommandProcess{
@@ -41,7 +40,7 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 			}
 			
 			int currentPage=Integer.parseInt(pageNum);
-			int pageSize=15, blockSize=10;
+			int pageSize=4, blockSize=10;
 			
 			int startRow= (currentPage-1)* pageSize+1;
 			int endRow= startRow+pageSize-1;
@@ -90,15 +89,6 @@ public class GoodsAdminUpdateListAction implements CommandProcess{
 			request.setAttribute("gender", gender);
 			request.setAttribute("top_category", top_category);
 			request.setAttribute("middle_category", middle_category);
-			
-			System.out.println("count: "+count);
-			System.out.println("currentPage: "+currentPage);
-			System.out.println("blockSize: "+blockSize);
-			System.out.println("startNum: "+startNum);
-			System.out.println("totalPage: "+totalPage);
-			System.out.println("startPage: "+startPage);
-			System.out.println("endPage: "+endPage);
-			System.out.println("pageNum: "+pageNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
