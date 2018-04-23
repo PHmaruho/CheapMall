@@ -9,16 +9,16 @@
 <script type="text/javascript" src="../js/Chart.bundle.js"></script>
 <style type="text/css">
 	.mainDiv{
-		width: 100%;
+		width: 1600px;
 		height: 1000px;
 		margin: 20 auto 0 auto;
-		padding-left: 10px;
+		padding-left: 10%;
 		padding-right: 10px;
-		border: solid black 4px;
+		border: solid black 0px;
 	}
 	
 	.statisDiv{
-		border: solid black 4px;
+		border: solid black 1px;
 	}
 	.statistics1{
 		width: 100%;
@@ -218,30 +218,31 @@
 <div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 </div>
-
+<br>
 <div class="mainDiv">
 	<div class="statisDiv statistics1">
 		<canvas id="statistics1" style="float:left; height:0px; width:1px;"></canvas>
 		<div style="float:right;">
-			<input type="button" onclick="location.href='ExcelForm.admin'" value="Excel 추출">
+			<input type="button" class="btn mini" onclick="" value="Excel 추출">
 		</div>
 	</div>
+	<br><br>
 	<div class="statisDiv subStatisDiv statistics2">
-		<canvas id="statistics2" width="500" height="500"></canvas>
+		<canvas id="statistics2" width="500" height="500" margin-left="10%"></canvas>
 		<div>
-			<input type="button" onclick="" value="상세보기">
+			<input type="button" class="btn mini"  onclick="" value="상세보기">
 		</div>
 	</div>
 	<div class="statisDiv subStatisDiv statistics3">
 		<canvas id="statistics3" width="500" height="500"></canvas>
 		<div>
-			<input type="button" onclick="" value="상세보기">
+			<input type="button"  class="btn mini" onclick="" value="상세보기">
 		</div>
 	</div>
 	<div class="statisDiv subStatisDiv statistics4">
 		<canvas id="statistics4" width="0px" height="0px"></canvas>
 		<div>
-			<input type="button" onclick="" value="상세보기">
+			<input type="button" class="btn mini"  onclick="" value="상세보기">
 		</div>
 	</div>
 </div>

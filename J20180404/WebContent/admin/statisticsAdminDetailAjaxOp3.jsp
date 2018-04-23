@@ -178,7 +178,7 @@
 				<li class="ui-state-default ui-sortable-handle sortLi" id="rSsum">
 					매출액<button class="x" onclick="setSelect(this)" value="1" id="rSsum">x</button></li>
 				<li class="ui-state-default ui-sortable-handle sortLi" id="rRsum">
-					반품액<button class="x" onclick="setSelect(this)" value="1" id="rRsum">x</button></li>
+					반품액<button class="btn mini x" onclick="setSelect(this)" value="1" id="rRsum">x</button></li>
 			</ul>
 		</div>
 		<div id="">

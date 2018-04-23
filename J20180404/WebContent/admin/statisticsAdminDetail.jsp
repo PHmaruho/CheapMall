@@ -7,11 +7,7 @@
 <title>Cheap Mall</title>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
-	var showFlag = 1;
-	
-	$(function () {
-		show();
-	});
+	var showFlag = 0;
 	
 	function setFlag (flag) {
 		showFlag = flag;
@@ -39,15 +35,18 @@
 	<div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
-	
+	<br>
 	<div id="main">
 		<select id="showSelect" onchange="setFlag(1)">
+			<option value="op1">종합</option>
 			<option value="op2">가격대별 판매액, 반품액, 구매자수</option>
 			<option value="op3">주소별, 등급별, 성별, 언령별 회원수, 매출액, 반품액</option>
+			<option value="op4">상품별 달린 리뷰 수</option>
 		</select>
-		<button onclick="show()">조회</button>
+		<button onclick="show()" class="btn mini">조회</button>
 		
 		<div id="graph"></div>
 	</div>
+	
 </body>
 </html>

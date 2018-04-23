@@ -4,14 +4,14 @@
 #wrap {
 	width: 100%;
 	margin : 0 auto 0 auto;
-	
+		
 }
 
 #topMenu {
 	height: 50px;
 	width: 1500px;
 	margin-left : 15%;
-	font:bold 12px tahoma;  
+	font:bold 13px tahoma;  
 	
 }
 
@@ -32,7 +32,7 @@
 	vertical-align: middle; 
 	text-align: center; 
 	position: relative;
-
+	
 }
 .menuLink, .submenuLink { 
 text-decoration:none; 
@@ -101,6 +101,8 @@ color: white;
 	width : 80%;
 	float :right;
 	align : center;
+	font: 13px tahoma;  
+	
 }
 
 .mainH {
@@ -123,27 +125,37 @@ color: white;
     transition: background-color .2s;
     border: 1px solid #e2e2e2;
     margin: 0 2px 2px 0px;
-    font:bold 12px tahoma;  
+    font:bold 13px tahoma;  
     
 }
 
 
-.pagination a:hover  {
+.pagination a:hover {
 	background-color: #dd0000;
 	color: white;
-    border: 1px solid #e2e2e2;
 }
-
-.pagenation a:active {
-	background-color: #dd0000;
+.pagination a:active {
+		background-color: #dd0000;
+		color: white;
 	
 }
+
 
 .table {
 	 text-align : center; 
 	 border-collapse:collapse; 
 	 border:1px gray solid;
 	 width : 80%;
+	 font:13px tahoma;  
+	height : 400px;
+}
+.tableP {
+	 text-align : center; 
+	 border-collapse:collapse; 
+	 border:1px gray solid;
+	 width : 80%;
+	 font:13px tahoma; 
+	 height : 200px;
 }
 
 
@@ -153,24 +165,31 @@ color: white;
   color: #ffffff;
 
 }
-
-.th.td {
-	    font:bold 12px tahoma;  
-	    
+.thG {
+ background: #333;
+  border: 1px solid #333;
+  color: #ffffff;
+ height : 30px;
 	
 }
 
-.tdh {
+.th, .td{
+	    font:bold 13px tahoma;  
+}
+
+.td {
+		color : black;
 	    text-decoration: none;
+	    background-color: lightgray;
 	    
 	    
 }
 
-.tdh:hover  {
-	background-color: black;
+.td:hover {
+	background-color: red;
 	color : white;
-}
 	
+}
 
 
 .btn.mini {

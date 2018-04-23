@@ -6,15 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
-<style type="text/css">
-	table {
-		width: 100%;
-		text-align: center;
-	}
-	tr {
-		border: solid 1px black;
-	}
-</style>
+
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
 	window.onload = function() {
@@ -55,8 +47,9 @@
 				<c:forEach var="board" items="${list }">
 					<tr>
 						<td>${startNum }</td>
-						<td class="left" width="200"> 
-							 <a href="boardAdminNoticeContent.admin?board_sq=${board.board_sq }&pageNum=${currentPage}">${board.subject }</a> 
+						<td class="td left" width="200"> 
+							 <a class="td" href="boardAdminNoticeContent.admin?board_sq=${board.board_sq }
+							 		&pageNum=${currentPage}">${board.subject }</a> 
 						</td>
 						<td>${board.write_dt }</td>
 					</tr>
@@ -67,13 +60,16 @@
 			<br>
  		<div class="pagination" >
 			<c:if test="${startPage > blockSize }">
-				<a class="a"  href="boardAdminNoticeList.admin?pageNum=${startPage - blockSize }&option=${option}&searchText=${searchText}">« Prev</a>
+				<a class="a"  href="boardAdminNoticeList.admin?pageNum=${startPage - blockSize }
+						&option=${option}&searchText=${searchText}">« Prev</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage }" end="${endPage }">
-				<a class="a"  href="boardAdminNoticeList.admin?pageNum=${i }&option=${option}&searchText=${searchText}"> ${i}</a>
+				<a class="a"  href="boardAdminNoticeList.admin?pageNum=${i }
+						&option=${option}&searchText=${searchText}"> ${i}</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
-				<a class="a"  href="boardAdminNoticeList.admin?pageNum=${startPage + blockSize }&option=${option}&searchText=${searchText}">Next »</a>
+				<a class="a"  href="boardAdminNoticeList.admin?pageNum=${startPage + blockSize }
+						&option=${option}&searchText=${searchText}">Next »</a>
 			</c:if>
 		</div>
 		 		<div class="mainF" >
@@ -85,7 +81,7 @@
 			<option id="user_id" value="user_id">작성자</option>
 		</select>
 		<input type="text" id="searchText" value="${searchText }">
-		<input type="button" value="검색" onclick="searchSelect()">
+		<input type="button" class="btn mini" value="검색" onclick="searchSelect()">
 		<input type="hidden" id="searchHidden">
 				</div> 
 		

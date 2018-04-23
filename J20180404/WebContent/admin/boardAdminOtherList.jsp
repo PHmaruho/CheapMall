@@ -64,7 +64,7 @@
 			<option id="BP1" value="BP1">처리중</option>
 			<option id="BP2" value="BP2">답변완료</option>
 		</select>
-		
+		<br><br>
 		<table class="table" border="1">
 
 			<tr>
@@ -78,8 +78,8 @@
 				<c:forEach var="board" items="${list }">
 					<tr>
 						<td>${startNum }</td>
-						<td class="left" width="200"> 
-							 <a href="boardAdminOtherContent.admin?board_sq=${board.board_sq}&
+						<td class=" td left" width="200"> 
+							 <a class="td " href="boardAdminOtherContent.admin?board_sq=${board.board_sq}&
 							 	pageNum=${currentPage}&board_cd=${board_cd}">${board.subject}</a> 
 						</td>
 						<td>${board.user_id }</td>
@@ -90,21 +90,22 @@
 				</c:forEach>
 			</c:if>
 		</table>
-		
- 		<div class="mainC" >
+			<br>
+ 		<div class="pagination" >
 			<c:if test="${startPage > blockSize }">
 				<a href="boardAdminOtherList.admin?pageNum=${startPage - blockSize }&board_cd=${board_cd}&bp=${bp}
-					&option=${option}&searchText=${searchText}">[이전]</a>
+					&option=${option}&searchText=${searchText}">« Prev</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage }" end="${endPage }">
 				<a href="boardAdminOtherList.admin?pageNum=${i }&board_cd=${board_cd}&bp=${bp}
-					&option=${option}&searchText=${searchText}">[${i }]</a>
+					&option=${option}&searchText=${searchText}"> ${i}</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
 				<a href="boardAdminOtherList.admin?pageNum=${startPage + blockSize }&board_cd=${board_cd}&bp=${bp}
-					&option=${option}&searchText=${searchText}">[다음]</a>
+					&option=${option}&searchText=${searchText}">Next »</a>
 			</c:if>
 		</div>
+		 		<div class="mainF" >
 		<select id="searchSelect">
 			<option id="all" value="all">전체</option>
 			<option id="content" value="subject">제목</option>
@@ -112,9 +113,9 @@
 			<option id="user_id" value="user_id">작성자</option>
 		</select>
 		<input type="text" id="searchText" value="${searchText }">
-		<input type="button" value="검색" onclick="searchSelect()">
+		<input type="button"  class="btn mini"  value="검색" onclick="searchSelect()">
 		<input type="hidden" id="searchHidden">
-		
+				</div> 
 	</div>
 </body>
 </html>

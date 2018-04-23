@@ -8,34 +8,16 @@
 <link rel="stylesheet" href="../js/bootstrap.min.css">
 <style type="text/css">
 	.mainPanel{
-		width: 100%;
+		width: 1500px;
 		margin: 0 auto 0 auto;
-	}
-	.buttonPanel {
-		width: 80%;
-		height: 70px;
-		border: solid black 4px;
-		padding-top: 5px;
-		padding-bottom: 5px;
-		margin-left: auto;
- 		margin-right: auto;
-	}
-	.buttonDiv{
-		width: 30%;
-		height: 50px;
-		border: solid black 2px;
-		float: left;
-		margin-right: 10px;
-		margin-left: 10px;
 	}
 
 	.Content{
-		width: 80%;
+		width: 1000px;
 		height: 400px;
-		border: solid black 4px;
+		border: solid black 0px;
 		margin-top: 20px;
-		margin-left: auto;
- 		margin-right: auto;
+		margin-left: 5%;
 		padding-top: 20px;
 		padding-right: 20px;
 		padding-left: 20px;
@@ -44,7 +26,7 @@
 	.contentDivs{
 		width: 100%;
 		height: 100%;
-		border: solid black 2px;
+		border: solid black 1px;
 	}
 	.keywordTitle{
 		width:20%;
@@ -70,12 +52,13 @@
 		padding: 5px;
 	}
 	.registPanel{
-		width: 65%;
+		width:65%;
 		height: 80%;
 		border: solid black 1px;
-		float: left;
+		float: right;
 		margin-top: 10px;
-		padding: 5px;
+		margin-right:16px;
+		padding: 10px;
 	}
 	.modifyPanel{
 		width: 65%;
@@ -101,7 +84,7 @@
 	.searchInput{
 		width:100%;
 		height: 50px;
-		border: solid black 1px;
+		border: solid black 0px;
 		float: left;
 	}
 	
@@ -431,19 +414,13 @@
 	<div id="wrap">
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
-
-	<div id="main" class="mainPanel">
-		<h2>검색어 관리 Page</h2>
-		<div class="buttonPanel">
-			<div class="buttonDiv">
-				<input type="button" onclick="changeFuc('registContent')" value="등록" class="btn btn-primary btn-block">
-			</div>
-			<div class="buttonDiv">
-				<input type="button" onclick="changeFuc('modifyContent')" value="수정" class="btn btn-primary btn-block">
-			</div>
-			<div class="buttonDiv">
-				<input type="button" onclick="changeFuc('deleteContent')" value="삭제" class="btn btn-primary btn-block">
-			</div>
+	<div id="main" class=" main">
+		<h3><strong>검색어 관리 Page</strong></h3>
+		<br>
+		<div class="mainH buttonPanel">
+				<input type="button" class="btn mini" onclick="changeFuc('registContent')" value="등록" class="btn btn-primary btn-block">
+				<input type="button"  class="btn mini" onclick="changeFuc('modifyContent')" value="수정" class="btn btn-primary btn-block">
+				<input type="button"  class="btn mini" onclick="changeFuc('deleteContent')" value="삭제" class="btn btn-primary btn-block">
 		</div>
 	
 		<!-- 콘텐츠 패널 -->
@@ -458,17 +435,18 @@
 					</div>
 					<div class="keywordSearchPanel">
 						검색어 : <input type="text" width="30" id="searchKeyword1">
-						<input type="button" id="searchKeywordBtn1" onclick="keywordSearch('searchKeyword1', 'searchKeywordBtn1', 'keywordResultPanel1')" value="검색">
+						<input type="button"  class="btn mini"  id="searchKeywordBtn1" onclick="keywordSearch('searchKeyword1', 'searchKeywordBtn1', 'keywordResultPanel1')" value="검색">
 					</div>
 				</div>
 				<div class="searchPanel" id="keywordResultPanel1"></div>
 	
 				<!-- 등록 폼 -->
 				<div class="registPanel">
+				<br><br>
 					<!-- <form method="post" onsubmit="return registKeyword()"> -->
 						<input type="hidden" value="regist" name="regist" id="registChk">
 						<input type="hidden" value="0" id="overlapCheck">
-						<table border="1">
+						<table class="tableP" border="1">
 							<tr>
 								<th> 검색어 : </th>
 								<td id="td">
@@ -476,7 +454,7 @@
 									<div id="overLapAjax"></div>
 								</td>
 								<td>
-									<input type="button" name="overLap" id="overLap1" value="중복검사" onclick="overLapSearch('keyword','overLapAjax')">
+									<input type="button"  class="btn mini" name="overLap" id="overLap1" value="중복검사" onclick="overLapSearch('keyword','overLapAjax')">
 								</td>
 							</tr>
 							<tr>
@@ -485,13 +463,13 @@
 									<input type="text" name="transKeyword" id="transKeyword1" disabled="disabled">
 								</td>
 								<td>
-									<input type="button" name="transAction" id="transAction1" value="검색어변환" onclick="transAction('transAction1')">
+									<input type="button"  class="btn mini" name="transAction" id="transAction1" value="검색어변환" onclick="transAction('transAction1')">
 								</td>
 							</tr>
 							<tr>
 								<td colspan="3">
-									<input type="button" value="제출" onclick="return registKeyword()">
-									<input type="reset" value="초기화">
+									<input type="button"  class="btn mini"  value="제출" onclick="return registKeyword()">
+									<input type="reset"  class="btn mini" value="초기화">
 								</td>
 							</tr>
 						</table>
@@ -509,7 +487,7 @@
 					</div>
 					<div class="keywordSearchPanel">
 						검색어 : <input type="text" width="30" id="searchKeyword2">
-						<input type="button" id="searchKeywordBtn2" onclick="keywordSearch('searchKeyword2', 'searchKeywordBtn2', 'keywordResultPanel2')" value="검색">
+						<input type="button"  class="btn mini" id="searchKeywordBtn2" onclick="keywordSearch('searchKeyword2', 'searchKeywordBtn2', 'keywordResultPanel2')" value="검색">
 					</div>
 				</div>
 				<div class="searchPanel" id="keywordResultPanel2"></div>
@@ -518,7 +496,7 @@
 				<div class="modifyPanel">
 					<input type="hidden" value="" id="tempModify">
 					<h4>현재 선택 검색어</h4>
-					<table border="1">
+				<table class="tableP" border="1" >
 						<tr>
 							<th> 검색어 : </th>
 							<td id="td">
@@ -526,7 +504,7 @@
 								<div id="overLapModifyAjax"></div>
 							</td>
 							<td>
-								<input type="button" name="overLap" id="overLap2" value="중복검사" onclick="overLapSearch('selectKeyword','overLapModifyAjax')">
+								<input type="button" class="btn mini"  name="overLap" id="overLap2" value="중복검사" onclick="overLapSearch('selectKeyword','overLapModifyAjax')">
 							</td>
 						</tr>
 						<tr>
@@ -535,12 +513,12 @@
 								<input type="text" id="electTransKeyword" disabled="disabled">
 							</td>
 							<td>
-								<input type="button" name="transAction" id="transAction2" value="검색어변환" onclick="transAction('transAction2')">
+								<input type="button" class="btn mini"  name="transAction" id="transAction2" value="검색어변환" onclick="transAction('transAction2')">
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2">
-								<input type="button" value="수정하기" onclick="modifyAction()">
+							<td colspan="3">
+								<input type="button" class="btn mini"  value="수정하기" onclick="modifyAction()">
 							</td>						
 						</tr>
 					</table>
@@ -556,7 +534,7 @@
 					</div>
 					<div class="keywordSearchPanel">
 						검색어 : <input type="text" width="30" id="searchKeyword3">
-						<input type="button" id="searchKeywordBtn3" onclick="keywordSearch('searchKeyword3', 'searchKeywordBtn3', 'keywordResultPanel3')" value="검색">
+						<input type="button"  class="btn mini" id="searchKeywordBtn3" onclick="keywordSearch('searchKeyword3', 'searchKeywordBtn3', 'keywordResultPanel3')" value="검색">
 					</div>
 				</div>
 				<div class="searchPanel" id="keywordResultPanel3"></div>
@@ -569,7 +547,7 @@
 					</div>
 					
 					<div>
-						<input type="button" onclick="deleteAction()" value="삭제하기" style="margin-top:10px;">
+						<input type="button"  class="btn mini" onclick="deleteAction()" value="삭제하기" style="margin-top:10px;">
 					</div>
 				</div>
 			</div>

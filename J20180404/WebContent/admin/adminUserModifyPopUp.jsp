@@ -117,43 +117,43 @@
 </script>
 <body>
 
-<h2>회원 상세 정보</h2>
+<h3>회원 상세 정보</h3>
 	<form action="AdminUserModifyPopUpPro.admin?pageNum=${pageNum}" onsubmit="return check()" method="post">
-		<table class="table" border="1" >
+		<table class="tableP" border="1" >
 			<tr>
-				<th class="th">ID</th>
+				<th class="thG">ID</th>
 				<td>
 					${usersDto.id }
 					<input type="hidden" value="${usersDto.id }" name="id" id="id">
 				</td>
 			</tr>
 			<tr>
-				<th class="th">회원이름</th>
+				<th class="thG">회원이름</th>
 				<td>
 					<input type="text" value="${usersDto.nm }" name="nm" id="nm" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th class="th" id="thPw">PW</th>
+				<th class="thG" id="thPw">PW</th>
 				<td>
 					<input type="password" name="pw" id="pw" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th class="th" id="thPwChk">PW확인</th>
+				<th class="thG" id="thPwChk">PW확인</th>
 				<td>
 					<input type="password" name="pwchk" id="pwchk" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th class="th" >비밀번호 변경일</th>
+				<th class="thG" >비밀번호 변경일</th>
 				<td>
 					${usersDto.pw_dt }
 					<input type="hidden" value="${usersDto.pw_dt }" name="pw_dt" id="pw_dt">
 				</td>
 			</tr>
 			<tr>
-				<th class="th" rowspan="2">주소</th>
+				<th class="thG" rowspan="2">주소</th>
 				<td>
 					<input type="text" width="6" value="${usersDto.zipcode }" id="zipcode" name="zipcode" class="inputText">
 					<input type="button" value="우편번호찾기" onclick="findZipcode()" class="inputText">
@@ -165,19 +165,19 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="th">상세주소</th>
+				<th class="thG">상세주소</th>
 				<td>
 					<input type="text" width="30" value="${usersDto.addr_detail }" id="addr_detail" name="addr_detail" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th class="th"> 이메일 </th>
+				<th class="thG"> 이메일 </th>
 				<td>
 					<input type="email" value="${usersDto.email }" id="email" name="email" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th class="th"> 성별 </th>
+				<th class="thG"> 성별 </th>
 				<td>
 					<c:if test="${usersDto.gender eq 'M' }">
 						<input type="radio" name="gender" id="M" checked="checked" value="M" class="inputText"> 남자
@@ -190,7 +190,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="th"> 등급 </th>
+				<th class="thG"> 등급 </th>
 				<td>
 					<select name="grade" class="inputText">
 						<c:if test="${usersDto.grade eq 'G0' }">
@@ -246,13 +246,13 @@
 				</td>
 			</tr>
 			<tr>
-				<th class="th"> 포인트 </th>
+				<th class="thG"> 포인트 </th>
 				<td>
 					<input type="text" value="${usersDto.point }" class="inputText" name="point" id="point">
 				</td>
 			</tr>
 			<tr>
-				<th class="th">가입일</th>
+				<th class="thG">가입일</th>
 				<td>${usersDto.reg_dt }</td>
 			</tr>
 			</table>

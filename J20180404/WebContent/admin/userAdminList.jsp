@@ -61,8 +61,8 @@ function displayButton(){
 			<c:if test="${count>0 }">
 				<c:forEach var="user" items="${dto }">
 					<tr>
-						<td>
-						<a href="#" 
+				<td class="td">
+						<a class="td" href="#" 
 						onclick="javascript:window.open('AdminUserModifyPopUp.admin?id=${user.id}&pageNum=${pageNum}&popup','회원수정', 'width=500, height=500')">
 						${user.id }</a></td>
 						<td>${ user.nm}</td>

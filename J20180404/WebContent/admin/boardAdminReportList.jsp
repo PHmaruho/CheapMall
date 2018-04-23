@@ -19,7 +19,7 @@
 		var selected = select.options[select.selectedIndex].value;
 		var board_cd = '${board_cd}'
 		
-		location.href = "boardAdminOtherList.admin?board_cd=" + board_cd + "&bp=" + selected;
+		location.href = "boardAdminReportList.admin?board_cd=" + board_cd + "&bp=" + selected;
 	}
 </script>
 </head>
@@ -29,7 +29,7 @@
 	</div>
 	
 	<div id="main">
-		<h2>신고처리</h2>
+		<h1>신고처리</h1>
 		
 		<select id="bp" onchange="bpSelect()">
 			<option id="all" value="all">전체</option>
@@ -37,7 +37,7 @@
 			<option id="BP1" value="BP1">처리중</option>
 			<option id="BP3" value="BP3">처리완료</option>
 		</select>
-		
+		<br><br>
 		<table class="table" border="1">
 			<tr>
 				<th class="th">번호</th>
@@ -49,8 +49,8 @@
 				<c:forEach var="board" items="${list }">
 					<tr>
 						<td>${startNum }</td>
-						<td class="left" width="200"> 
-							 <a href="boardAdminReportContent.admin?board_sq=${board.board_sq}&
+						<td class="left td" width="200"> 
+							 <a class="td " href="boardAdminReportContent.admin?board_sq=${board.board_sq}&
 							 	pageNum=${currentPage}">${board.subject}</a> 
 						</td>
 						<td>${board.write_dt }</td>
@@ -60,16 +60,16 @@
 				</c:forEach>
 			</c:if>
 		</table>
-		
-		<div style="text-align:center;">
+		<br>
+ 		<div class="pagination" >
 			<c:if test="${startPage > blockSize }">
-				<a href="boardAdminOtherList.admin?pageNum=${startPage - blockSize }&board_cd=${board_cd}&bp=${bp }">[이전]</a>
+				<a href="boardAdminReportList.admin?pageNum=${startPage - blockSize }">« Prev</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage }" end="${endPage }">
-				<a href="boardAdminOtherList.admin?pageNum=${i }&board_cd=${board_cd}&bp=${bp }">[${i }]</a>
+				<a href="boardAdminReportList.admin?pageNum=${i }"> ${i}</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
-				<a href="boardAdminOtherList.admin?pageNum=${startPage + blockSize }&board_cd=${board_cd}&bp=${bp }">[다음]</a>
+				<a href="boardAdminReportList.admin?pageNum=${startPage + blockSize }">Next »</a>
 			</c:if>
 		</div>
 	</div>

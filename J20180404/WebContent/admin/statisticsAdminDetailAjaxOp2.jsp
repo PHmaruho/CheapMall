@@ -96,12 +96,13 @@
 </script>
 </head>
 <body>
+	<br>
 	<canvas id="ssumChart" width="400" height="400"></canvas>
 	<canvas id="rsumChart" width="400" height="400"></canvas>
-	
+	<br><br>
 	<table id="op2Table">
 		<tr>
-			<th>구분</th><th>회원수</th><th>구매</th><th>반품</th><th>반품률</th>
+			<th class="th">구분</th><th class="th">회원수</th><th class="th">구매</th><th class="th">반품</th><th class="th">반품률</th>
 			<c:forEach var="list" items="${list }">
 				<tr>
 					<td>${list.g }</td>

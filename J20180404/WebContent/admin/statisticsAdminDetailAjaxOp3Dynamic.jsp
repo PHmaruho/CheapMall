@@ -18,30 +18,33 @@
 </style>
 </head>
 <body>
-	<table class="dynamic">
+<br><br>
+	<table class="dynamic table">
 		<tr>
 			<c:forEach var="ct" items="${columnType }">
 				<c:choose>
-					<c:when test="${ct eq 'cAddr' }"><th>주소</th></c:when>
-					<c:when test="${ct eq 'cGrade' }"><th>등급</th></c:when>
-					<c:when test="${ct eq 'cGender' }"><th>성별</th></c:when>
-					<c:otherwise><th>연령</th></c:otherwise>
+					<c:when test="${ct eq 'cAddr' }"><th class="th">주소</th></c:when>
+					<c:when test="${ct eq 'cGrade' }"><th class="th">등급</th></c:when>
+					<c:when test="${ct eq 'cGender' }"><th class="th">성별</th></c:when>
+					<c:otherwise><th class="th">연령</th></c:otherwise>
 				</c:choose>
 			</c:forEach>
 			<c:forEach var="rt" items="${resultType }">
 				<c:choose>
-					<c:when test="${rt eq 'rCnt' }"><th>회원수</th></c:when>
-					<c:when test="${rt eq 'rSsum' }"><th>매출액</th></c:when>
-					<c:otherwise><th>반품액</th></c:otherwise>
+					<c:when test="${rt eq 'rCnt' }"><th class="th">회원수</th></c:when>
+					<c:when test="${rt eq 'rSsum' }"><th class="th">매출액</th></c:when>
+					<c:otherwise><th class="th">반품액</th></c:otherwise>
 				</c:choose>
 			</c:forEach>
 		</tr>
+				<br><br>
+		
 		<c:forEach var="list" items="${list }">
 			<tr>
 				<c:forEach var="ct" items="${columnType }">
 				<c:choose>
 					<c:when test="${ct eq 'cAddr' }"><td>${list.addr }</td></c:when>
-					<c:when test="${ct eq 'cGrade' }"><td>${list.grade }</td></c:when>
+					<c:when test="${ct eq 'cGrade' }"><td >${list.grade }</td></c:when>
 					<c:when test="${ct eq 'cGender' }"><td>${list.gender }</td></c:when>
 					<c:otherwise><td>${list.year }</td></c:otherwise>
 				</c:choose>

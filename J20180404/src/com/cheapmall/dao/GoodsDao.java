@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1135,6 +1136,52 @@ public class GoodsDao {
 			DisConnection(conn, ps, rs);
 		}
 		return list;
+	}
+	
+	public int checkGoodsCode(String code) throws SQLException {
+		int result = 0;
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection conn = null;
+		String sql = "select cd from goods where cd=upper(?)";
+		conn = getConnection();
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, code);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				result = 1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		return result;
+	}
+
+	public void checkSameGoods(String cd, String[] color, Date date, Date date2)
+			throws SQLException {
+		String sql = "update goods set end_dt=sysdate where cd=? and color=?";
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Connection conn = null;
+		int result = 0;
+		try {
+			for (int i = 0; i < color.length; i++) {
+				conn = getConnection();
+				ps = conn.prepareStatement(sql);
+				ps.setString(1, cd);
+				ps.setString(2, color[i]);
+				result = ps.executeUpdate();
+				ps.close();
+				conn.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
 	}
 
 }
