@@ -18,6 +18,9 @@
 		});
 
 	});
+	function insertAction(){
+		var popup = window.open('GoodsAdminInsertForm.admin','popup', "width=500, height=500");
+	}
 	
 
 		
@@ -66,7 +69,7 @@
 						<option value="SCA">-스카프</option>
 					</select> 
 					 <input type="submit"  class="btn mini" value="검색"> 
-					 <input type="button"  class="btn mini" value="등록"> 
+					 <input type="button"  class="btn mini" value="등록" onclick="insertAction()"> 
 					 <input type="button"  class="btn mini" value="활성/비활성" id="display">
 				</div>
 			</form>
@@ -105,7 +108,7 @@
 										${goods.sq }</a></td>
 								<td>${goods.cd }</td>
 								<td><img
-									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/thumbnail/${goods.path }.png">${goods.nm }</td>
+									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/thumbnail/sm_${goods.path }.png">${goods.nm }</td>
 								<td>${goods.price }원</td>
 								<td>
 									<c:if test="${goods.gender=='M' }">남자</c:if>
