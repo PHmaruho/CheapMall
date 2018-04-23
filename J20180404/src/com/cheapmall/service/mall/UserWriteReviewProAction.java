@@ -34,8 +34,7 @@ public class UserWriteReviewProAction implements CommandProcess{
 			String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
 			
 			if(id == null) {
-				request.setAttribute("warning", "notLogin");
-				return "cheapmall.jsp";
+				return "reviewNotPro.jsp";
 			}
 			// String id = null;
 			String goods_sq = null;
@@ -43,6 +42,7 @@ public class UserWriteReviewProAction implements CommandProcess{
 			String content = null;
 			String path = null;
 			String goods_cd = null;
+			String dSq = null;
 			int star = 0;
 			if(request.getParameter("method").equals("simple")) {
 				// id = request.getParameter("id");
@@ -51,6 +51,7 @@ public class UserWriteReviewProAction implements CommandProcess{
 				content = request.getParameter("content");
 				goods_cd = request.getParameter("goods_cd");
 				star = Integer.parseInt(request.getParameter("star"));
+				dSq = request.getParameter("dSq");
 				path = "";
 			} else if(request.getParameter("method").equals("photo")) {
 				
@@ -71,6 +72,7 @@ public class UserWriteReviewProAction implements CommandProcess{
 				content = multi.getParameter("content");
 				goods_cd = multi.getParameter("goods_cd");
 				star = Integer.parseInt(multi.getParameter("star"));
+				dSq = multi.getParameter("dSq");
 				
 				String uploadName = multi.getFile("pic").getName() == null ? "" : multi.getFile("pic").getName();
 				String realName = goods_sq;
@@ -124,7 +126,8 @@ public class UserWriteReviewProAction implements CommandProcess{
 
 			
 			BoardDao boardDao = BoardDao.getInstance();
-			int result = boardDao.writeReview(reviewDto);
+			int result = boardDao.writeReview(reviewDto, dSq);
+			request.setAttribute("result", 2);
 			
 //			if(result == 1) {
 //				System.out.println("@@@@@@@@@@@@@@@@###SSSCUSUCSUCUSCUSUCSUCUS");
@@ -139,7 +142,6 @@ public class UserWriteReviewProAction implements CommandProcess{
 			System.out.println("UserWriteReviewProAction Error");
 			e.printStackTrace();
 		}
-		request.setAttribute("pageSet", "/mall/userWriteReviewPro.jsp");
-		return "/mall/cheapmall.jsp";
+		return "reviewNotPro.jsp";
 	}
 }

@@ -58,6 +58,7 @@
 		<input type="hidden" name="goods_sq" value="${goods_sq }">
 		<input type="hidden" name="ip" value="${ip }">
 		<input type="hidden" name="goods_cd" value="${goodsDto.cd }">
+		<input type="hidden" name="dSq" value="${dSq}">
 		
 		<table border="1">
 			<tr>

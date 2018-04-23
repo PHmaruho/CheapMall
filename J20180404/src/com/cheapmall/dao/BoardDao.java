@@ -553,12 +553,12 @@ public class BoardDao{
 		
 		return json;
 	}
-	public int writeReview(ReviewDto reviewDto) throws SQLException{
+	public int writeReview(ReviewDto reviewDto, String dSq) throws SQLException{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
 		String sql = "INSERT INTO review"
-				+ "	VALUES('R' || LPAD(review_sq.nextval, 9, '0'), ?, sysdate, ?, 0, 0, 0, ?, ?, ?, ?)";
+				+ "	VALUES('R' || LPAD(review_sq.nextval, 9, '0'), ?, sysdate, ?, 0, 0, 0, ?, ?, ?, ?, ?)";
 		int result = 0;
 		
 		try {
@@ -574,6 +574,7 @@ public class BoardDao{
 			} else {
 				ps.setString(6, reviewDto.getPath());
 			}
+			ps.setString(7, dSq);
 			result = ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -608,7 +609,7 @@ public class BoardDao{
 		}
 	}
 
-	public ReviewDto getReviewOne(String sq) throws SQLException{
+	public ReviewDto getReviewOne(String sq, String dSq) throws SQLException{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -663,6 +664,37 @@ public class BoardDao{
 			e.printStackTrace();
 		} finally {
 			DisConnection(conn, ps, null);
+		}
+		
+		return result;
+	}
+	
+	public int checkReviewWrite(String dSq) throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT * from review WHERE order_detail_sq = ?";
+		int result = 0;
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, dSq);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				result = 1;
+			} else {
+				result = 0;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("CheckReviewWrite Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
 		}
 		
 		return result;

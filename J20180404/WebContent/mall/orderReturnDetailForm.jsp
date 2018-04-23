@@ -17,6 +17,9 @@ function checkReturnDetail(){
 	}
 }
 
+function openReview(dSq, goods_sq){
+	var popup = window.open("UserWriteReviewForm.mall?dSq="+dSq+"&goods_sq="+goods_sq,'popup', "width=500, height=500");
+}
 </script>
 <style>
 	#main{
@@ -39,6 +42,7 @@ function checkReturnDetail(){
 					<th>판매가</th>
 					<th>수량</th>
 					<th>반품체크</th>
+					<th>후기등록</th>
 				</tr>
 				
 				<c:if test="${count>0 }">
@@ -59,6 +63,11 @@ function checkReturnDetail(){
 								<c:if test="${fn:contains(checkCd,'R')&& fn:contains(checkCd,'O0')&& fn:contains(checkCd,'O5') }">
 								</c:if>
 							</td>
+							<td>
+								<c:if test="${checkCd eq 'O3' || checkCd eq 'O4' }">
+									<input type="button" value="후기작성" onclick="openReview('${order.order_sq }', '${order.path }')">							
+								</c:if>
+							<td>
 						</tr>
 					</c:forEach>
 				</c:if>

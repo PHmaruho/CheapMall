@@ -22,7 +22,6 @@
 			} else if('${returnList}' == 'main'){
 				location.href="Cheap.mall";
 			}
-			
 			location.href="Cheap.mall";
 		} else if ('${report}' != null) {
 				alert('${report}' + " 까지 정지된 회원입니다.");
