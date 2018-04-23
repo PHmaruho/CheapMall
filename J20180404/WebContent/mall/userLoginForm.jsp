@@ -108,7 +108,7 @@ table {
 			}
 		}
 		function goFind() {
-			location.href = "index_CWI_2.jsp";
+			location.href = "userFindId.mall";
 		}
 		function goRegist() {
 			location.href = "UserRegistForm.mall";

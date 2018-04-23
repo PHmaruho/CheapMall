@@ -7,29 +7,45 @@
 <title>Cheap Mall</title>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
+	var showFlag = 0;
+	
+	function setFlag (flag) {
+		showFlag = flag;
+	}
+	
 	function show() {
-		var type = $("#showSelect").val();
+		if (showFlag) {
+			var type = $("#showSelect").val();
+			$.ajax({
+				type:"POST",
+				url: "statisticsAdminDetailAjax.admin",
+				data:{type : type},
+				success: function(data){
+					$('#graph').html("");
+					$('#graph').html(data);
+				}
+			});
+		}
 		
-		$.ajax({
-			type:"POST",
-			url: "UserIdCompareAjax.mall",
-			data:{type : type},
-			success: function(data){
-				$('#graph').html("");
-			}
-		});
+		setFlag(0);
 	}
 </script>
 </head>
 <body>
-	<select id="showSelect">
-		<option value="op1">종합</option>
-		<option value="op2">가격대별 판매액, 반품액, 구매자수</option>
-		<option value="op3">상품별 달린 리뷰 수</option>
-		<option value="op4">등급별 사용자 수</option>
-	</select>
-	<button onclick="show()">조회</button>
+	<div id="wrap">
+		<jsp:include page="adminMenuList.jsp" />
+	</div>
 	
-	<div id="graph"></div>
+	<div id="main">
+		<select id="showSelect" onchange="setFlag(1)">
+			<option value="op1">종합</option>
+			<option value="op2">가격대별 판매액, 반품액, 구매자수</option>
+			<option value="op3">주소별, 등급별, 성별, 언령별 회원수, 매출액, 반품액</option>
+			<option value="op4">상품별 달린 리뷰 수</option>
+		</select>
+		<button onclick="show()">조회</button>
+		
+		<div id="graph"></div>
+	</div>
 </body>
 </html>

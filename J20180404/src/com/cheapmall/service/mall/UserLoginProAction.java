@@ -1,6 +1,7 @@
 package com.cheapmall.service.mall;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,14 @@ public class UserLoginProAction implements CommandProcess{
 			request.setAttribute("middle_category", middle_category);
 			
 			MemberDao memberDao = MemberDao.getInstance();
+			
+			Date report = memberDao.checkReport(id);	//	2018-04-22 최우일 : 정지회원 검사
+			if (report != null) {
+				request.setAttribute("report", report);
+				request.setAttribute("pageSet", "/mall/userLoginPro.jsp");
+				return "/mall/cheapmall.jsp";
+			}
+			
 			int result = memberDao.userLoginCheck(id, pw);
 			if(result == 1) {
 				// 로그인 성공 시, session에 id를 저장한다.
