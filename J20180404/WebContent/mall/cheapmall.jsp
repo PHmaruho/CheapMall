@@ -6,41 +6,51 @@
 <head>
 <title>Cheap Mall</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript" src="../js/jquery-ui.js"></script>
-<link rel="stylesheet" type="text/css" href="../js/jquery-ui.css">
+<link rel="stylesheet" href="../js/bootstrap.min.css">
 <style type="text/css">
 .topLayout {
+	position: absolute;
 	width: 100%;
-	height: 120px;
-	border-style: none;
+	height: 20%;
+	border-bottom-style: none;
+}
+
+.line {
+	position: absolute;
+	width: 80%;
+	height: 2px;
+	left: 10%;
+	top: 100%;
+	background-color: gray;
+	margin: 0;
 }
 
 .menuLayout {
+	position: absolute;
 	width: 10%;
-	height: 1300px;
-	float: left;
+	height: 80%;
+	top: 20%;
 	background-color: white;
 	border-style: none;
 }
 
 .mainLayout {
+	position: absolute;
 	width: 80%;
 	height: 1500px;
-	float: left;
+	left: 10%;
+	top: 25%;
 	border-style: none;
 }
 
 .footerLayout {
+	position: absolute;
 	width: 80%;
-	height: 200px;
+	height: 20%;
+	top: 1600px;
 	background: #cc;
-	clear: both;
-	margin-left: 10%;
-	border-top-width: 3px;
-	border-bottom-style: none;
-	border-left-style: none;
-	border-right-style: none;
+	left: 10%;
+	border-style: none;
 }
 </style>
 <script type="text/javascript">
@@ -62,6 +72,7 @@
 <body>
 	<div class="topLayout">
 		<jsp:include page="menu/top.jsp" />
+		<hr class="line">
 	</div>
 
 	<div class="menuLayout">
@@ -81,78 +92,45 @@
 		<jsp:include page="menu/footer.jsp" />
 	</div>
 </body>
-
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="../js/jquery-ui.css">
 <script type="text/javascript">
-$('#search').autocomplete({
-	focus: function(event, ui){
-		return false;
-	},
-	matchContains: false,
-	selectFirst: false,
-	autoFocus: false,
-	source: function(request, response) {
-		var flag = true;
-		$.ajax({
-			type: "POST",
-			url: "SearchPro.mall",
-			data: {keyword:request.term},
-			success: function(data) {
-				var list = JSON.parse(data);
-				response($.map(list.keywords, function(item){
-					return {
-						label: item,
-						value: item
-					}
-				}));
-			}
-		});
-	}
-});
-$('#searchTextIn').autocomplete({
-	focus: function(event, ui){
-		return false;
-	},
-	matchContains: false,
-	selectFirst: false,
-	autoFocus: false,
-	source: function(request, response) {
-		var flag = true;
-		$.ajax({
-			type: "POST",
-			url: "SearchPro.mall",
-			data: {keyword:request.term},
-			success: function(data) {
-				var list = JSON.parse(data);
-				response($.map(list.keywords, function(item){
-					return {
-						label: item,
-						value: item
-					}
-				}));
-			}
-		});
-	}
-});
+	$('#search').autocomplete({
+		focus : function(event, ui) {
+			return false;
+		},
+		matchContains : false,
+		selectFirst : false,
+		autoFocus : false,
+		source : function(request, response) {
+			var flag = true;
+			$.ajax({
+				type : "POST",
+				url : "SearchPro.mall",
+				data : {
+					keyword : request.term
+				},
+				success : function(data) {
+					var list = JSON.parse(data);
+					response($.map(list.keywords, function(item) {
+						return {
+							label : item,
+							value : item
+						}
+					}));
+				}
+			});
+		}
+	});
 
-function searchAction1(event){
-	if(event.keyCode == 13){
-		var keyword = $('#search').val();
-		if(keyword == ''){
-			alert("검색어를 입력해주세요.");
-			return false;
+	function searchAction1(event) {
+		if (event.keyCode == 13) {
+			var keyword = $('#search').val();
+			alert($('#search').val());
+			location.href = "SearchResult.mall?keyword=" + keyword;
 		}
-		location.href="SearchResult.mall?keyword="+keyword;
+
 	}
-}
-function MsearchAction1(event){
-	if(event.which == 1){
-		var keyword = $('#searchTextIn').val();
-		if(keyword == ''){
-			alert("검색어를 입력해주세요.");
-			return false;
-		}
-		location.href="SearchResult.mall?keyword="+keyword;
-	}
-}
 </script>
 </html>

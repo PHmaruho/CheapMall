@@ -7,7 +7,9 @@
 <title>Cheap Mall</title>
 <style type="text/css">
 .container {
-	position: relative;
+	position: absolute;
+	width : 100%;
+	height : 100%;
 	border-style: none;
 }
 
@@ -18,27 +20,41 @@ form {
 #find {
 	position: absolute;
 	left: 140px;
-	top: 80px;
+	top: 90px;
+	background-color: rgba(255, 255, 255, 0);
+	border-color: gray;
 }
 
 #regist {
 	position: absolute;
 	left: 40px;
-	top: 80px;
+	top: 90px;
+	background-color: rgba(255, 255, 255, 0);
+	border-color: gray;
 }
 
 table {
 	position: absolute;
-	left: 400px;
-	top: 50px;
+	left: 40%;
+	top: 5%;
 	display: inline-block;
 }
 
 .submit {
 	border-style: none;
 	position: absolute;
-	left: 650px;
-	top: 60px;
+	left: 60%;
+	top: 5.5%;
+}
+
+#login1 {
+	background-color: rgba(255, 255, 255, 0);
+	color: gray;
+	padding: 20px 16px;
+}
+
+#login1:hover, #regist:hover, #find:hover {
+	border-width: 2px;
 }
 
 .container table th, td {
@@ -46,24 +62,22 @@ table {
 }
 
 .h {
-	border-right-style: none;
-	border-left-style: none;
-	border-top-style: none;
-	border-bottom-width: 3px;
+	border-style: none;
+	position: absolute;
+	left: 50%;
 }
 </style>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="../js/bootstrap.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<div class="h">
-		<h2>로그인</h2>
-	</div>
 	<div class="container">
+		<div class="h">
+			<h2>로그인</h2>
+		</div>
 		<form method="post" action="UserLoginPro.mall" onsubmit="return chk()">
 			<!-- List에서 왔을 수도 있으므로 이건 들고 있는다. -->
 			<input type="hidden" value="${gender }" name="gender"> <input
@@ -90,7 +104,7 @@ table {
 			</table>
 
 			<input type="submit" required="required"
-				class="submit btn btn-info btn-lg" value="로그인">
+				class="submit btn btn-info btn-lg" value="로그인" id="login1">
 
 		</form>
 	</div>
@@ -108,7 +122,7 @@ table {
 			}
 		}
 		function goFind() {
-			location.href = "userFindId.mall";
+			location.href = "index_CWI_2.jsp";
 		}
 		function goRegist() {
 			location.href = "UserRegistForm.mall";

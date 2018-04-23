@@ -76,8 +76,6 @@
 </script>
 </head>
 <body>
-	<a href="userFindId.mall">아이디 찾으러 가기</a><br>
-	<h1>비밀번호 찾기</h1><br>
 	<label>아이디</label><input type="text" id="id"><br>
 	<label>이메일</label><input type="text" id="email">
 	<input type="button" value="인증번호 요청" onclick="okBtn()"><br>

@@ -933,14 +933,14 @@ public class GoodsDao {
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		Connection conn = null;
-		String sql = "select count(*) from goods where gender=? and top_category=? and middle_category=?";
+		String sql = "select count(*) from goods where middle_category=?";
 		String sql2 = "select LPAD(?,7,0) from dual";
 		try {
 			conn = getConnection();
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, gender);
-			ps.setString(2, top_category);
-			ps.setString(3, middle_category);
+/*			ps.setString(1, gender);
+			ps.setString(2, top_category);*/
+			ps.setString(1, middle_category);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				num = rs.getInt(1) + 1;

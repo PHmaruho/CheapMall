@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="../js/bootstrap.min.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -83,141 +84,187 @@
     	}
     }
 </script>
+<style type="text/css">
+.container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+}
+
+.h {
+	position: relative;
+	border-style: none;
+	left: 45%;
+}
+
+.usermodifytb {
+	position: relative;
+	width: 60%;
+	left: 20%;
+	border-style: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+.usermodifytb tr td, th {
+	padding-top: 5px;
+}
+
+.usermodifytb td {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #E5E1E1;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: #E5E1E1;
+	padding-left: 40px;
+}
+
+.usermodifytb th {
+	background-color: #E5E1E1;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #979797;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+
+#usermodifybtn1, #usermodifybtn2 {
+	position : relative;
+	left : 20%;
+	margin-top : 10px;
+	border-style: solid;
+	border-width: 1px;
+	/* border-color: gray; */
+	background-color: rgba(255, 255, 255, 0);
+	color: black;
+}
+
+#usermodifybtn1:hover, #usermodifybtn2:hover {
+	border-width: 2px;
+	padding: 5px 11px;
+}
+</style>
 </head>
 <body>
-<div class="formDiv">
-	<form action="UserModifyPro.mall" method="post">
-		<table border="1">
-			<tr>
-				<th> ID </th>
-				<td>
-					${usersDto.id }
-					<!-- 나중에 세션값을 출력한다. 지금은 임의로 지정한다. -->
-					<input type="hidden" value="${usersDto.id }" name="id">
-				</td>
-			</tr>
-			<tr>
-				<th> 이름 </th>
-				<td>
-					<input type="text" value="${usersDto.nm }" id="name" name="nm">
-				</td>
-			</tr>
-			<tr>
-				<th> 비밀번호 </th>
-				<td>
-					<input type="button" value="비밀번호 변경" id="pw" onclick="pwPopup()">
-				</td>
-			</tr>
-			<tr>
-				<th> 생년월일 </th>
-				<td>
-					<input type="text" value="${usersDto.birth }" id="birth" name="birth" onclick="datePic()">
-				</td>
-			</tr>
-			<tr>
-				<th> 전화번호 </th>
-				<td>
-					<select name="tel">
-						<c:if test="${fn:substring(usersDto.tel, 0, 3) == '010'}">
-							<option value="010" selected="selected">010</option>
-							<option value="016">016</option>
-							<option value="017">017</option>
-						</c:if>
-						<c:if test="${fn:substring(usersDto.tel, 0, 3) == '016'}">
-							<option value="010">010</option>
-							<option value="016" selected="selected">016</option>
-							<option value="017">017</option>
-						</c:if>
-						<c:if test="${fn:substring(usersDto.tel, 0, 3) == '017'}">
-							<option value="010">010</option>
-							<option value="016">016</option>
-							<option value="017" selected="selected">017</option>
-						</c:if>
-					</select> -
-					<c:if test="${fn:length(usersDto.tel) < 11 }">
-						<input type="text" value="${fn:substring(usersDto.tel, 3, 6)}" max="4" id="tel1" name="tel1"> -
-						<input type="text" value="${fn:substring(usersDto.tel, 6, 10)}" max="4" id="tel2" name="tel2">  
-					</c:if>
-					<c:if test="${fn:length(usersDto.tel) >= 11}">
-						<input type="text" value="${fn:substring(usersDto.tel, 3, 7)}" max="4" id="tel1" name="tel1"> - 
-						<input type="text" value="${fn:substring(usersDto.tel, 7, 11)}" max="4" id="tel2" name="tel2"> 
-					</c:if>
-				</td>
-			</tr>
-			<tr>
-				<th rowspan="2"> 주소 </th>
-				<td>
-					<input type="text" width="6" value="${usersDto.zipcode }" id="zipcode" name="zipcode">
-					<input type="button" value="우편번호찾기" onclick="findZipcode()">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="text" width="30" value="${usersDto.addr }" id="addr" name="addr">
-				</td>
-			</tr>
-			<tr>
-				<th> 상세주소 </th>
-				<td>
-					<input type="text" width="30" value="${usersDto.addr_detail }" id="addr_detail" name="addr_detail">
-				</td>
-			</tr>
-			<tr>
-				<th> 이메일 </th>
-				<td>
-					<input type="email" value="${usersDto.email }" id="email" name="email">
-				</td>
-			</tr>
-			<tr>
-				<th> 성별 </th>
-				<td>
-					<c:if test="${usersDto.gender eq 'M' }">
-						<input type="radio" name="gender" id="M" checked="checked" value="M"> 남자
+	<div class="container">
+		<div class="h">
+			<h2>회원정보 수정</h2>
+		</div>
+		<form action="UserModifyPro.mall" method="post">
+			<table class="usermodifytb">
+				<tr>
+					<th>ID</th>
+					<td>${usersDto.id }<!-- 나중에 세션값을 출력한다. 지금은 임의로 지정한다. --> <input
+						type="hidden" value="${usersDto.id }" name="id">
+					</td>
+				</tr>
+				<tr>
+					<th>이름</th>
+					<td><input type="text" value="${usersDto.nm }" id="name"
+						name="nm"></td>
+				</tr>
+				<tr>
+					<th>비밀번호</th>
+					<td><input type="button" value="비밀번호 변경" id="pw"
+						onclick="pwPopup()"></td>
+				</tr>
+				<tr>
+					<th>생년월일</th>
+					<td><input type="text" value="${usersDto.birth }" id="birth"
+						name="birth" onclick="datePic()"></td>
+				</tr>
+				<tr>
+					<th>전화번호</th>
+					<td><select name="tel">
+							<c:if test="${fn:substring(usersDto.tel, 0, 3) == '010'}">
+								<option value="010" selected="selected">010</option>
+								<option value="016">016</option>
+								<option value="017">017</option>
+							</c:if>
+							<c:if test="${fn:substring(usersDto.tel, 0, 3) == '016'}">
+								<option value="010">010</option>
+								<option value="016" selected="selected">016</option>
+								<option value="017">017</option>
+							</c:if>
+							<c:if test="${fn:substring(usersDto.tel, 0, 3) == '017'}">
+								<option value="010">010</option>
+								<option value="016">016</option>
+								<option value="017" selected="selected">017</option>
+							</c:if>
+					</select> - <c:if test="${fn:length(usersDto.tel) < 11 }">
+							<input type="text" value="${fn:substring(usersDto.tel, 3, 6)}"
+								max="4" id="tel1" name="tel1"> -
+						<input type="text" value="${fn:substring(usersDto.tel, 6, 10)}"
+								max="4" id="tel2" name="tel2">
+						</c:if> <c:if test="${fn:length(usersDto.tel) >= 11}">
+							<input type="text" value="${fn:substring(usersDto.tel, 3, 7)}"
+								max="4" id="tel1" name="tel1"> - 
+						<input type="text" value="${fn:substring(usersDto.tel, 7, 11)}"
+								max="4" id="tel2" name="tel2">
+						</c:if></td>
+				</tr>
+				<tr>
+					<th rowspan="2">주소</th>
+					<td><input type="text" width="6" value="${usersDto.zipcode }"
+						id="zipcode" name="zipcode"> <input type="button"
+						value="우편번호찾기" onclick="findZipcode()"></td>
+				</tr>
+				<tr>
+					<td><input type="text" width="30" value="${usersDto.addr }"
+						id="addr" name="addr"></td>
+				</tr>
+				<tr>
+					<th>상세주소</th>
+					<td><input type="text" width="30"
+						value="${usersDto.addr_detail }" id="addr_detail"
+						name="addr_detail"></td>
+				</tr>
+				<tr>
+					<th>이메일</th>
+					<td><input type="email" value="${usersDto.email }" id="email"
+						name="email"></td>
+				</tr>
+				<tr>
+					<th>성별</th>
+					<td><c:if test="${usersDto.gender eq 'M' }">
+							<input type="radio" name="gender" id="M" checked="checked"
+								value="M"> 남자
 						<input type="radio" name="gender" id="F" value="여자" value="F"> 여자
-					</c:if>
-					<c:if test="${usersDto.gender eq 'F' }">
-						<input type="radio" name="gender" id="M" value="M"> 남자
-						<input type="radio" name="gender" id="F" checked="checked" value="F"> 여자
-					</c:if>
-				</td>
-			</tr>
-			<tr>
-				<th> 등급 </th>
-				<td>
-					<c:if test="${usersDto.grade eq 'G0' }">
+					</c:if> <c:if test="${usersDto.gender eq 'F' }">
+							<input type="radio" name="gender" id="M" value="M"> 남자
+						<input type="radio" name="gender" id="F" checked="checked"
+								value="F"> 여자
+					</c:if></td>
+				</tr>
+				<tr>
+					<th>등급</th>
+					<td><c:if test="${usersDto.grade eq 'G0' }">
 						Bronze
-					</c:if>
-					<c:if test="${usersDto.grade eq 'G1' }">
+					</c:if> <c:if test="${usersDto.grade eq 'G1' }">
 						Silver
-					</c:if>
-					<c:if test="${usersDto.grade eq 'G2' }">
+					</c:if> <c:if test="${usersDto.grade eq 'G2' }">
 						Gold
-					</c:if>
-					<c:if test="${usersDto.grade eq 'G3' }">
+					</c:if> <c:if test="${usersDto.grade eq 'G3' }">
 						Platinum
-					</c:if>
-					<c:if test="${usersDto.grade eq 'G4' }">
+					</c:if> <c:if test="${usersDto.grade eq 'G4' }">
 						Diamond
-					</c:if>
-					<c:if test="${usersDto.grade eq 'G5' }">
+					</c:if> <c:if test="${usersDto.grade eq 'G5' }">
 						VIP
-					</c:if>
-				</td>
-			</tr>
-			<tr>
-				<th> 포인트 </th>
-				<td>
-					포인트 : ${usersDto.point }
-				</td>
-			</tr>
-			<tr style="align:center;">
-				<td colspan="2">
-					<input type="submit" value="변경하기">
-					<input type="button" value="취소하기" onclick="returnMyPage()">
-				</td>
-			</tr>
-		</table>
-	</form>
-</div>
+					</c:if></td>
+				</tr>
+				<tr>
+					<th>포인트</th>
+					<td>포인트 : ${usersDto.point }</td>
+				</tr>
+			</table>
+			<input type="submit" value="변경하기" class="btn btn-success"
+				id="usermodifybtn1"> <input type="button" value="취소하기"
+				onclick="returnMyPage()" class="btn btn-danger" id="usermodifybtn2">
+		</form>
+	</div>
 </body>
 </html>
