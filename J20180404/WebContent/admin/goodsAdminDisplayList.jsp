@@ -74,7 +74,7 @@
 			<br>
 			<br>
 			<form action="goodsAdminUpdateDisplayPro.admin">
-				<table border="1">
+				<table class="table" border="1">
 					<tr>
 						<th>상품Id</th>
 						<th>코드</th>
@@ -154,27 +154,28 @@
 						</c:forEach>
 					</c:if>
 				</table>
+			<br>
 	
- 			<div class="mainC" >
+ 		<div class="pagination" >
 
 					<c:if test="${ startPage > blockSize }">
 						<a
 							href='GoodsAdminDisplayList.admin?pageNum=${startPage-blockSize }&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'>
-							[이전] </a>
+							« Prev</a>
 					</c:if>
 	
 	
 	
 					<c:forEach var="i" begin="${startPage }" end="${endPage }">
-						<a href='GoodsAdminDisplayList.admin?pageNum=${i}&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'> [${i }] </a>
+						<a href='GoodsAdminDisplayList.admin?pageNum=${i}&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'> ${i}</a>
 					</c:forEach>
 	
 					<c:if test="${endPage<totalPage }">
 						<a
 							href='GoodsAdminDisplayList.admin?pageNum=${startPage+blockSize }&gender=${gender}&top_category=${top_category}&middle_category=${middle_category}'>
-							[다음] </a>
+							Next »</a>
 					</c:if>
-	
+				</div>
 				<div class="mainF">
 					<input type="submit"value="확인"  class="btn mini goodsShow" id="cssStyle"
 						 display: none;">

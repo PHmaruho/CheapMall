@@ -52,13 +52,13 @@ function SetEmailTail(emailValue) {
      </c:if>
 </div>
 
-<div id="main">
+	<div id="main" class="main">
 <h3>관리자 등록</h3>
 <form action="AdminInsertPro.admin?pageNum=${pageNum }" name="frm" onsubmit="return chk()" >
 <input type="hidden" name="pageNum" value="${pageNum }">
 
 		<table class="table" border="1" >
-<tr>
+			<tr class="tr">
 	<th class="th">ID</th>
 	<td><input type="text" name="id" required="required">
 	<a href="#" class="a" onclick="winop()"></a></td>
@@ -141,14 +141,13 @@ function SetEmailTail(emailValue) {
    </select>
 	   </td>
    </tr>
-  	<tr>
-		<td colspan="2">
+   	</table>
+  	<br>
+  	 <div class="mainF" >
 			<input type="button" class="btn mini" onclick="location.href='AdminForm.admin'" value="뒤로가기">
 		  	<input type="reset" class="btn mini" value="초기화" >
 			<input type="submit"  class="btn mini" value="등록하기" >
-		</td>
-	</tr>
-	</table>
+	</div>
 </form>
 </div> 
 		

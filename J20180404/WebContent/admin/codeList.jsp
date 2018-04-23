@@ -21,9 +21,9 @@ td{
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
 	<div id="main" class="main">
-		<table class="table" border="1">
 		<h1>코드 목록</h1>
-		
+		<br><br>
+		<table class="table" border="1">
 			<tr>
 				<th class="th">번호</th>
 				<th class="th">코드</th>

@@ -144,7 +144,6 @@ color: white;
 	 border-collapse:collapse; 
 	 border:1px gray solid;
 	 width : 80%;
-	 padding : 50px;
 }
 
 
@@ -152,14 +151,27 @@ color: white;
   background: #333;
   border: 1px solid #333;
   color: #ffffff;
-	cellpadding: 30px;
 
 }
 
 .th.td {
 	    font:bold 12px tahoma;  
+	    
 	
 }
+
+.tdh {
+	    text-decoration: none;
+	    
+	    
+}
+
+.tdh:hover  {
+	background-color: black;
+	color : white;
+}
+	
+
 
 .btn.mini {
   padding: 4px 12px;  
