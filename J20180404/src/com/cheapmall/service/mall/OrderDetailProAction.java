@@ -25,14 +25,11 @@ public class OrderDetailProAction implements CommandProcess{
 				return "cheapmall.jsp";
 			}
 			
-			
-			
 			String[] goods_sq = request.getParameterValues("goods_sq");
 			String[] cart_sq = request.getParameterValues("cart_sq") == null ? null : request.getParameterValues("cart_sq");
 			String[] s_origin_price = request.getParameterValues("origin_price");
 			String[] s_dc_price = request.getParameterValues("dc_price");
 			String[] s_cnt = request.getParameterValues("cnt");
-	
 			
 			int delivery_fee = request.getParameter("delivery_fee") == null ? 0 :Integer.parseInt(request.getParameter("delivery_fee"));
 			int total = Integer.parseInt(request.getParameter("total"));

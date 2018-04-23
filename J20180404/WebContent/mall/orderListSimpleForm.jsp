@@ -69,7 +69,7 @@
 							</c:if>	
 						</td>
 					<td width="400" align="center" >
-						총 ${list.origin_price+ delivery_fee-list.use_ } 원
+						총 ${list.origin_price+ delivery_fee} 원
 					</td>
 					<td width="10%" align="center" >
 						${list.order_cd }
