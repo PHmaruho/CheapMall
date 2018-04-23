@@ -12,6 +12,7 @@
 	(function(){
 		if('${result}' == '0'){
 			alert("로그인 정보를 알 수 없습니다!");
+			return false;
 			location.href="UserLoginForm.mall";
 		} else if('${result}' == '1'){
 			alert("로그인이 되었습니다.");
@@ -23,7 +24,12 @@
 				location.href="Cheap.mall";
 			}
 			
+			return false;
 			location.href="Cheap.mall";
+		} else if ('${report}' != null) {
+				alert('${report}' + " 까지 정지된 회원입니다.");
+				return false;
+				location.href="UserLoginForm.mall";
 		}
 	})()
 </script>

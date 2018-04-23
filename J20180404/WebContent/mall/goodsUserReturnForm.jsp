@@ -51,9 +51,9 @@ function getDetail(){
 					<th>주문번호</th>
 					<td>
 						<c:if test="${!fn:contains(checkCd,'반품')}">
-						     ${order.order_sq }
+						     <a href="javascript:getDetail('order_sq');" id="selectDetail">
 						 	 <input type="hidden" id="order_sq" name="order_sq" value="${order.order_sq}">
-						     <input type="button" onclick="javascript:getDetail('order_sq')" id="selectDetail" value="상품확인">
+						     ${order.order_sq }</a>
 						</c:if>
 						<c:if test="${fn:contains(checkCd,'반품')}">
 						     ${order.order_sq }
@@ -135,7 +135,6 @@ function getDetail(){
 			</div> --%>
 				<div style="float: right; padding: 10 10 10 10px!important;">
 					<input type="submit" value="반품" id="submitButton" style="display:none;">
-					<input type="button" value="이전" onclick="window.location='OrderListSimpleForm.mall';">
 					<%-- <input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록"> --%>
 				</div>
 		</form>

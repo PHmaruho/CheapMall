@@ -1,18 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="../js/bootstrap.min.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
 <style type="text/css">
-	.none {
-		display: none
-	}
-	.show {
-		display: block
-	}
+/* .container {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+} */
+
+.none {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
 </style>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script>
@@ -81,7 +91,7 @@
 				alert("자기 자신을 신고할순 없습니다.")
 				return false;
 			}
-			if ($('#checkId').value !== 1) {
+			if ($('#checkId').val() != "1") {
 				alert("대상자 ID가 확인되지 않았습니다.")
 				return false;
 			}
