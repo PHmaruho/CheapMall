@@ -43,6 +43,7 @@ function checkReturnDetail(){
 				
 				<c:if test="${count>0 }">
 					<c:forEach var="order" items="${detailList }">
+						<c:set var="checkCd" value="${order.order_cd }"/>
 						<tr>
 							<td><input type="hidden" name="order_sq" value="${order.order_sq }">${order.order_sq }</td>
 							<td>${order.detail_sq }</td>
@@ -52,7 +53,11 @@ function checkReturnDetail(){
 							<td>${order.origin_price }</td>
 							<td>${order.cnt }</td>
 							<td>
-							<input type="checkbox" name="detail_sq" id="detail_sq" value=${order.detail_sq } onclick="checkReturnDetail()">
+								<c:if test="${!fn:contains(checkCd,'R')&& !fn:contains(checkCd,'O0')&& !fn:contains(checkCd,'O5') }">
+									<input type="checkbox" name="detail_sq" id="detail_sq" value=${order.detail_sq } onclick="checkReturnDetail()">
+								</c:if>
+								<c:if test="${fn:contains(checkCd,'R')&& fn:contains(checkCd,'O0')&& fn:contains(checkCd,'O5') }">
+								</c:if>
 							</td>
 						</tr>
 					</c:forEach>

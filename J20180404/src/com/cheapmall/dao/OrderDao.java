@@ -430,8 +430,9 @@ public List<HashMap> selectOrders(String id, String order_sq) throws SQLExceptio
 		try {
 			conn=getConnection();
 			
-				sql="select d.*,g.nm, g.gender, g.top_category, g.middle_category, g.path from order_detail d, goods g"
-						+ " where order_sq=? and d.goods_sq = g.sq";
+				sql="select d.*,g.nm, g.gender, g.top_category, g.middle_category, g.path,o.order_cd "
+						+ "from order_detail d, goods g, orders o where d.order_sq=? "
+						+ "and d.goods_sq = g.sq and o.order_sq=d.order_sq";
 				ps=conn.prepareStatement(sql);
 				ps.setString(1, order_sq);
 				rs=ps.executeQuery();
@@ -450,6 +451,7 @@ public List<HashMap> selectOrders(String id, String order_sq) throws SQLExceptio
 				map.put("top_category",rs.getString("top_category"));
 				map.put("middle_category",rs.getString("middle_category"));
 				map.put("path",rs.getString("path"));
+				map.put("order_cd", rs.getString("order_cd"));
 				detailList.add(map);
 				System.out.println("rs detail_sq: "+rs.getString("detail_sq"));
 			}
