@@ -491,7 +491,7 @@ public class EtcDao {
 		return result;
 	}
 	// 팝업 주소를 가져옵니다.
-	public List<String> getPopupUrl() throws SQLException {
+	public List<String> getPopupUrl(String c) throws SQLException {
 		
 		List<String> urlL=new ArrayList<>();
 		
@@ -499,7 +499,13 @@ public class EtcDao {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		
-		String sql="select url from popup where sysdate<end_dt and start_dt<sysdate and sq not like '%S%'";
+		String sql="";
+		if (c.equals("main")){
+			sql="select url from popup where sysdate<end_dt and start_dt<sysdate and sq not like '%S%'";
+		}else{
+			sql="select url from popup where sysdate<end_dt and start_dt<sysdate and sq like '%S%'";
+		}
+				
 	
 		try {
 			conn=getConnection();

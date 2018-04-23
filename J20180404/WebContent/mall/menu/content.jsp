@@ -43,6 +43,14 @@
 	margin-left: 19px;
 }
 </style>
+<script type="text/javascript">
+	function subP(){
+		var v="sub";
+		window.open('../admin/popupOpen.admin?sub='+v, 'Cheap Mall',
+				'width=400px, height=500px,left=' + (screen.availWidth - 660)
+						/ 2 + ',top=' + (screen.availHeight - 430) / 2);
+	}
+</script>
 </head>
 <body>
 	<div class="a">
@@ -57,15 +65,18 @@
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner">
 				<div class="item active">
-					<img src="../images/main1.jpg" alt="Los Angeles">
+					<a href="#" onclick="subP()">
+					<img src="../images/main1.jpg" alt="Los Angeles"></a>
 				</div>
 
 				<div class="item">
-					<img src="../images/main2.jpg" alt="Chicago">
+					<a href="#" onclick="subP()">
+					<img src="../images/main2.jpg" alt="Chicago"></a>
 				</div>
 
 				<div class="item">
-					<img src="../images/main3.jpg" alt="New York">
+					<a href="#" onclick="subP()">
+					<img src="../images/main3.jpg" alt="New York"></a>
 				</div>
 			</div>
 

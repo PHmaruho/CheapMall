@@ -20,15 +20,21 @@ public class popupOpenAction implements CommandProcess {
 		
 		try {
 			EtcDao dao=EtcDao.getInstance();
+			String c=request.getParameter("sub")==null? "main":request.getParameter("sub");
 			List<String> urlL=new ArrayList<>();
-			urlL=dao.getPopupUrl();
-			Collections.shuffle(urlL);
-			String url=urlL.get(0);
-			request.setAttribute("url", url);
+			urlL=dao.getPopupUrl(c);
+			int result=0;
 			
-			for(int i=0;i<urlL.size();i++){
-				System.out.println(urlL.get(i));
+			if (urlL==null||urlL.size()==0){
+				result=0;
+			}else{
+				Collections.shuffle(urlL);
+				String url=urlL.get(0);
+				request.setAttribute("url", url);
+				result=1;
 			}
+			
+			request.setAttribute("result", result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
