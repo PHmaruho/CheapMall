@@ -29,9 +29,9 @@ td {
 <script type="text/javascript">
 
 	function deleteCheck() {
-		var chk = $("#checkRow > option:selected").val();
+		var checkIt=$("#checkRow:selected").val();
 		var gubun;
-		if(chk.value = 0) {
+		if(checkIt==0) {
 		    alert("삭제할 항목을 하나이상 선택해주세요.");
 			return false;
 		} else {
@@ -47,16 +47,26 @@ td {
 			return false;
 	}
 	}
+	
+	function displayButton(){
+		var checkIt=$("#checkRow:selected").val();
+		if(checkIt==1){
+			$('#submitB').hide();				
+		}else $('#submitB').show(); 
+		
+	}
 </script>
 </head>
 <body>
 <div id="wrap">
 	<jsp:include page="adminMenuList.jsp" />
 </div>
-	<h2>관리자 리스트 </h2>
+	<div id="main" class="main">
+
+	<h1>관리자 목록 </h1>
 	<form action="AdminFormSearch.admin?pageNum=${pageNum }" method="post">
-		<div style="float:right; padding: 10 10 10 10px! important;" >
-			<select name="how">
+ 		<div class="mainH" >
+ 			<select name="how">
 			<option value="0">항목선택</option>
 			<option value="1">이름</option>
 			<option value="2">권한</option>
@@ -64,8 +74,8 @@ td {
 			</select>&nbsp;
 				<input type="text" name="search" value="${search }"> 
 				<input type="submit" class="btn mini" value="검색"><p>
-		</div>
-	</form><br>
+ 		</div>
+ 	</form><br>
 	<form action="AdminDeleteForm.admin?pageNum=${pageNum }" name="frm" onsubmit="return deleteCheck()" >
 		<table class="table" border="1">
 			<tr class="tr">
@@ -81,62 +91,62 @@ td {
 				<th class="th">권 한</th>
 				<th class="th">전화 번호</th>
 				<th class="th">이메일</th>
-				<th class="th">사진 경로</th>
 			</tr>
 				
 		<c:if test="${count>0 }">
 		<c:forEach var="adminList" items="${adminList }">
 			<tr>
-				<td>
-					<select name="checkRow" id="checkRow" required="required"  >
+				<td class="td">
+					<select name="checkRow" id="checkRow" required="required" onclick="displayButton()" >
 										<option value="0">유지  </option>
 										<option value="1">삭제  </option>
 					</select> 							       
-		    		<input type="hidden"   name="id" value="${adminList.id}">
+		    		<input type="hidden" name="id" value="${adminList.id}">
 		    		
 				</td>
-				<td>
+				<td class="td tdh">
 					<a href="#" 
 						onclick="javascript:window.open('AdminUpdateForm.admin?id=${adminList.id}&pageNum=${pageNum}&popup','관리자 수정', 'width=500, height=500')">
 					${adminList.id } </a>
 				</td>
-				<td>${adminList.pw }</td>
-				<td>${adminList.nm }</td>
-				<td>${adminList.dept }</td>
-				<td>${adminList.position }</td>
-				<td>${adminList.emp_no }</td>
-				<td>${adminList.auth }</td>
-				<td>${adminList.tel }</td>
-				<td>${adminList.email }</td>
-				<td>${adminList.path }</td>
+				<td class="td">${adminList.pw }</td>
+				<td class="td">${adminList.nm }</td>
+				<td class="td">${adminList.dept }</td>
+				<td class="td">${adminList.position }</td>
+				<td class="td">${adminList.emp_no }</td>
+				<td class="td">${adminList.auth }</td>
+				<td class="td">${adminList.tel }</td>
+				<td class="td">${adminList.email }</td>
 			</tr>
 		</c:forEach>
 		</c:if>
 
 		<c:if test="${count==0 }">
 			<tr>
-				<td colspan=11>검색 자료가 없습니다.</td>
+				<td colspan=11 class="td">검색 자료가 없습니다.</td>
 			</tr>
 		</c:if>
 	</table>
+		<br>
 
-	<div style="text-align: center;">
+ 		<div class="pagination" >
 			<c:if test="${startPage > blockSize }">
-				<a href='AdminForm.admin?pageNum=${startPage-blockSize}'>[이전]</a>
+				<a class="a" href='AdminForm.admin?pageNum=${startPage-blockSize}'>« Prev</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage}" end="${endPage}">
-				<a href='AdminForm.admin?pageNum=${i}'>[${i}]</a>
+				<a class="a active" href='AdminForm.admin?pageNum=${i}'> ${i}</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
-				<a href='AdminForm.admin?pageNum=${startPage+blockSize}'>[다음]</a>
+				<a class="a" href='AdminForm.admin?pageNum=${startPage+blockSize}'>Next »</a>
 			</c:if>
-		</div>
+ 		</div>
 
-		<div style="float: right; padding: 10 10 10 10px!important;"> 
-			<input type="submit"  class="btn mini" value="삭제" > 
+ 		<div class="mainF" >
+			<input type="submit"  class="btn mini" value="삭제"  id="submitB" style="display:none;"> 
 			<button type="button" class="btn mini"  onclick="location.href='AdminInsertForm.admin'" >등록</button>
-			<input type="reset" class="btn mini"  value="유지버튼 초기화">
-		</div>
-	</form>	
+			<input type="reset" class="btn mini "  value="유지버튼 초기화">
+		</div> 
+ 	</form>	
+	</div>
 </body>
 </html>

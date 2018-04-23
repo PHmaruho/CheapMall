@@ -579,7 +579,7 @@ public class MemberDao {
 		ResultSet rs = null;
 		
 		int result = 0;
-		String sql = "SELECT pw FROM users WHERE id=? and grade<>'GG'";	// 2018-04-22 최우일 : 탈퇴사용자 제외
+		String sql = "SELECT pw FROM users WHERE id=? and nvl(grade,0)<>'GG'";	// 2018-04-22 최우일 : 탈퇴사용자 제외
 	
 		// 비밀번호가 일치하는 경우는 제외하는 이유!
 		// 보안상 비밀번호가 틀렸다고하면 해커 or 악의적인 사용자들이 계속해서 시도한다.!!
@@ -971,23 +971,21 @@ public class MemberDao {
 		Connection conn=null;
 		PreparedStatement ps=null;
 		ResultSet rs=null;
-		
+		String sql="";
 		try {
 			conn=getConnection();
-	
-			String sql1 // grade X
-			="select * from (select rownum rn, users.* from (select * from users) users) where rn between ? and ?";
+			if (search.equals("All")){
+				sql="select * from (select rownum rn, users.* from (select * from users) users) where rn between ? and ?";
+			}else{
+				sql="select * from (select rownum rn, users.* from (select * from users where grade=?) users) where rn between ? and ?";
+			}
+			ps=conn.prepareStatement(sql);
 			
-			String sql2 // grade O
-			="select * from (select rownum rn, users.* from (select * from users where grade=?) users) where rn between ? and ?";
-			
-			if(search==null || search.length()==0){
-				ps=conn.prepareStatement(sql1);
+			if (search.equals("All")){
 				ps.setInt(1, startRow);
 				ps.setInt(2, endRow);
 			}
 			else {
-				ps=conn.prepareStatement(sql2);
 				ps.setString(1,search);
 				ps.setInt(2, startRow);
 				ps.setInt(3,endRow);

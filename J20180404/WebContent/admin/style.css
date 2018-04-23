@@ -3,22 +3,25 @@
 <style>
 #wrap {
 	width: 100%;
-	margin: 0 auto 0 auto;
-	font-family: "Trebuchet MS", Dotum;
+	margin : 0 auto 0 auto;
 	
 }
 
 #topMenu {
 	height: 50px;
-	width: 100%;
-	background-color: #2d2d2d;
+	width: 1500px;
+	margin-left : 15%;
+	font:bold 12px tahoma;  
+	
 }
 
 
 #topMenu ul { 
 	list-style-type: none; 
-	margin: 0px; 
-	padding-left:15%;
+	margin: 0px;
+	padding: 0px; 
+
+	
 }
 
 #topMenu ul li { 
@@ -29,22 +32,20 @@
 	vertical-align: middle; 
 	text-align: center; 
 	position: relative;
-}
 
-#topMenu .a {
-	text-decoration: none;
-	color: white;
-	display: block;
-	float: right;
-	width: 150px;
-	font-size: 12px;
-	font-weight: bold;
-	font-family: "Trebuchet MS", Dotum, Arial;
 }
+.menuLink, .submenuLink { 
+text-decoration:none; 
+display: block; 
+width: 150px;
+font-size: 12px; 
+font-weight: bold;
+font-family: tahoma, "Trebuchet MS", Dotum; 
 
-#topMenu .a:hover {
-	color: red;
-	background-color: #4d4d4d;
+ } 
+
+.menuLink { 
+color: white; 
 }
 
 .menuLink, .submenuLink {
@@ -53,7 +54,7 @@
 	width: 150px;
 	font-size: 12px;
 	font-weight: bold; 
-	font-family: "Trebuchet MS", Dotum;
+	font-family: "Trebuchet MS", Dotum,  Arial;
 }
 
 .menuLink { 
@@ -78,7 +79,6 @@
 
 .submenu { 
 	position: absolute;
-	margin-left : -5px;
 	height: 0px;
 	overflow: hidden;
 	transition: height .2s; 
@@ -89,6 +89,7 @@
 
 .topMenuLi:hover .submenu { 
 	height: 220px; 
+	margin-left : 15px;
 }
 
 .submenuLink:hover { 
@@ -96,18 +97,81 @@
 	background-color: #dddddd;
 }
 
-.th {
-  display: table-cell;
-  background: #333;
-  border: 1px solid #333;
-  color: #ffffff;
+#main {
+	width : 80%;
+	float :right;
+	align : center;
+}
+
+.mainH {
+	width: 600px;
+	align : right;
+	float : right;
+}
+
+.pagination {
+	width : 80%;
+	align : center;
+	text-align : center;
+	display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    padding: 3px 6px;
+    text-decoration: none;
+    transition: background-color .2s;
+    border: 1px solid #e2e2e2;
+    margin: 0 2px 2px 0px;
+    font:bold 12px tahoma;  
+    
+}
+
+
+.pagination a:hover  {
+	background-color: #dd0000;
+	color: white;
+    border: 1px solid #e2e2e2;
+}
+
+.pagenation a:active {
+	background-color: #dd0000;
+	
 }
 
 .table {
-	 align : center; 
+	 text-align : center; 
 	 border-collapse:collapse; 
 	 border:1px gray solid;
+	 width : 80%;
 }
+
+
+.th {
+  background: #333;
+  border: 1px solid #333;
+  color: #ffffff;
+
+}
+
+.th.td {
+	    font:bold 12px tahoma;  
+	    
+	
+}
+
+.tdh {
+	    text-decoration: none;
+	    
+	    
+}
+
+.tdh:hover  {
+	background-color: black;
+	color : white;
+}
+	
+
 
 .btn.mini {
   padding: 4px 12px;  
@@ -129,10 +193,10 @@
 	background-color: #ff0000;
 }
 
-
-
-
-
+.mainF {
+	width : 80%;
+	align : right;
+}
 
 
 </style>

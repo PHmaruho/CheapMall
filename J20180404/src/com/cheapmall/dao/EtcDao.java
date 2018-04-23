@@ -444,15 +444,14 @@ public class EtcDao {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		
-		String sql="update popup set nm=?, start_dt=?, end_dt=?,url=? where sq=?";
+		String sql="update popup set nm=?, start_dt=?, end_dt=? where sq=?";
 		try {
 			conn=getConnection();
 			ps=conn.prepareStatement(sql);
 			ps.setString(1, dto.getNm());
 			ps.setDate(2, new java.sql.Date(dto.getStart_dt().getTime()));
 			ps.setDate(3, new java.sql.Date(dto.getEnd_dt().getTime()));
-			ps.setString(4,dto.getUrl());
-			ps.setString(5, dto.getSq());
+			ps.setString(4, dto.getSq());
 			result=ps.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -500,7 +499,7 @@ public class EtcDao {
 		PreparedStatement ps=null;
 		ResultSet rs=null;
 		
-		String sql="select url from popup where sysdate<end_dt and start_dt<sysdate";
+		String sql="select url from popup where sysdate<end_dt and start_dt<sysdate and sq not like '%S%'";
 	
 		try {
 			conn=getConnection();

@@ -50,8 +50,13 @@
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
 	
-	<div id="main">
-		<h2>신고처리</h2>
+	<div id="main" class="main">
+		<c:if test="${board_cd eq 'B1' }">
+			<h1>문의사항</h1>
+		</c:if>
+		<c:if test="${board_cd eq 'B2' }">
+			<h1>건의사항</h1>
+		</c:if>
 		
 		<select id="bp" onchange="bpSelect()">
 			<option id="all" value="all">전체</option>
@@ -86,7 +91,7 @@
 			</c:if>
 		</table>
 		
-		<div style="text-align:center;">
+ 		<div class="mainC" >
 			<c:if test="${startPage > blockSize }">
 				<a href="boardAdminOtherList.admin?pageNum=${startPage - blockSize }&board_cd=${board_cd}&bp=${bp}
 					&option=${option}&searchText=${searchText}">[이전]</a>

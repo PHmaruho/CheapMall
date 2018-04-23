@@ -11,6 +11,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import org.json.simple.JSONObject;
+
 public class StatisticsDao {
 	/*
 	 * Version 1.0
@@ -28,6 +30,12 @@ public class StatisticsDao {
 		2018-04-22
 		4. dynamicQuery(String[], String[])
 	*/
+	
+	/*
+	 * 작성자 : 허진무
+	 * 최초작성일 : 2018-04-22
+	 * 
+	 */
 		
 	
 	
@@ -301,5 +309,194 @@ public class StatisticsDao {
 			DisConnection(conn, pstmt, rs);
 		}
 		return list;
+	}
+	// HJM Start!!!
+	// 지난 2주간 판매량 추이(액수)
+	public JSONObject statis1() throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		JSONObject object = new JSONObject();
+		JSONObject object1 = new JSONObject();
+		String sql = "select a.orders, nvl(sum(b.cnt),0)" + 
+					" from " + 
+					"    (SELECT to_char(TRUNC(SYSDATE - ROWNUM+1), 'YY-MM-DD') orders" + 
+					"      FROM DUAL CONNECT BY ROWNUM <= 15) A" + 
+					"    left join" + 
+					"    (select to_char(order_dt, 'YY-MM-DD') orders, o.origin_price cnt" + 
+					"     from orders o " + 
+					"     where " + 
+					"        o.ORDER_DT between sysdate-14 and sysdate " + 
+					"        and o.order_cd = 'O4') B" + 
+					"    on a.orders = b.orders" + 
+					" group by a.orders" + 
+					" order by a.orders asc";
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				object.put("result", "yes");
+				do {
+					object1.put(rs.getString(1), rs.getInt(2));
+				} while(rs.next());
+				object.put("data", object1);
+			} else {
+				object.put("result", "no");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("statis1 Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		
+		return object;
+	}
+	
+	// 전체회원수 대비 실제 활동 회원의 통계(원형)
+	public JSONObject statis2() throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT realUser.cnt, allUsers.cnt" + 
+				"	 FROM" + 
+				"    (SELECT COUNT(*) cnt" + 
+				"     FROM users" + 
+				"     WHERE grade IS NOT NULL AND grade != 'GG') allUsers," + 
+				"    (SELECT COUNT(*) cnt" + 
+				"     FROM" + 
+				"        ( SELECT id" + 
+				"          FROM users" + 
+				"          WHERE GRADE IS NOT NULL AND grade != 'GG') allUser," + 
+				"        ( SELECT user_id" + 
+				"          FROM orders" + 
+				"          WHERE order_cd = 'O4'" + 
+				"            AND order_dt BETWEEN SYSDATE - 30 AND SYSDATE) activeUser" + 
+				"	WHERE allUser.id = activeUser.user_id) realUser";
+		JSONObject object = new JSONObject();
+		JSONObject object1 = new JSONObject();
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				object.put("result", "yes");
+				object1.put("실제구매사용자", rs.getInt(1));
+				object1.put("전체사용자", rs.getInt(2));
+				object.put("data", object1);
+			} else {
+				object.put("result", "no");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("statis2 Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		
+		return object;
+	}
+	
+	// 회원들의 총 포인트와 사용 포인트율
+	public JSONObject statis3() throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT A.allPoint usepoint, B.usedPoint+A.allPoint allpoint" + 
+				"	FROM (" + 
+				"        SELECT SUM(point) allPoint" + 
+				"        FROM users" + 
+				"        WHERE grade IS NOT NULL AND grade != 'GG') a , " + 
+				"    (" + 
+				"        SELECT SUM(use_point) usedPoint" + 
+				"        FROM orders" + 
+				"        WHERE use_point != 0" + 
+				"          AND order_dt BETWEEN SYSDATE -14 AND SYSDATE) b";
+		JSONObject object = new JSONObject();
+		JSONObject object1 = new JSONObject();
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				object.put("result", "yes");
+				object1.put("실제사용Point", rs.getInt(1));
+				object1.put("전체Point", rs.getInt(2));
+				object.put("data", object1);
+			} else {
+				object.put("result", "no");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("statis3 Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		
+		return object;
+	}
+	
+	// 가입자 수의 변화(2주간)
+	public JSONObject statis4() throws SQLException{
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT a.dates, nvl(sum(b.cnt), 0) users" + 
+				"	FROM (" + 
+				"        SELECT TO_CHAR(TRUNC(SYSDATE - ROWNUM+1), 'YY-MM-DD') dates" + 
+				"        FROM DUAL CONNECT BY ROWNUM <=15 ) A" + 
+				"    LEFT JOIN" + 
+				"    	(  " + 
+				"        SELECT REG_DT dates, COUNT(ID) cnt" + 
+				"        FROM USERS" + 
+				"        WHERE grade = 'G0'" + 
+				"          AND reg_dt BETWEEN SYSDATE - 14 AND SYSDATE" + 
+				"        GROUP BY reg_dt" + 
+				"        order by reg_dt) B" + 
+				"    on a.dates = b.dates" + 
+				"	group by a.dates" + 
+				"	order by a.dates";
+		JSONObject object = new JSONObject();
+		JSONObject object1 = new JSONObject();
+		
+		try {
+			conn = getConnection();
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				object.put("result", "yes");
+				do {
+					object1.put(rs.getString(1), rs.getInt(2));
+					object.put("data", object1);
+				} while(rs.next());
+			} else {
+				object.put("result", "no");
+			}
+			System.out.println(object);
+		} catch (Exception e) {
+			// TODO: handle exception
+			// SYSO
+			System.out.println("statis3 Error");
+			e.printStackTrace();
+		} finally {
+			DisConnection(conn, ps, rs);
+		}
+		
+		return object;
 	}
 }

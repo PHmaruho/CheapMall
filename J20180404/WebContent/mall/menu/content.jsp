@@ -14,16 +14,9 @@
 <style type="text/css">
 .a {
 	position: absolute;
-	width: 80%;
-	height: 1300px;
+	width: 100%;
+	height: 100%;
 	border-style: none;
-}
-
-img {
-	margin-left: auto;
-	margin-right: auto;
-	width: 600px;
-	height: 30px;
 }
 
 .sec2 {
@@ -36,6 +29,18 @@ img {
 	margin-top: 30px;
 	width: 100%;
 	height: 450px;
+}
+
+.sec2 img {
+	width: 30%;
+	height: 100%;
+	margin-left: 19px;
+}
+
+.sec3 img {
+	width: 30%;
+	height: 100%;
+	margin-left: 19px;
 }
 </style>
 </head>
@@ -52,7 +57,7 @@ img {
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner">
 				<div class="item active">
-					<img src="../images/main2.jpg" alt="Los Angeles">
+					<img src="../images/main1.jpg" alt="Los Angeles">
 				</div>
 
 				<div class="item">
@@ -60,7 +65,7 @@ img {
 				</div>
 
 				<div class="item">
-					<img src="../images/main2.jpg" alt="New York">
+					<img src="../images/main3.jpg" alt="New York">
 				</div>
 			</div>
 
@@ -74,8 +79,14 @@ img {
 				class="sr-only">Next</span>
 			</a> -->
 		</div>
-		<div class="sec2">rr</div>
-		<div class="sec3">rr</div>
+		<div class="sec2">
+			<img alt="" src="../images/1.png"> <img alt=""
+				src="../images/1.png"> <img alt="" src="../images/1.png">
+		</div>
+		<div class="sec3">
+			<img alt="" src="../images/2.png"> <img alt=""
+				src="../images/2.png"> <img alt="" src="../images/2.png">
+		</div>
 	</div>
 </body>
 </html>
