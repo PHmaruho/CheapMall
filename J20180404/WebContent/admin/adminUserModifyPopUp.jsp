@@ -6,6 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="style.css" type="text/css">
+
 </head>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script src="../js/jquery.js" type="text/javascript"></script>
@@ -114,43 +116,44 @@
 	}
 </script>
 <body>
+
 <h2>회원 상세 정보</h2>
 	<form action="AdminUserModifyPopUpPro.admin?pageNum=${pageNum}" onsubmit="return check()" method="post">
-		<table border="1">
+		<table class="table" border="1" >
 			<tr>
-				<th>ID</th>
+				<th class="th">ID</th>
 				<td>
 					${usersDto.id }
 					<input type="hidden" value="${usersDto.id }" name="id" id="id">
 				</td>
 			</tr>
 			<tr>
-				<th>회원이름</th>
+				<th class="th">회원이름</th>
 				<td>
 					<input type="text" value="${usersDto.nm }" name="nm" id="nm" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th id="thPw">PW</th>
+				<th class="th" id="thPw">PW</th>
 				<td>
 					<input type="password" name="pw" id="pw" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th id="thPwChk">PW확인</th>
+				<th class="th" id="thPwChk">PW확인</th>
 				<td>
 					<input type="password" name="pwchk" id="pwchk" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th>비밀번호 변경일</th>
+				<th class="th" >비밀번호 변경일</th>
 				<td>
 					${usersDto.pw_dt }
 					<input type="hidden" value="${usersDto.pw_dt }" name="pw_dt" id="pw_dt">
 				</td>
 			</tr>
 			<tr>
-				<th rowspan="2">주소</th>
+				<th class="th" rowspan="2">주소</th>
 				<td>
 					<input type="text" width="6" value="${usersDto.zipcode }" id="zipcode" name="zipcode" class="inputText">
 					<input type="button" value="우편번호찾기" onclick="findZipcode()" class="inputText">
@@ -162,19 +165,19 @@
 				</td>
 			</tr>
 			<tr>
-				<th>상세주소</th>
+				<th class="th">상세주소</th>
 				<td>
 					<input type="text" width="30" value="${usersDto.addr_detail }" id="addr_detail" name="addr_detail" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th> 이메일 </th>
+				<th class="th"> 이메일 </th>
 				<td>
 					<input type="email" value="${usersDto.email }" id="email" name="email" class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th> 성별 </th>
+				<th class="th"> 성별 </th>
 				<td>
 					<c:if test="${usersDto.gender eq 'M' }">
 						<input type="radio" name="gender" id="M" checked="checked" value="M" class="inputText"> 남자
@@ -187,7 +190,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th> 등급 </th>
+				<th class="th"> 등급 </th>
 				<td>
 					<select name="grade" class="inputText">
 						<c:if test="${usersDto.grade eq 'G0' }">
@@ -243,23 +246,23 @@
 				</td>
 			</tr>
 			<tr>
-				<th> 포인트 </th>
+				<th class="th"> 포인트 </th>
 				<td>
 					<input type="text" value="${usersDto.point }" class="inputText" name="point" id="point">
 				</td>
 			</tr>
 			<tr>
-				<th>가입일</th>
+				<th class="th">가입일</th>
 				<td>${usersDto.reg_dt }</td>
 			</tr>
-			<tr>
-				<td colspan="2">
-					<input type="button" value="수정하기" id="modifyBtn" onclick="modifyAction()">
-					<input type="submit" value="제출하기" class="submit" id="submit">
-					<input type="button" value="닫기" onclick="exits()" id="exitButton">
-				</td>
-			</tr>
-		</table>
+			</table>
+  	<br>
+  	 <div class="mainF" >
+					<input type="button" value="수정하기"  class="btn mini" id="modifyBtn" onclick="modifyAction()">
+					<input type="submit" value="제출하기" class="submit btn mini" id="submit">
+					<input type="button" value="닫기"  class="btn mini" onclick="exits()" id="exitButton">
+	</div>
+		
 	</form>
 </body>
 </html>

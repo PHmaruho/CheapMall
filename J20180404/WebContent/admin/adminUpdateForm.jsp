@@ -7,20 +7,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<style type="text/css">
-table {
-	width: 100%;
-}
+<link rel="stylesheet" href="style.css" type="text/css">
 
-td {
-	text-align: center;
-}
-</style>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 
 function chk() {
-	
 	if(frm.pw.value != frm.pw2.value) {
 		alert("암호가 다릅니다");
 		frm.pw2.focus();
@@ -29,36 +21,40 @@ function chk() {
 	return true;
 }
 
+function exits(){
+	window.close();
+}
+
 </script>
 </head>
 <body>
 	<h3>관리자 수정</h3>
 	<form action="AdminUpdatePro.admin" method="post" name="frm" onsubmit="return chk()" >
-		<table border="1">
+		<table class="table" border="1">
 
 			<tr>
-				<th>ID</th>
+				<th class="th">ID</th>
 				<td>${adminDto.id } <input type="hidden"
 					value="${adminDto.id }" name="id">
 				</td>
 			</tr>
 
 			<tr>
-				<th>PASSWORD</th>
+				<th class="th">PASSWORD</th>
 				<td><input type="password" name="pw"class="inputText">
 				</td>
 			</tr>
 			<tr>
-				<th>PW CHECK</th>
+				<th class="th">PW CHECK</th>
 				<td><input type="password" name="pw2"class="inputText" ></td>
 			</tr>
 			<tr>
-				<th>성 명</th>
+				<th class="th">성 명</th>
 				<td><input type="text" value="${adminDto.nm }" name="nm"
 					id="nm" class="inputText"></td>
 			</tr>
 			<tr>
-				<th>부 서</th>
+				<th class="th">부 서</th>
 				<td><select name="dept" class="selectBox">
 						<c:if test="${adminDto.dept eq '인사' }">
 							<option value="인사" selected="selected">인사</option>
@@ -98,7 +94,7 @@ function chk() {
 				</select></td>
 			</tr>
 			<tr>
-				<th>직 급</th>
+				<th class="th">직 급</th>
 				<td><select name="position" class="selectBox">
 						<c:if test="${adminDto.position eq '사장' }">
 							<option value="사장" selected="selected">사장</option>
@@ -167,7 +163,7 @@ function chk() {
 				</select></td>
 			</tr>
 			<tr>
-				<th>권 한</th>
+				<th class="th">권 한</th>
 				<td><select name="auth" class="selectBox">
 						<c:if test="${adminDto.auth eq 'A0' }">
 							<option value="A0" selected="selected">관리자 관리(최종)</option>
@@ -221,29 +217,23 @@ function chk() {
 			</tr>
 
 			<tr>
-				<th>Tel</th>
+				<th class="th">Tel</th>
 				<td><input type="tel" name="tel" value="${adminDto.tel }"
 					class="inputText">
 			</tr>
 
 			<tr>
-				<th>Email</th>
+				<th class="th">Email</th>
 				<td><input type="email" value="${adminDto.email }" id="email"
 					name="email" class="inputText"></td>
 			</tr>
-
-			<tr>
-				<th>사진경로</th>
-				<td><input type="text" value="${adminDto.path }" name="path"
-					class="inputText"></td>
-			</tr>
-
-			<tr>
-				<td colspan="2">
-				<input type="submit" value="수정하기" >
-				<input type="button" value="닫기" onclick="" id="exitButton"></td>
-			</tr>
-		</table>
+			</table>
+			<br>
+  	 <div class="mainF" >
+				<input type="submit"  class="btn mini" value="수정하기" >
+				<input type="button"  class="btn mini" value="닫기" onclick="exits()" id="exitButton">
+		
+	</div>
 	</form>
 </body>
 </html>
