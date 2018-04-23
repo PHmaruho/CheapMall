@@ -41,17 +41,8 @@
 			</tr>
 		
 			<c:forEach var="list" items="${list }" varStatus="status">
-				<c:set var="total" value="${total + (cart.cnt * cart.origin_price) }"/>
 				<c:set var="rowCount" value="${status.count }"/>
 			</c:forEach>
-			<c:choose>
-				<c:when test="${total < 30000 }">
-					<c:set var="delivery_fee" value="2500"/>
-				</c:when>
-				<c:otherwise>
-					<c:set var="delivery_fee" value="0"/>
-				</c:otherwise>
-			</c:choose>
 			
 			<c:forEach var="list" items="${list }" varStatus="i">
 				<tr>
@@ -68,7 +59,16 @@
 								 외 ${list.cnt - 1 }건
 							</c:if>	
 						</td>
-					<td width="400" align="center" >
+						<c:choose>
+							<c:when test="${list.origin_price < 30000 }">
+								<c:set var="delivery_fee" value="2500" />
+							</c:when>
+							<c:otherwise>
+								<c:set var="delivery_fee" value="0" />
+							</c:otherwise>
+						</c:choose>
+
+						<td width="400" align="center" >
 						총 ${list.origin_price+ delivery_fee} 원
 					</td>
 					<td width="10%" align="center" >

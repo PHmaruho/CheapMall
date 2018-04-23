@@ -11,6 +11,7 @@
 	<c:if test="${result > 0 }">
 		<script type="text/javascript">
 			alert("입력 완료");
+			window.close();
 			location.href="boardOtherList.mall";
 		</script>
 	</c:if>
