@@ -102,7 +102,6 @@
 												// content
 												if (this.content.length >= 30) {
 													str += "<td class='review reviewContents'>"
-															+ "<a href='#' onclick='open'"
 															+ this.content
 																	.substring(
 																			0,
