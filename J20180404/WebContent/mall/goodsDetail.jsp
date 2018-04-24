@@ -428,7 +428,7 @@
 	position: absolute;
 	left: 550px;
 	top: 40px;
-	width: 300px;
+	width: 700px;
 	height: 300px;
 }
 
