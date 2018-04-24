@@ -213,7 +213,7 @@ public class MemberDao {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "update users set pw=? where id=? and email=? and pw_dt=sysdate";
+		String sql = "update users set pw=?, pw_dt=sysdate where id=? and email=?";
 		int result = 0;
 		
 		try {

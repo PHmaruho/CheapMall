@@ -26,7 +26,6 @@ table {
 //	int result = (int)request.getAttribute("result");
 //	System.out.println(result);
 	if(auth != "no") {
-		session.setAttribute("id", id);
 	//	session.setAttribute("pw", pw);
 		session.setAttribute("auth",auth);
 		response.sendRedirect("AdminMenuList.admin");
