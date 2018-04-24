@@ -102,12 +102,9 @@
 												// content
 												if (this.content.length >= 30) {
 													str += "<td class='review reviewContents'>"
-															+ "<a href='#' onclick='open'"
 															+ this.content
-																	.substring(
-																			0,
-																			30)
-															+ "" + "</td>";
+																	.substring(0, 30)
+															+ "</td>";
 												} else {
 													str += "<td class='review reviewContents'>"
 															+ this.content

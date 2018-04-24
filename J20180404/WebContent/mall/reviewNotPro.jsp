@@ -11,7 +11,7 @@
 	if(${result} == '2'){
 		alert("등록되었습니다.");
 		window.close();
-		location.href = "OrderListSimpleForm.mall";
+		opener.location.href = "OrderListSimpleForm.mall";
 	}
 	if(${result} == '1'){
 		alert("이미 리뷰가 작성된 구매완료상품입니다.");
@@ -19,7 +19,7 @@
 	} else if(${result} == '-1'){
 		alert("로그인이 필요한 부분입니다.");
 		window.close();
-		location.href = "cheapmal.jsp";
+		opener.location.href = "UserLoginForm.mall";
 	}
 </script>
 </body>

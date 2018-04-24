@@ -17,8 +17,9 @@ public class BoardWriteFormAction implements CommandProcess {
 		String id = session.getAttribute("id") == null ? null : session.getAttribute("id").toString();
 		
 		if(id == null) {
+			request.setAttribute("result", "-1");
 			request.setAttribute("warning", "notLogin");
-			return "cheapmall.jsp";
+			return "reviewNotPro.jsp";
 		}
 		
 		String board_cd = request.getParameter("board_cd");
