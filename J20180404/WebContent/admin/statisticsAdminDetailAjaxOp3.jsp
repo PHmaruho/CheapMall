@@ -182,7 +182,7 @@
 			</ul>
 		</div>
 		<div id="">
-			<button onclick="showAjax()">부담을 줄이기 위해 버튼 클릭시 아작스 실행</button>
+			<button onclick="showAjax()" class="btn mini showBtn"><h3>적용</h3></button>
 		</div>
 		<div id="test"></div>
 	</nav>
