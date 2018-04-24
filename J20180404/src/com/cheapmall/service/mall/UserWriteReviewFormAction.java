@@ -35,7 +35,7 @@ public class UserWriteReviewFormAction implements CommandProcess{
 			int result = boardDao.checkReviewWrite(dSq);
 			
 			if(result == 1) {
-				request.setAttribute("result", 1);
+				request.setAttribute("result", "1");
 				return "reviewNotPro.jsp";
 			}
 			

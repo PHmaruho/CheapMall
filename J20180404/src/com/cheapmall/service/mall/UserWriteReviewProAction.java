@@ -42,7 +42,7 @@ public class UserWriteReviewProAction implements CommandProcess{
 			String content = null;
 			String path = null;
 			String goods_cd = null;
-			String dSq = null;
+			String dSq = "";
 			int star = 0;
 			if(request.getParameter("method").equals("simple")) {
 				// id = request.getParameter("id");
@@ -135,7 +135,6 @@ public class UserWriteReviewProAction implements CommandProcess{
 //				System.out.println("fail#####################################################");
 //			}
 			
-			request.setAttribute("result", result);
 		} catch (Exception e) {
 			// TODO: handle exception
 			// SYSO

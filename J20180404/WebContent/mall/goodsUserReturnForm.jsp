@@ -99,7 +99,7 @@ function getDetail(){
 	border-width: 2px;
 	padding: 5px 11px;
 }
-#returnformbtn2 {
+#returnformbtn2,#submitButton {
  	position : relative;
 	border-style: solid;
 	border-width: 1px;
@@ -109,7 +109,7 @@ function getDetail(){
 	width: 100px;
 }
 
-#returnformbtn2:hover {
+#returnformbtn2:hover,#submitButton:hover {
 	border-width: 2px;
 	padding: 5px 11px;
 }
@@ -138,7 +138,7 @@ function getDetail(){
 				</tr>
 				<tr>
 					<th>상품</th>
-					<td><img src="../images/${order.gender }/${order.top_category}/${order.middle_category}/thumbnail/${order.path }.png"
+					<td><img src="../images/${order.gender }/${order.top_category}/${order.middle_category}/thumbnail/sm_${order.path }.png"
 													height="50%" width="50%" >
 					${order.nm }</td>
 				</tr>
@@ -210,7 +210,7 @@ function getDetail(){
 					</c:if>
 			</div> --%>
 				<div style="float: right; padding: 10 10 10 10px!important;">
-					<input type="submit" value="반품" id="submitButton" style="display:none;">
+					<input type="submit" value="반품" id="submitButton" style="display:none;" class="btn">
 					<input type="button" value="이전" onclick="window.location='OrderListSimpleForm.mall';" class="btn btn-primary" id="returnformbtn2">
 					<%-- <input type="button" onclick="javascript:window.open('goodsReturnList.mall?id=${id}','반품목록','width=500, height=500, scrollbar=yes' )" value="반품목록"> --%>
 				</div>

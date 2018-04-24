@@ -32,7 +32,6 @@
 		var result = 0;
 		for(var i=0 ; i < end.length ; i++){
 			if(id.indexOf(end[i]) != -1){
-				alert(id); /////////////////
 				result = 1;
 				return true;
 			}
@@ -119,6 +118,7 @@
 		<input type="hidden" name="goods_sq" value="${goods_sq }">
 		<input type="hidden" name="ip" value="${ip }">
 		<input type="hidden" name="goods_cd" value="${goodsDto.cd }">
+		<input type="hidden" name="dSq" value="${dSq}">
 		
 		<table border="1">
 			<tr>
@@ -170,7 +170,6 @@
 					<input type="submit" value="작성하기">
 					<input type="reset" value="초기화">
 					<input type="button" value="작성취소" id="cancle">
-					<input type="button" value="test" onclick="chk()">
 				</td>
 			</tr>
 		</table>

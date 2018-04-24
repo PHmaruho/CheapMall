@@ -108,8 +108,7 @@
 									onclick="javascript:window.open('goodsAdminUpdateForm.admin?sq=${goods.sq }','상품 수정','scrollbars=yes width=500 height=600')">
 										${goods.sq }</a></td>
 								<td>${goods.cd }</td>
-								<td><img
-									src="../images/${goods.gender}/${goods.top_category }/${goods.middle_category }/thumbnail/sm_${goods.path }.png">${goods.nm }</td>
+								<td>${goods.nm }</td>
 								<td>${goods.price }원</td>
 								<td>
 									<c:if test="${goods.gender=='M' }">남자</c:if>

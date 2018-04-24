@@ -464,8 +464,7 @@ public class StatisticsDao {
 				"    	(  " + 
 				"        SELECT REG_DT dates, COUNT(ID) cnt" + 
 				"        FROM USERS" + 
-				"        WHERE grade = 'G0'" + 
-				"          AND reg_dt BETWEEN SYSDATE - 14 AND SYSDATE" + 
+				"        WHERE reg_dt BETWEEN SYSDATE - 14 AND SYSDATE" + 
 				"        GROUP BY reg_dt" + 
 				"        order by reg_dt) B" + 
 				"    on a.dates = b.dates" + 

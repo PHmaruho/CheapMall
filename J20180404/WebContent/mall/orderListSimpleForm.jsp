@@ -120,7 +120,7 @@
 			<c:forEach var="list" items="${list }" varStatus="i">
 				<tr>
 					<td width="30%" align="center" >${list.order_dt }
-					<p><img src="../images/${list.gender }/${list.top_category}/${list.middle_category}/thumbnail/${list.path }.png"
+					<p><img src="../images/${list.gender }/${list.top_category}/${list.middle_category}/thumbnail/sm_${list.path }.png"
 													height="50%" width="50%" >
 					</td>
 					<td width="15%" align="center">

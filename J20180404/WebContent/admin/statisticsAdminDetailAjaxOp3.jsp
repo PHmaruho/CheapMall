@@ -72,7 +72,7 @@
 				buttonName.value = 0;
 				buttonName.style.backgroundColor = "black";
 			} else {
-				alert("최소 한개는 있어야해")
+				alert("최소 한개의 항목이 선택되어야 합니다.")
 			}
 		} else {
 			array.push(buttonName.id);

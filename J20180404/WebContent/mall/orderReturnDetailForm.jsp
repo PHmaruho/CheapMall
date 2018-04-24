@@ -21,15 +21,67 @@ function openReview(dSq, goods_sq){
 	var popup = window.open("UserWriteReviewForm.mall?dSq="+dSq+"&goods_sq="+goods_sq,'popup', "width=500, height=500");
 }
 </script>
+<style type="text/css">
+.returndetailtb {
+	position: relative;
+	width: 80%;
+	left: 20%;
+	border-style: none;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+.returndetailtb img{
+	width: 30px;
+	height: 30px;
+}
+.returndetailtb tr td, th {
+	padding-top: 5px;
+}
+
+.returndetailtb td {
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #E5E1E1;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: #E5E1E1;
+	/* padding-left: 40px; */
+}
+
+.returndetailtb th {
+	background-color: #E5E1E1;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #979797;
+	border-top-style: solid;
+	border-top-width: 1px;
+}
+#returndetailbtn,#submitDetail {
+ 	position : relative;
+	border-style: solid;
+	border-width: 1px;
+	border-color : gray;
+	background-color: rgba(255, 255, 255, 0);
+	color: black;
+	width: 100px;
+}
+
+#returndetailbtn:hover,#submitDetail:hover {
+	border-width: 2px;
+	padding: 5px 11px;
+}
+</style>
 </head>
 <body>
 	
 
 	<div id="main">
 		<form action="orderReturnDetailPro.mall" method="post">
-		<h2>상품상세</h2>
+		<div class="h"><h2>상품상세</h2></div>
 			
-			<table border="1">
+			<table class="returndetailtb">
 				<tr>
 					<th>주문번호</th>
 					<th>주문상세번호</th>
@@ -38,6 +90,7 @@ function openReview(dSq, goods_sq){
 					<th>수량</th>
 					<th>반품체크</th>
 					<th>후기등록</th>
+					<th></th>
 				</tr>
 				
 				<c:if test="${count>0 }">
@@ -76,8 +129,8 @@ function openReview(dSq, goods_sq){
 			</table>
 		<br>
 			<span style="float: right; padding: 10 10 10 10px!important;">
-				<input type="submit" value="반품" id="submitDetail" style="display:none;">
-				<input type="reset" value="취소"></span>
+				<input type="submit" value="반품" id="submitDetail" style="display:none;" class="btn">
+				<input type="reset" value="취소" class="btn" id="returndetailbtn"></span>
 				
 		</form>
 	</div>

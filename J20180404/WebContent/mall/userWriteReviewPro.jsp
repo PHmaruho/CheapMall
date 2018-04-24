@@ -10,6 +10,7 @@
 <script type="text/javascript">
 	if('${result}' == '1'){
 		location.href="Cheap.mall";
+		window.close();
 	}
 </script>
 </body>

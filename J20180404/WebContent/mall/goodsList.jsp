@@ -34,7 +34,7 @@
 }
 
 .glul li img {
-	width: 80%;
+	width: 60%;
 	height: 100%;
 	margin-left: 10%;
 }
@@ -47,8 +47,8 @@
 				<li><a
 					href="goodsDetail.mall?cd=${goods.cd}&gender=${gender }&top_category=${goods.top_category}
 						&middle_category=${goods.middle_category}">
-						<img
-						src="../images/${gender}/${goods.top_category }/${goods.middle_category }/original/${goods.path }.png">
+						<img align="middle"
+						src="../images/${gender}/${goods.top_category }/${goods.middle_category }/thumbnail/sm_${goods.path }.png">
 						<p align="center">${goods.nm }<br>${goods.price }<br>
 							<c:if test="${goods.stock <= 0 }">품절</c:if>
 						</p>

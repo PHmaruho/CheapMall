@@ -61,17 +61,6 @@
 			</li>
 		</c:if>
 		</ul>
-		<div style="text-align: center;">
-			<c:if test="${startPage > blockSize }">
-				<a href='SearchResult.mall?pageNum=${startPage-blockSize}&keyword=${keyword }'>[이전]</a>
-			</c:if>
-			<c:forEach var="i" begin="${startPage}" end="${endPage}">
-				<a href='SearchResult.mall?pageNum=${i}&keyword=${keyword }'>[${i}]</a>
-			</c:forEach>
-			<c:if test="${endPage < pageCnt }">
-				<a href='SearchResult.mall?pageNum=${startPage+blockSize}&keyword=${keyword }'>[다음]</a>
-			</c:if>
-		</div>
 	</div>
 </body>
 </html>

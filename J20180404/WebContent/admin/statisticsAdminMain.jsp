@@ -222,28 +222,16 @@
 <div class="mainDiv">
 	<div class="statisDiv statistics1">
 		<canvas id="statistics1" style="float:left; height:0px; width:1px;"></canvas>
-		<div style="float:right;">
-			<input type="button" class="btn mini" onclick="" value="Excel 추출">
-		</div>
 	</div>
 	<br><br>
 	<div class="statisDiv subStatisDiv statistics2">
 		<canvas id="statistics2" width="500" height="500" margin-left="10%"></canvas>
-		<div>
-			<input type="button" class="btn mini"  onclick="" value="상세보기">
-		</div>
 	</div>
 	<div class="statisDiv subStatisDiv statistics3">
 		<canvas id="statistics3" width="500" height="500"></canvas>
-		<div>
-			<input type="button"  class="btn mini" onclick="" value="상세보기">
-		</div>
 	</div>
 	<div class="statisDiv subStatisDiv statistics4">
 		<canvas id="statistics4" width="0px" height="0px"></canvas>
-		<div>
-			<input type="button" class="btn mini"  onclick="" value="상세보기">
-		</div>
 	</div>
 </div>
 </body>
