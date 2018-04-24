@@ -83,8 +83,7 @@
 						<td>${startNum }</td>
 						<td>${board.board_cd }</td>
 						<td class="left" width="200"><a
-							href="boardOtherContent.mall?board_sq=${board.board_sq}&
-						 	pageNum=${currentPage}&board_cd=${board.board_cd}&board_p_cd=${board.board_p_cd}">${board.subject}</a>
+							href="boardOtherContent.mall?board_sq=${board.board_sq}&pageNum=${currentPage}&board_cd=${board.board_cd}&board_p_cd=${board.board_p_cd}">${board.subject}</a>
 						</td>
 						<td>${board.write_dt }</td>
 						<td>${board.board_p_cd }</td>

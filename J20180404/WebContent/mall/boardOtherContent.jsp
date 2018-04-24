@@ -118,7 +118,7 @@
 			<br>
 		</c:if>
 		<input type="button"
-			onclick="location.href='boardAdminOtherList.admin?pageNum=${pageNum}&board_cd=${board_cd }'"
+			onclick="location.href='boardOtherList.mall?pageNum=${pageNum}'"
 			value="목록" class="btn btn-primary" id="boardcontentbtn">
 	</div>
 </body>

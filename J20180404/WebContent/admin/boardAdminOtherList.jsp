@@ -79,8 +79,7 @@
 					<tr>
 						<td>${startNum }</td>
 						<td class=" td left" width="200"> 
-							 <a class="td " href="boardAdminOtherContent.admin?board_sq=${board.board_sq}&
-							 	pageNum=${currentPage}&board_cd=${board_cd}">${board.subject}</a> 
+							 <a class="td " href="boardAdminOtherContent.admin?board_sq=${board.board_sq}&pageNum=${currentPage}&board_cd=${board_cd}">${board.subject}</a> 
 						</td>
 						<td>${board.user_id }</td>
 						<td>${board.write_dt }</td>
@@ -93,16 +92,13 @@
 			<br>
  		<div class="pagination" >
 			<c:if test="${startPage > blockSize }">
-				<a href="boardAdminOtherList.admin?pageNum=${startPage - blockSize }&board_cd=${board_cd}&bp=${bp}
-					&option=${option}&searchText=${searchText}">« Prev</a>
+				<a href="boardAdminOtherList.admin?pageNum=${startPage - blockSize }&board_cd=${board_cd}&bp=${bp}&option=${option}&searchText=${searchText}">« Prev</a>
 			</c:if>
 			<c:forEach var="i" begin="${startPage }" end="${endPage }">
-				<a href="boardAdminOtherList.admin?pageNum=${i }&board_cd=${board_cd}&bp=${bp}
-					&option=${option}&searchText=${searchText}"> ${i}</a>
+				<a href="boardAdminOtherList.admin?pageNum=${i }&board_cd=${board_cd}&bp=${bp}&option=${option}&searchText=${searchText}"> ${i}</a>
 			</c:forEach>
 			<c:if test="${endPage < pageCnt }">
-				<a href="boardAdminOtherList.admin?pageNum=${startPage + blockSize }&board_cd=${board_cd}&bp=${bp}
-					&option=${option}&searchText=${searchText}">Next »</a>
+				<a href="boardAdminOtherList.admin?pageNum=${startPage + blockSize }&board_cd=${board_cd}&bp=${bp}&option=${option}&searchText=${searchText}">Next »</a>
 			</c:if>
 		</div>
 		 		<div class="mainF" >
