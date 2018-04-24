@@ -19,7 +19,7 @@
 
 	});
 	function insertAction(){
-		var popup = window.open('GoodsAdminInsertForm.admin','popup', "width=500, height=500");
+		var popup = window.open('GoodsAdminInsertForm.admin','popup', "width=630, height=600");
 	}
 	
 
