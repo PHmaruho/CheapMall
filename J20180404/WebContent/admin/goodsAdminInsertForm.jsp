@@ -6,6 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
+<link rel="stylesheet" href="style.css" type="text/css">
+
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript">
 	$(function() {
@@ -45,39 +47,40 @@
 </script>
 </head>
 <body>
+	<h2>상품 등록</h2>
+	<div id="main" class="main">
 	<form action="GoodsAdminInsertPro.admin" enctype="multipart/form-data"
-		method="post" onsubmit="return check1()">
-		<table>
+		method="post" onsubmit="return check()">
+			<table class="table" border="1">
 			<tr>
-				<td>상품명</td>
-				<td colspan="2"><input type="text" name="nm"
-					required="required"></td>
+				 <th class="th">상품명</th>
+				<td>
+				<input type="text" name="nm" required="required"></td>
 			</tr>
 			<tr>
-				<td>상품코드</td>
+				<th class="th">상품코드</th>
 				<td><input type="text" name="cd" id="cd" required="required">
-					<input type="button" name="check" id="check" value="중복확인"></td>
+				<input type="button" class="btn mini" name="check" id="check" value="중복확인"></td>
+				<th>
 				<td><span id="msg"></span></td>
+				</th>
 			</tr>
 			<tr>
-				<td>시작일</td>
-				<td colspan="2"><input type="date" name="start_dt"
-					required="required"></td>
+				<th class="th">시작일</th>
+				<td><input type="date" name="start_dt" required="required"></td>
 			</tr>
 			<tr>
-				<td>종료일</td>
-				<td colspan="2"><input type="date" name="end_dt"
-					required="required"></td>
+				<th class="th">종료일</th>
+				<td><input type="date" name="end_dt" required="required"></td>
 			</tr>
 			<tr>
-				<td>가격</td>
-				<td colspan="2"><input type="text" name="price"
-					required="required"></td>
+				<th class="th">가격</th>
+				<td><input type="text" name="price" required="required"></td>
 			</tr>
 
 			<tr>
-				<td>성별</td>
-				<td colspan="2"><select name="gender">
+				<th class="th">성별</th>
+				<td><select name="gender">
 						<c:forEach var="board" items="${list }">
 							<c:if test="${board.category=='GT' && board.used == 'Y'}">
 								<option value="${board.cd }">${board.meaning }</option>
@@ -86,8 +89,8 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td>대분류</td>
-				<td colspan="2"><select name="top_category">
+				<th class="th">대분류</th>
+				<td><select name="top_category">
 						<c:forEach var="board" items="${list }">
 							<c:if test="${board.category=='0T' && board.used=='Y' }">
 								<option value="${board.cd }">${board.meaning }</option>
@@ -96,8 +99,8 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td>소분류</td>
-				<td colspan="2"><select name="middle_category">
+				<th class="th">소분류</th>
+				<td><select name="middle_category">
 						<c:forEach var="board" items="${list }">
 							<c:if test="${board.category=='1T' && board.used=='Y' }">
 								<option value="${board.cd }">${board.meaning }</option>
@@ -106,16 +109,17 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td>색</td>
-				<td colspan="2"><c:forEach var="board" items="${list }">
-						<c:if test="${board.category=='CT' && board.used=='Y' }">
-							<input type="checkbox" name="color" value="${board.meaning }">${board.meaning }
+				<th class="th">색</th>
+				<td>
+						<c:forEach var="board" items="${list }">
+							<c:if test="${board.category=='CT' && board.used=='Y' }">
+								<input type="checkbox" name="color" value="${board.meaning }">${board.meaning }
 							</c:if>
 					</c:forEach></td>
 			</tr>
 			<tr>
-				<td>사이즈</td>
-				<td colspan="2"><select name="size">
+				<th class="th">사이즈</th>
+				<td><select name="size">
 						<c:forEach var="board" items="${list }">
 							<c:if test="${board.category=='ST' && board.used=='Y' }">
 								<option value="${board.cd }">${board.meaning }</option>
@@ -124,26 +128,29 @@
 				</select></td>
 			</tr>
 			<tr>
-				<td>사진등록</td>
-				<td colspan="2"><input type="file" name="upload"></td>
+				<th class="th">사진등록</th>
+				<td><input type="file" name="upload"></td>
 			</tr>
 			<tr>
-				<td>재고</td>
-				<td colspan="2"><input type="text" name="stock"
-					required="required"></td>
+				<th class="th">재고</th>
+				<td><input type="text" name="stock" required="required">
+				</td>
 			</tr>
 			<tr>
-				<td>노출여부</td>
-				<td colspan="2"><select name="display">
+				<th class="th">노출여부</th>
+				<td ><select name="display">
 						<option value="Y">Y
 						<option value="N" selected="selected">N
 				</select></td>
 			</tr>
-			<tr>
-				<td colspan="3"><input type="submit" value="등록"> <input
-					type="button" value="취소" onclick=""></td>
-			</tr>
 		</table>
+	<br>
+		<div class="mainF">
+				<input type="submit" class="btn mini" value="등록">
+				<input type="button"  class="btn mini" value="취소" onclick=""></td>
+		</div>
+
 	</form>
+</div>
 </body>
 </html>
