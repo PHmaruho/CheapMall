@@ -15,18 +15,33 @@
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
 
-	<div id="main">
-		<table border="1">
-			<caption><h2>공지사항</h2></caption>
-			<tr><td>제목</td><td>${boardDto.subject}</td></tr>
-			<tr><td>작성일</td><td>${boardDto.write_dt}</td></tr>
-			<tr><td>내용</td><td>${boardDto.content}</td></tr>
+	<div id="main" class="main">
+	
+				<h2>공지사항</h2>
+				<br>
+		<table class="tableN" border="1">
+		
+			<tr>
+			<th class="th">제목</th>
+			<td>${boardDto.subject}</td>
+			</tr>
+			<tr>
+			<th class="th">작성일</th>
+			<td>${boardDto.write_dt}</td>
+			</tr>
+			<tr>
+			<th class="th">내용</th>
+			<td>${boardDto.content}</td>
+			</tr>
 		</table>
-		<input type="button"
+		<br>
+		<div class="mainF">
+		<input type="button" class="btn mini"
 			onclick="location.href='boardAdminNoticeUpdateForm.admin?board_sq=${boardDto.board_sq}'" value="수정">
-		<input type="button"
+		<input type="button"  class="btn mini"
 			onclick="location.href='boardAdminNoticeDelete.admin?board_sq=${boardDto.board_sq}&pageNum=${pageNum }'" value="삭제">
-		<input type="button" onclick="location.href='boardAdminNoticeList.admin?pageNum=${pageNum}'" value="목록">
+		<input type="button"  class="btn mini" onclick="location.href='boardAdminNoticeList.admin?pageNum=${pageNum}'" value="목록">
+	</div>
 	</div>
 </body>
 </html>

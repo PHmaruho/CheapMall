@@ -15,14 +15,30 @@
 		<form action="boardAdminNoticeUpdatePro.admin" method="post">
 			<input type="hidden" name="board_sq" value="${boardDto.board_sq }">
 			<input type="hidden" name="pageNum" value="${pageNum }">
-			
-			<table border="1">
-				<caption><h2>게시판 수정</h2></caption>
-				<tr><td>번호</td><td>${boardDto.board_sq }</td></tr>
-				<tr><td>제목</td><td><input type="text" name="subject" required="required" value="${boardDto.subject }"></td></tr>
-				<tr><td>내용</td><td><textarea rows="10" cols="40" name="content" required="required">${boardDto.content }</textarea></td></tr>
-				<tr><td colspan="2"><input type="submit" value="확인"><input type="reset" value="다시작성"></td></tr>
+						<h2>게시판 수정</h2>
+						<br>
+		
+		<table class="tableN" border="1">
+				<tr>
+				<th class="th">번호</th>
+				<td>${boardDto.board_sq }</td>
+				</tr>
+				<tr>
+				<th class="th">제목</th>
+				<td>
+				<input type="text" name="subject" required="required" value="${boardDto.subject }"></td></tr>
+				<tr>
+				<th class="th">내용</th>
+				<td>
+				<textarea rows="10" cols="50" name="content" required="required">${boardDto.content }</textarea>
+				</td>
+				</tr>
 			</table>
+		<br>
+		<div class="mainF">
+				<input type="submit" class="btn mini" value="확인">
+				<input type="reset" class="btn mini"  value="다시작성">
+		</div>
 		</form>
 	</div>
 </body>

@@ -47,23 +47,27 @@
 </script>
 </head>
 <body>
+<div class="main">
 	<h2>상품 등록</h2>
-	<div id="main" class="main">
 	<form action="GoodsAdminInsertPro.admin" enctype="multipart/form-data"
 		method="post" onsubmit="return check()">
-			<table class="table" border="1">
+			
+			<table class="tableA" border="1" >
 			<tr>
 				 <th class="th">상품명</th>
-				<td>
-				<input type="text" name="nm" required="required"></td>
+				<td >
+				<input type="text" name="nm" required="required">
+				
+				</td>
 			</tr>
 			<tr>
 				<th class="th">상품코드</th>
-				<td><input type="text" name="cd" id="cd" required="required">
-				<input type="button" class="btn mini" name="check" id="check" value="중복확인"></td>
-				<th>
-				<td><span id="msg"></span></td>
-				</th>
+				<td colspan="2">
+				<input type="text" name="cd" id="cd" required="required">
+				<input type="button" class="btn mini" name="check" id="check" value="중복확인">
+				<p>
+				<span id="msg"></span>
+				</td>
 			</tr>
 			<tr>
 				<th class="th">시작일</th>
@@ -138,18 +142,20 @@
 			</tr>
 			<tr>
 				<th class="th">노출여부</th>
-				<td ><select name="display">
+				<td>
+				<select name="display">
 						<option value="Y">Y
 						<option value="N" selected="selected">N
-				</select></td>
+				</select>
+				</td>
 			</tr>
 		</table>
 	<br>
 		<div class="mainF">
 				<input type="submit" class="btn mini" value="등록">
-				<input type="button"  class="btn mini" value="취소" onclick=""></td>
+				<input type="button"  class="btn mini" value="취소" onclick="">
 		</div>
-
+		<br>
 	</form>
 </div>
 </body>

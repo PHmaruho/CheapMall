@@ -149,15 +149,42 @@ color: white;
 	 font:13px tahoma;  
 	height : 400px;
 }
+
 .tableP {
 	 text-align : center; 
 	 border-collapse:collapse; 
 	 border:1px gray solid;
 	 width : 80%;
 	 font:13px tahoma; 
-	 height : 200px;
+	 height : 300px;
 }
 
+.tableC {
+	text-align : center; 
+	 border-collapse:collapse; 
+	 border:1px gray solid;
+	 font:13px tahoma; 
+	 padding-right : 20%;
+	 width : 80%;
+	 height : 300px;
+	 
+}
+.tableA {
+	 text-align : center; 
+	 border-collapse:collapse; 
+	 border:1px gray solid;
+	 width : 600px;
+	 font:13px tahoma;  
+	height : 600px;
+}
+.tableN {
+	 text-align : center; 
+	 border-collapse:collapse; 
+	 border:1px gray solid;
+	 width : 80%;
+	 font:13px tahoma; 
+	 height : 300px;
+}
 
 .th {
   background: #333;
@@ -182,6 +209,7 @@ color: white;
 	    text-decoration: none;
 	    background-color: lightgray;
 	    
+	   
 	    
 }
 
@@ -190,7 +218,6 @@ color: white;
 	color : white;
 	
 }
-
 
 .btn.mini {
   padding: 4px 12px;  

@@ -18,14 +18,23 @@
 	</div>
 
 	<div id="main">
-		<table border="1">
-			<caption><h2>공지사항</h2></caption>
-			<tr><td>제목</td><td>${boardDto.subject}</td></tr>
-			<tr><td>작성자</td><td>${boardDto.user_id}</td></tr>
-			<tr><td>IP</td><td>${boardDto.ip}</td></tr>
-			<tr><td>작성일</td><td>${boardDto.write_dt}</td></tr>
+			<h2>건의사항</h2>
+			<table class="tableP" border="1">
+			
 			<tr>
-				<td>대상</td>
+			<th class="th">제목</th>
+			<td>${boardDto.subject}</td></tr>
+			<tr>
+			<th class="th">작성자</th>
+			<td>${boardDto.user_id}</td></tr>
+			<tr>
+			<th class="th">IP</th>
+			<td>${boardDto.ip}</td></tr>
+			<tr>
+			<th class="th">작성일</th>
+			<td>${boardDto.write_dt}</td></tr>
+			<tr>
+				<th class="th">대상</th>
 				<td>
 					<c:if test="${boardDto.object == null || boardDto.object eq ''}">
 						일반문의
@@ -35,25 +44,32 @@
 					</c:if>
 				</td>
 			</tr>
-			<tr><td>내용</td><td>${boardDto.content}</td></tr>
+			<tr>
+			<th class="th">내용</th>
+			<td>${boardDto.content}</td></tr>
 		</table>
+		
 		<form action="boardAdminOtherReply.admin" method="post">
 			<input type="hidden" name="board_sq" value="${boardDto.board_sq}">
 			<input type="hidden" name="subject" value="[답변] ${boardDto.subject}">
 			<input type="hidden" name="pageNum" value="${pageNum }">
 			<input type="hidden" name="board_cd" value="${boardDto.board_cd }">
+			<br>
 			<c:choose>
 				<c:when test="${boardDto.board_p_cd eq 'BP2' }">
-					<textarea rows="10" cols="50" name="content" disabled="disabled">${content }</textarea><br>
+					<textarea rows="10" cols="150" name="content" disabled="disabled">${content }</textarea><br>
 				</c:when>
 				<c:otherwise>
-					<textarea rows="10" cols="50" name="content"></textarea><br>
-					<input type="submit" value="답변달기"> 
+					<textarea rows="10" cols="150" name="content"></textarea><p>
+					<input type="submit" class="btn mini" value="답변달기"> 
 				</c:otherwise>
 			</c:choose>
-		</form>
-		<input type="button" onclick="location.href='boardAdminOtherList.admin?pageNum=${pageNum}&board_cd=${board_cd }'"
+		<br><br>
+ 		<div class="mainF" >
+		<input type="button" class="btn mini" onclick="location.href='boardAdminOtherList.admin?pageNum=${pageNum}&board_cd=${board_cd }'"
 			value="목록">
+			</div>
+		</form>
 	</div>
 </body>
 </html>

@@ -23,7 +23,6 @@
 <body>
 
 	<h2>상품 상세정보 수정</h2>
-	<div id="main" class="main">
 		<form action="goodsAdminUpdateFormPro.admin" method="post">
 			<table class="table" border="1">
 				<tr>

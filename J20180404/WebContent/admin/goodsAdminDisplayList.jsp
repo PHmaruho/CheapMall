@@ -19,7 +19,7 @@
 
 	});
 	function insertAction(){
-		var popup = window.open('GoodsAdminInsertForm.admin','popup', "width=500, height=500");
+		var popup = window.open('GoodsAdminInsertForm.admin','popup', "width=630, height=600");
 	}
 	
 
@@ -104,7 +104,7 @@
 	
 							<tr>
 								<input type="hidden" name="sq" value="${goods.sq }" />
-								<td><a href="#"
+								<td class="td"><a class="td" href="#"
 									onclick="javascript:window.open('goodsAdminUpdateForm.admin?sq=${goods.sq }','상품 수정','scrollbars=yes width=500 height=600')">
 										${goods.sq }</a></td>
 								<td>${goods.cd }</td>

@@ -17,21 +17,31 @@
 	</div>
 
 	<div id="main">
-		<table border="1">
-			<caption><h2>공지사항</h2></caption>
-			<tr><td>제목</td><td>${boardDto.subject}</td></tr>
-			<tr><td>작성자</td><td>${boardDto.user_id}</td></tr>
-			<tr><td>IP</td><td>${boardDto.ip}</td></tr>
-			<tr><td>작성일</td><td>${boardDto.write_dt}</td></tr>
+		<h2>신고처리</h2>
+			<table class="tableP" border="1">
 			<tr>
-				<td>대상</td>
+			<th class="th">제목</th>
+			<td>${boardDto.subject}</td></tr>
+			<tr>
+			<th class="th">작성자</th>
+			<td>${boardDto.user_id}</td></tr>
+			<tr>
+			<th class="th">IP</th>
+			<td>${boardDto.ip}</td></tr>
+			<tr>
+			<th class="th">작성일</th>
+			<td>${boardDto.write_dt}</td></tr>
+			<tr>
+				<th class="th">대상</th>
 				<td>
 					${boardDto.object }
 				</td>
 			</tr>
-			<tr><td>내용</td><td>${boardDto.content}</td></tr>
+			<tr>
+			<th class="th">내용</th>
+			<td>${boardDto.content}</td></tr>
 		</table>
-			
+			<br>
 		<c:if test="${boardDto.board_p_cd ne 'BP3' }">
 			<form action="boardAdminReportPro.admin" method="post">
 				<input type="hidden" name="board_sq" value="${boardDto.board_sq }">
@@ -44,11 +54,14 @@
 				<input type="radio" name="radio" value="30">30일
 				<input type="radio" name="radio" value="180">180일
 				<input type="radio" name="radio" value="360">360일
-				<input type="submit" value="처리">
-			</form>
+				<input type="submit" class="btn mini" value="처리">
+		</form>
 		</c:if>
-		<input type="button" onclick="location.href='boardAdminOtherList.admin?pageNum=${pageNum}&board_cd=${boardDto.board_cd }'"
+		<br>
+ 		<div class="mainF" >
+		<input type="button" class="btn mini" onclick="location.href='boardAdminOtherList.admin?pageNum=${pageNum}&board_cd=${boardDto.board_cd }'"
 			 value="목록">
+			 </div>
 	</div>
 </body>
 </html>

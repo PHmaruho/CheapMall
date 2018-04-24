@@ -14,13 +14,23 @@
 
 	<div id="main">
 		<form action="boardAdminNoticeWritePro.admin?pageNum=${pageNum }" method="post">
-			<table>
-				<caption><h2>게시판 글쓰기</h2></caption>
-				<tr><td>제목</td><td>
+				<h2>게시판 글쓰기</h2>
+			<br>
+		<table class="tableN" border="1">
+				<tr>
+				<td class="th">제목</td>
+				<td>
 				<input type="text" name="subject" required="required">
-				<tr><td>내용</td><td><textarea rows="10" cols="30" name="content" required="required"></textarea></td></tr>
-				<tr><td><input type="submit" value="확인"></td><td><input type="reset" value="다시작성"></td></tr>
+				<tr>
+				<th class="th">내용</td>
+				<td>
+				<textarea rows="10" cols="50" name="content" required="required"></textarea></td></tr>
 			</table>
+		<br>
+		<div class="mainF">
+				<input type="submit" class="btn mini" value="확인">
+				<input type="reset" class="btn mini" value="다시작성">
+		</div>
 		</form>
 	</div>
 </body>

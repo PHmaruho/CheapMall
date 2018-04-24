@@ -30,7 +30,6 @@
 	
 		<form action="CodeInsertPro.admin?pageNum=${pageNum }" method="post">
 						<br><br>
-			
 			<table class="tableP" border="1">
 				<tr>
 					<th class="th">코드</th>
