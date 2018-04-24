@@ -14,7 +14,7 @@
 
 	.Content{
 		width: 1000px;
-		height: 400px;
+		height: 500px;
 		border: solid black 0px;
 		margin-top: 20px;
 		margin-left: 5%;
@@ -60,6 +60,7 @@
 		margin-right:16px;
 		padding: 10px;
 	}
+	
 	.modifyPanel{
 		width: 65%;
 		height: 80%;
@@ -449,20 +450,17 @@
 						<table class="tableP" border="1">
 							<tr>
 								<th> 검색어 : </th>
-								<td id="td">
+								<td id="td" colspan="2">
 									<input type="text" name="Keyword" id="keyword" oninput="reCheckOverlap()">
-									<div id="overLapAjax"></div>
-								</td>
-								<td>
 									<input type="button"  class="btn mini" name="overLap" id="overLap1" value="중복검사" onclick="overLapSearch('keyword','overLapAjax')">
+									<div id="overLapAjax"></div>
+								
 								</td>
 							</tr>
 							<tr>
 								<th> 변환 : </th>
-								<td>
+								<td colspan="2">
 									<input type="text" name="transKeyword" id="transKeyword1" disabled="disabled">
-								</td>
-								<td>
 									<input type="button"  class="btn mini" name="transAction" id="transAction1" value="검색어변환" onclick="transAction('transAction1')">
 								</td>
 							</tr>
@@ -499,20 +497,16 @@
 				<table class="tableP" border="1" >
 						<tr>
 							<th> 검색어 : </th>
-							<td id="td">
+							<td id="td" colspan="2">
 								<input type="text" id="selectKeyword" oninput="reCheckOverlap()">
-								<div id="overLapModifyAjax"></div>
-							</td>
-							<td>
 								<input type="button" class="btn mini"  name="overLap" id="overLap2" value="중복검사" onclick="overLapSearch('selectKeyword','overLapModifyAjax')">
+								<div id="overLapModifyAjax"></div>
 							</td>
 						</tr>
 						<tr>
 							<th> 변환된 검색어 </th>
-							<td>
+							<td colspan="2">
 								<input type="text" id="electTransKeyword" disabled="disabled">
-							</td>
-							<td>
 								<input type="button" class="btn mini"  name="transAction" id="transAction2" value="검색어변환" onclick="transAction('transAction2')">
 							</td>
 						</tr>

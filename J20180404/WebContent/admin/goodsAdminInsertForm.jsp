@@ -20,46 +20,59 @@
 	});
 </script>
 <script type="text/javascript">
-function check(){
-	var result=result.value();
-	var cd = $('#cd').val();
-	if(result==1){
-		alert("중복된 코드입니다");
-		return false;
-	}else if(cd.length == 0){
-		alert("중복확인 해주세요");
-		return false;
-	}else{
-		return true;
+	function check1() {
+		var result = $('#result').val();
+		var cd = $('#cd').val();
+		if (result != 3) {
+			alert("중복확인을 해주세요");
+			return false;
+		}
+		if (cd == null) {
+			alert("공백은 못넣습니다");
+		}
+		var result1 = $('#result1').val();
+		if (result1 == 1) {
+			var con = confirm("존재하는 코드를 사용하시겠습니까?");
+			if (con == true) {
+				return true;
+			} else if (con == false) {
+				return false;
+			}
+		} else if (result1 == 2) {
+			return true;
+		}
 	}
-}
 </script>
 </head>
 <body>
 	<form action="GoodsAdminInsertPro.admin" enctype="multipart/form-data"
-		method="post" onsubmit="return check()">
+		method="post" onsubmit="return check1()">
 		<table>
 			<tr>
 				<td>상품명</td>
-				<td colspan="2"><input type="text" name="nm" required="required"></td>
+				<td colspan="2"><input type="text" name="nm"
+					required="required"></td>
 			</tr>
 			<tr>
 				<td>상품코드</td>
 				<td><input type="text" name="cd" id="cd" required="required">
-				<input type="button" name="check" id="check" value="중복확인"></td>
+					<input type="button" name="check" id="check" value="중복확인"></td>
 				<td><span id="msg"></span></td>
 			</tr>
 			<tr>
 				<td>시작일</td>
-				<td colspan="2"><input type="date" name="start_dt" required="required"></td>
+				<td colspan="2"><input type="date" name="start_dt"
+					required="required"></td>
 			</tr>
 			<tr>
 				<td>종료일</td>
-				<td colspan="2"><input type="date" name="end_dt" required="required"></td>
+				<td colspan="2"><input type="date" name="end_dt"
+					required="required"></td>
 			</tr>
 			<tr>
 				<td>가격</td>
-				<td colspan="2"><input type="text" name="price" required="required"></td>
+				<td colspan="2"><input type="text" name="price"
+					required="required"></td>
 			</tr>
 
 			<tr>
@@ -94,13 +107,11 @@ function check(){
 			</tr>
 			<tr>
 				<td>색</td>
-				<td colspan="2">
-						<c:forEach var="board" items="${list }">
-							<c:if test="${board.category=='CT' && board.used=='Y' }">
-								<input type="checkbox" name="color" value="${board.meaning }">${board.meaning }
+				<td colspan="2"><c:forEach var="board" items="${list }">
+						<c:if test="${board.category=='CT' && board.used=='Y' }">
+							<input type="checkbox" name="color" value="${board.meaning }">${board.meaning }
 							</c:if>
-						</c:forEach>
-				</td>
+					</c:forEach></td>
 			</tr>
 			<tr>
 				<td>사이즈</td>
@@ -118,8 +129,8 @@ function check(){
 			</tr>
 			<tr>
 				<td>재고</td>
-				<td colspan="2"><input type="text" name="stock" required="required">
-				</td>
+				<td colspan="2"><input type="text" name="stock"
+					required="required"></td>
 			</tr>
 			<tr>
 				<td>노출여부</td>
@@ -129,9 +140,8 @@ function check(){
 				</select></td>
 			</tr>
 			<tr>
-				<td colspan="3">
-				<input type="submit" value="등록">
-				<input type="button" value="취소" onclick=""></td>
+				<td colspan="3"><input type="submit" value="등록"> <input
+					type="button" value="취소" onclick=""></td>
 			</tr>
 		</table>
 	</form>

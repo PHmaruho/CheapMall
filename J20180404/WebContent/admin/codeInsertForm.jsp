@@ -25,44 +25,48 @@
 		<jsp:include page="adminMenuList.jsp" />
 	</div>
 
-	<div id="main">
+	<div id="main" >
+	<h2>코드 등록</h2>
+	
 		<form action="CodeInsertPro.admin?pageNum=${pageNum }" method="post">
-			<table>
+						<br><br>
+			
+			<table class="tableP" border="1">
 				<tr>
-					<th>코드</th>
-					<td>
+					<th class="th">코드</th>
+					<td colspan="2">
 					<input type="text" name="code" id="code" required="required">
-					<input type="button" name="check" id="check" value="중복확인"> 
-					</td>
-					<td>
-						<span id="msg"></span>
+					<input type="button" class="btn mini" name="check" id="check" value="중복확인"> 
+						<span id="msg">
+						</span>
 					</td>
 				</tr>
 				<tr>
-					<th>카테고리</th>
-					<td><input type="text" name="category" required="required">
+					<th class="th">카테고리</th>
+					<td colspan="2">
+					<input type="text" name="category" required="required">
 					</td>
-					<td></td>
+					
 				</tr>
 				<tr>
-					<th>의미</th>
-					<td><input type="text" name="meaning" required="required">
+					<th class="th">의미</th>
+					<td colspan="2">
+					<input type="text" name="meaning" required="required">
 					</td>
-					<td></td>
 				</tr>
+				
 				<tr>
-					<th>사용여부</th>
+					<th class="th" width="100px";>사용여부</th>
 					<td><input type="radio" name="used" value="Y">Y</td>
 					<td><input type="radio" name="used" value="N" checked="checked">N</td>
-					<td></td>
 				</tr>
-				<tr>
-					<td colspan="2">
-					<input type="submit" value="등록">
-					<input type="button" value="취소" onclick="location.href='CodeList.admin'"></td>
-					<td></td>
-				</tr>
-			</table>
+				</table>
+				<br>
+ 		<div class="mainF" >
+					<input type="submit" class="btn mini" value="등록">
+					<input type="button" class="btn mini" value="취소" onclick="location.href='CodeList.admin'">
+		</div>
+			
 		</form>
 	</div>
 </body>

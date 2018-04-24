@@ -96,7 +96,7 @@ td {
 		<c:if test="${count>0 }">
 		<c:forEach var="adminList" items="${adminList }">
 			<tr>
-				<td class="td">
+				<td>
 					<select name="checkRow" id="checkRow" required="required" onclick="displayButton()" >
 										<option value="0">유지  </option>
 										<option value="1">삭제  </option>
@@ -104,26 +104,26 @@ td {
 		    		<input type="hidden" name="id" value="${adminList.id}">
 		    		
 				</td>
-				<td class="td tdh">
-					<a class="tdh" href="#" 
+				<td class="td">
+					<a class="td" href="#" 
 						onclick="javascript:window.open('AdminUpdateForm.admin?id=${adminList.id}&pageNum=${pageNum}&popup','관리자 수정', 'width=500, height=500')">
 					${adminList.id } </a>
 				</td>
-				<td class="td">${adminList.pw }</td>
-				<td class="td">${adminList.nm }</td>
-				<td class="td">${adminList.dept }</td>
-				<td class="td">${adminList.position }</td>
-				<td class="td">${adminList.emp_no }</td>
-				<td class="td">${adminList.auth }</td>
-				<td class="td">${adminList.tel }</td>
-				<td class="td">${adminList.email }</td>
+				<td>${adminList.pw }</td>
+				<td>${adminList.nm }</td>
+				<td>${adminList.dept }</td>
+				<td>${adminList.position }</td>
+				<td>${adminList.emp_no }</td>
+				<td>${adminList.auth }</td>
+				<td>${adminList.tel }</td>
+				<td>${adminList.email }</td>
 			</tr>
 		</c:forEach>
 		</c:if>
 
 		<c:if test="${count==0 }">
 			<tr>
-				<td colspan=11 class="td">검색 자료가 없습니다.</td>
+				<td colspan=11 >검색 자료가 없습니다.</td>
 			</tr>
 		</c:if>
 	</table>

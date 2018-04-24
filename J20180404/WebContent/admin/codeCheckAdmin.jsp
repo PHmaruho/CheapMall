@@ -10,17 +10,19 @@
 <body>
 	<c:if test="${result>0}">
 		<span style="color: red; font-size: 10px"> <%
- 	out.print("사용 불가능한 코드입니다.");
+ 	out.print("존재하는 코드입니다.");
  %>
 		</span>
-		<input type="hidden" name="result" id="result" value="1">
+		<input type="hidden" name="result" id="result" value="3">
+		<input type="hidden" name="result1" id="result1" value="1">
 	</c:if>
 	<c:if test="${result==0 }">
 		<span style="color: blue; font-size: 10px"> <%
- 	out.print("사용 가능한 코드입니다.");
+ 	out.print("등록되지 않은 코드입니다.");
  %>
 		</span>
-		<input type="hidden" name="result" id="result" value="0">
+		<input type="hidden" name="result" id="result" value="3">
+		<input type="hidden" name="result1" id="result1" value="2">
 	</c:if>
 </body>
 </html>

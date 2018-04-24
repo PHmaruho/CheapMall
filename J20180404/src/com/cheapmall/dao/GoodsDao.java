@@ -1254,7 +1254,7 @@ public class GoodsDao {
 
 	public void checkSameGoods(String cd, String[] color, Date date, Date date2)
 			throws SQLException {
-		String sql = "update goods set end_dt=sysdate where cd=? and color=?";
+		String sql = "update goods set end_dt=sysdate where cd=? and color=? and sysdate between start_dt and end_dt";
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		Connection conn = null;

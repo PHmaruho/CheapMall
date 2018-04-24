@@ -15,8 +15,8 @@
 </script>
 </head>
 <body>
-	<h3>팝업 수정</h3>
-	<div id="main" class="main">
+	<h2>팝업 수정</h2>
+	<div class="main">
 		<form action="adminPopupModifyPro.admin" enctype="multipart/form-data" method="post">
 			<table class="tableP" border="1">
 			<tr>

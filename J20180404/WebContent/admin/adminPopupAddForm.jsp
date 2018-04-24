@@ -5,37 +5,60 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Cheap Mall</title>
+<link rel="stylesheet" href="style.css" type="text/css">
+
 <style>
 	#main{
 		display:flex;
 	}
 	
-	#but{
-		padding: 10 10 10 10px!important!;
-		float:right;
-	}
 </style>
 </head>
 <body>
 	<h2>팝업 등록</h2>
 	
-	<div id="main">
-		
+	<div class="main">
 		<form action="adminPopupAddFormPro.admin" enctype="multipart/form-data" method="post" >
-			분류: <select name="category">
-					<option value="Main">main</option>
-					<option value="sub">sub</option>
+		<table class="tableP" border="1">
+		<tr>
+			<th class="th">분류</th>
+			 <td colspan="3">
+			 <select name="category">
+				<option value="Main">main</option>
+				<option value="sub">sub</option>
 				</select>
-			<p>
-				이름: <input type="text" name="nm" required> <p>
-				경로: <input type="file" name="url" required> <p>
-				시작일: <input type="date" name="start_dt" required> <p>
-				종료일: <input type="date" name="end_dt" required><p> 
-					
-					<div id="but">
-						<input type="submit" value="등록"> 
-						<input type="reset" value="취소">
-					</div>
+				</td>
+				</tr>
+				
+				<tr>
+				<th class="th">이름 </th>
+				<td colspan="3"><input type="text" name="nm" required>
+				</td>
+				
+				</tr>
+				
+				<tr>
+				<th class="th">경로 </th>
+				<td colspan="3"><input type="file" name="url" required>
+				</td>
+				</tr>
+				
+				<tr>
+				<th class="th">시작일 </th>
+				<td><input type="date" name="start_dt" required>
+				</td>
+				<th class="th">종료일 </th>
+				<td><input type="date" name="end_dt" required>
+				</td>
+				</tr>
+			</table>
+			
+				<br>
+  	 <div class="mainF" >
+		<input type="submit"  class="btn mini" value="등록"> 
+		<input type="reset"  class="btn mini" value="초기화">
+	 </div>
+	 
 		</form>
 	</div>
 </body>
