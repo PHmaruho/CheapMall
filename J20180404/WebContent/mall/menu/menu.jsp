@@ -173,15 +173,6 @@
 							</div></li>
 					</ul>
 				</div></li>
-			<li><a onclick="listFunc('EVENT')" href="#">이벤트</a>
-				<div id="EVENT" class="none">
-					<ul>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-					</ul>
-				</div></li>
 			<li><a onclick="listFunc('BOARD')" href="#">게시판</a>
 				<div id="BOARD" class="none">
 					<ul>

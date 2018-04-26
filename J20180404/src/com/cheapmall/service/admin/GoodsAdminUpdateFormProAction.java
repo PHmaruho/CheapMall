@@ -58,11 +58,43 @@ public class GoodsAdminUpdateFormProAction implements CommandProcess{
 			dto.setStart_dt(start_dt);
 			dto.setEnd_dt(end_dt);
 			
-			int result=dao.updateDisplay();
+			String startD=request.getParameter("start_dt");
+			String endD=request.getParameter("end_dt");
+			String[] sArr=startD.split("-");
+			String[] eArr=endD.split("-");
 			
-			if(result>=0){
+			String start_dt1="";
+			String end_dt1="";
+			for(String s:sArr) start_dt1+=s;
+			for(String s:eArr) end_dt1+=s;
+			
+			int sD=Integer.parseInt(start_dt1);
+			int eD=Integer.parseInt(end_dt1);
+			System.out.println("sD: "+sD);
+			System.out.println("eD: "+eD);
+			
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			String currentD="";
+			Date d=new Date();
+			currentD=sdf.format(d);
+			String arr[]=currentD.split("-");
+			currentD="";
+			for(String s:arr){
+				currentD+=s;
+			}
+			int cD=Integer.parseInt(currentD);
+			System.out.println("cD: "+cD);
+			
+			int result=0;
+			result=dao.updateDisplay();
+			if (sD>eD) result=-1;
+			else if((cD>sD) || (cD<eD)){
+				result=-2;
+				if((cD<=sD)&&(cD<=eD)&&(sD<eD)) result=dao.updateGoods(dto);
+			}
+			else{
 				result=dao.updateGoods(dto);
-			}else result=0;
+			}
 			
 			request.setAttribute("result", result);
 		} catch (Exception e) {
